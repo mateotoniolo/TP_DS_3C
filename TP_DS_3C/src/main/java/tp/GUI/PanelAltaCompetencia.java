@@ -124,7 +124,33 @@ public class PanelAltaCompetencia extends JPanel {
 
 				int code=e.getKeyCode();
 				if(code==KeyEvent.VK_BACK_SPACE) {
-					txtNombre.setText(txtNombre.getText());
+//					TODO validaciones
+					ingresoNombre = (txtNombre.getText() != "");
+					ingresoDeporte = (boxDeporte.getSelectedItem() != "----Seleccionar----");
+					ingresoModalidad = ( boxModalidad.getSelectedItem() != "----Seleccionar----" );
+					ingresoCantidadSets = (txtCantidadSets.getText() != "");
+					ingresoPuntosEmpate = (txtPuntosEmpate.getText() != "");
+					ingresoTantosXAusencia = ( txtTantosAusencia.getText() != "" );
+					
+					if(ingresoNombre && ingresoDeporte && ingresoModalidad) {
+						if(rdbtnSets.isSelected()) {
+							if(ingresoCantidadSets) btnConfirmar.setEnabled(true);
+							else btnConfirmar.setEnabled(false);
+						} else btnConfirmar.setEnabled(true);
+						
+						if(boxModalidad.getSelectedItem() == "Liga") {
+							if(ingresoTantosXAusencia) btnConfirmar.setEnabled(true);
+							else btnConfirmar.setEnabled(false);
+						} else btnConfirmar.setEnabled(true);
+						
+						if(rdbtnEmpate.isSelected()) {
+							if(ingresoPuntosEmpate) btnConfirmar.setEnabled(true);
+							else btnConfirmar.setEnabled(false);
+						} else btnConfirmar.setEnabled(true);
+						
+					} else {
+						btnConfirmar.setEnabled(false);
+					}
 				}
 				
 //				TODO validaciones

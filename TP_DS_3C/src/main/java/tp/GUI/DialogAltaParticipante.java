@@ -1,0 +1,225 @@
+package tp.GUI;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+
+import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import tp.clases.Competencia;
+
+import javax.swing.JTextField;
+import java.awt.Dimension;
+
+public class DialogAltaParticipante extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private JTextField txtCorreoElectronico;
+	private JTextField txtNombre;
+	private JButton btnAgregar;
+	private JButton btnCancelar;
+	
+	private Boolean ingresoNombre = false;
+	private Boolean ingresoCorreoElectronico = false;
+	
+	private String nombre;
+	private String correoElectronico;
+
+	/**
+	 * Create the dialog.
+	 */
+	public DialogAltaParticipante(Competencia competencia) {
+		setTitle("MODIFICAR RESULTADO");
+		setBounds(100, 100, 800, 400);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(102, 102, 102));
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		JPanel panelCeleste = new JPanel();
+		panelCeleste.setBackground(new Color(153, 204, 255));
+		JPanel panelNombreEncuentro = new JPanel();
+		panelNombreEncuentro.setBackground(new Color(0, 0, 0));
+		JPanel panelBlanco = new JPanel();
+		panelBlanco.setBackground(new Color(255, 255, 255));
+		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		gl_contentPanel.setHorizontalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panelCeleste, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+						.addComponent(panelNombreEncuentro, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+						.addComponent(panelBlanco, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelCeleste, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelNombreEncuentro, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelBlanco, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE))
+		);
+		
+		JLabel lblNombre = new JLabel("Nombre *");
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JLabel lblCorreoElectronico = new JLabel("Correo Electronico *");
+		lblCorreoElectronico.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		txtCorreoElectronico = new JTextField();
+		txtCorreoElectronico.setPreferredSize(new Dimension(7, 30));
+		txtCorreoElectronico.setColumns(10);
+		
+		txtCorreoElectronico.addKeyListener(new java.awt.event.KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+				ingresoNombre = (txtNombre.getText() != "");
+				ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
+				if(ingresoNombre && ingresoCorreoElectronico) {
+					btnAgregar.setEnabled(true);
+					correoElectronico = txtCorreoElectronico.getText();
+				} else {
+					btnAgregar.setEnabled(false);
+				}
+				
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_BACK_SPACE) {
+					ingresoNombre = (txtNombre.getText() != "");
+					ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
+					if(ingresoNombre && ingresoCorreoElectronico) {
+						btnAgregar.setEnabled(true);
+						correoElectronico = txtCorreoElectronico.getText();
+					} else {
+						btnAgregar.setEnabled(false);
+					}
+				}
+			}
+		});
+		
+		txtNombre = new JTextField();
+		txtNombre.setPreferredSize(new Dimension(7, 30));
+		txtNombre.setColumns(10);
+
+		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+				ingresoNombre = (txtNombre.getText() != "");
+				ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
+				if(ingresoNombre && ingresoCorreoElectronico) {
+					btnAgregar.setEnabled(true);
+					nombre = txtNombre.getText();
+				} else {
+					btnAgregar.setEnabled(false);
+				}
+				
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_BACK_SPACE) {
+					ingresoNombre = (txtNombre.getText() != "");
+					ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
+					if(ingresoNombre && ingresoCorreoElectronico) {
+						btnAgregar.setEnabled(true);
+						nombre = txtNombre.getText();
+					} else {
+						btnAgregar.setEnabled(false);
+					}
+				}
+			}
+		});
+		
+		GroupLayout gl_panelBlanco = new GroupLayout(panelBlanco);
+		gl_panelBlanco.setHorizontalGroup(
+			gl_panelBlanco.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBlanco.createSequentialGroup()
+					.addGap(65)
+					.addGroup(gl_panelBlanco.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(lblNombre, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblCorreoElectronico, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panelBlanco.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 482, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtCorreoElectronico, GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_panelBlanco.setVerticalGroup(
+			gl_panelBlanco.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBlanco.createSequentialGroup()
+					.addGap(61)
+					.addGroup(gl_panelBlanco.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNombre)
+						.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addGap(27)
+					.addGroup(gl_panelBlanco.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCorreoElectronico)
+						.addComponent(txtCorreoElectronico, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(76, Short.MAX_VALUE))
+		);
+		panelBlanco.setLayout(gl_panelBlanco);
+		panelNombreEncuentro.setLayout(new BorderLayout(0, 0));
+		panelCeleste.setLayout(new BoxLayout(panelCeleste, BoxLayout.X_AXIS));
+		
+		JLabel lblNombreCompetencia = new JLabel("COMPETENCIA");
+		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 25));
+		panelCeleste.add(lblNombreCompetencia);
+		contentPanel.setLayout(gl_contentPanel);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(new Color(102, 102, 102));
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				btnCancelar = new JButton("Cancelar");
+				btnCancelar.setActionCommand("OK");
+				buttonPane.add(btnCancelar);
+				getRootPane().setDefaultButton(btnCancelar);
+				
+				btnCancelar.addActionListener( a -> {
+					dispose();
+				});
+			}
+			{
+				btnAgregar = new JButton("Agregar");
+				btnAgregar.setBackground(new Color(51, 102, 255));
+				btnAgregar.setActionCommand("Cancel");
+				buttonPane.add(btnAgregar);
+				btnAgregar.setEnabled(false);
+				
+				btnAgregar.addActionListener( a -> {
+//					if(competencia.existeNombreParticipante(nombre)) {
+//						JDialog dialogAlerta = new DialogAlerta("El nombre del participante ya existe");
+//						dialogAlerta.setVisible(true);
+//					} else if(competencia.existeCorreoParticipante(correoElectronico)) {
+//						
+//					} else {
+//						competencia.addParticipante();
+						competencia.setEstado("CREADA");
+						JDialog dialogExito = new DialogExito("Participante agregado con exito");
+						dispose();
+//					}
+					
+					
+				});
+			}
+		}
+	}
+}

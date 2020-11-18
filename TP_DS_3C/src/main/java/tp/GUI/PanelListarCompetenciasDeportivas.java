@@ -17,12 +17,17 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
+import tp.clases.Competencia;
 import tp.enums.EstadoCompetencia;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
@@ -56,6 +61,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		m.setTitle("BUSCAR COMPETENCIA");
 		setBounds(100, 50, 1280, 720);
 		setLayout(new BorderLayout(0, 0));
+		
 		
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(10, 230));
@@ -178,6 +184,18 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		add(scrollTablaCompetencias, BorderLayout.CENTER);
 		
 		tablaCompetencias = new JTable();
+		tablaCompetencias.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+			},
+			new String[] {
+				"Nombre", "Deporte", "Modalidad", "Estado"
+			}
+		));
 		tablaCompetencias.setSelectionBackground(new Color(102, 51, 255));
 		tablaCompetencias.setGridColor(Color.WHITE);
 		scrollTablaCompetencias.setViewportView(tablaCompetencias);
@@ -265,11 +283,20 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		JButton btnDetalles = new JButton("Detalles");
 		paneDetallesNuevaCompetencia.setLeftComponent(btnDetalles);
 		
+		btnDetalles.addActionListener( a -> {
+//			TODO distinguir competencia 
+//			tablaCompetencias.getSelectedRow());
+			
+			m.cambiarPanel(new PanelVerCompetencia(m, new Competencia()));
+		});
+		
 		JButton btnNuevaCompetencia = new JButton("Nueva Competencia");
 		btnNuevaCompetencia.setBackground(new Color(51, 102, 255));
 		paneDetallesNuevaCompetencia.setRightComponent(btnNuevaCompetencia);
 		
-		
+		btnNuevaCompetencia.addActionListener( a -> {
+			m.cambiarPanel(new PanelAltaCompetencia(m));
+		});
 		
 		
 		

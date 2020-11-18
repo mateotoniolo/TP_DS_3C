@@ -15,6 +15,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import javax.swing.border.CompoundBorder;
+
+import tp.clases.Competencia;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.ImageIcon;
@@ -28,11 +31,15 @@ public class PanelVerCompetencia extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelVerCompetencia(MainApplication m) {
-		initialize(m);
+//	public PanelVerCompetencia(MainApplication m) {
+//		initialize(m);
+//	}
+	
+	public PanelVerCompetencia(MainApplication m, Competencia competencia) {
+		initialize(m, competencia);
 	}
 
-	private void initialize(MainApplication m) {
+	private void initialize(MainApplication m, Competencia competencia) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -46,7 +53,7 @@ public class PanelVerCompetencia extends JPanel {
 		}
 		
 		setBackground(new Color(102, 102, 102));
-		m.setTitle("BUSCAR COMPETENCIA");
+		m.setTitle("");
 		setBounds(100, 50, 1280, 720);
 		setLayout(new BorderLayout(0, 0));
 		
@@ -100,6 +107,10 @@ public class PanelVerCompetencia extends JPanel {
 		btnVerParticipantes.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		panelBotonesL.add(btnVerParticipantes);
 		
+		btnVerParticipantes.addActionListener( a -> {
+			m.cambiarPanel(new PanelListarParticipantes(m, competencia));
+		});
+		
 		JButton btnGenerarFixture = new JButton("Generar Fixture");
 		btnGenerarFixture.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		panelBotonesL.add(btnGenerarFixture);
@@ -120,23 +131,30 @@ public class PanelVerCompetencia extends JPanel {
 		
 		JPanel panelCentral = new JPanel();
 		panelCentral.setBackground(new Color(255, 255, 255));
+		
+		JPanel panelNombreEncuentro = new JPanel();
+		panelNombreEncuentro.setBackground(Color.BLACK);
+		panelNombreEncuentro.setLayout(new BorderLayout(0, 0));
 		GroupLayout gl_panelUp = new GroupLayout(panelUp);
 		gl_panelUp.setHorizontalGroup(
-			gl_panelUp.createParallelGroup(Alignment.LEADING)
+			gl_panelUp.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelUp.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panelUp.createParallelGroup(Alignment.LEADING)
-						.addComponent(panelCentral, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
-						.addComponent(panelNombreCompetencia, GroupLayout.PREFERRED_SIZE, 622, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_panelUp.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panelCentral, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
+						.addComponent(panelNombreCompetencia, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
+						.addComponent(panelNombreEncuentro, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panelUp.setVerticalGroup(
 			gl_panelUp.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelUp.createSequentialGroup()
-					.addContainerGap(15, Short.MAX_VALUE)
+				.addGroup(Alignment.LEADING, gl_panelUp.createSequentialGroup()
+					.addGap(15)
 					.addComponent(panelNombreCompetencia, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(22)
-					.addComponent(panelCentral, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelNombreEncuentro, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelCentral, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
@@ -221,7 +239,8 @@ public class PanelVerCompetencia extends JPanel {
 		panelCentral.setLayout(gl_panelCentral);
 		panelNombreCompetencia.setLayout(new BoxLayout(panelNombreCompetencia, BoxLayout.X_AXIS));
 		
-		JLabel lblNombreCompetencia = new JLabel("<NOMBRE DE LA COMPETENCIA>");
+		JLabel lblNombreCompetencia = new JLabel("Competencia");
+		if(competencia.getNombre()!=null) lblNombreCompetencia.setText(competencia.getNombre()); 
 		lblNombreCompetencia.setForeground(new Color(0, 0, 0));
 		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 35));
 		panelNombreCompetencia.add(lblNombreCompetencia);

@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 import java.awt.Component;
@@ -13,33 +14,33 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JScrollPane;
 
 public class DialogAlerta extends JDialog {
 	
 	public final JPanel contentPanel = new JPanel();
 	
 	
-	public DialogAlerta() {
+	public DialogAlerta(String msg) {
 		super();
-		inizialize();
+		inizialize(msg);
 	}
 	
-	public void inizialize() {
+	public void inizialize(String msg) {
 		
 
 		setVisible(true);
 		setResizable(false);
 		setBounds(100, 100, 400, 200);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setTitle("");
+		setIconImage(null);
 		contentPanel.setLayout(null);
-		{
-			JLabel lblInformacion = new JLabel("No se pudo guardar la competencia.");
-			lblInformacion.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblInformacion.setBounds(122, 30, 219, 103);
-			contentPanel.add(lblInformacion);
-		}
 		{
 			JLabel lblError = new JLabel("ERROR");
 			lblError.setBounds(180, 11, 77, 25);
@@ -52,8 +53,20 @@ public class DialogAlerta extends JDialog {
 			imgAlerta.setIcon(new ImageIcon(DialogAlerta.class.getResource("/img/alerta1.png")));
 			contentPanel.add(imgAlerta);
 		}
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(89, 30, 299, 103);
+		contentPanel.add(scrollPane);
+		
+		JTextArea txtMsg = new JTextArea();
+		txtMsg.setEditable(false);
+		txtMsg.setLineWrap(true);
+		txtMsg.setText(msg);
+		txtMsg.setMaximumSize(new Dimension(13, 28));
+		scrollPane.setViewportView(txtMsg);
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(Color.WHITE);
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			{
@@ -71,5 +84,4 @@ public class DialogAlerta extends JDialog {
 			
 		}
 	}
-
 }

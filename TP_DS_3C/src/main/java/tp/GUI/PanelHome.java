@@ -39,6 +39,7 @@ public class PanelHome extends JPanel {
 		panel.setPreferredSize(new Dimension(10, 180));
 		this.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BorderLayout(0, 0));
+	
 		
 		JLabel lblNombre = new JLabel("Torneos y Competencias");
 		lblNombre.setPreferredSize(new Dimension(200, 14));
@@ -110,7 +111,7 @@ public class PanelHome extends JPanel {
 		btnCompetencias.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		btnCompetencias.setForeground(new Color(255, 255, 255));
 		btnCompetencias.addActionListener( a -> {
-			m.cambiarPanel(new PanelAltaCompetencia(m));
+			m.cambiarPanel(new PanelListarCompetenciasDeportivas(m));
 		});
 		btnCompetencias.setBackground(new Color(51, 51, 51));
 		splitPane.setLeftComponent(btnCompetencias);

@@ -13,33 +13,34 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JScrollPane;
 
 public class DialogExito extends JDialog {
 	
 	public final JPanel contentPanel = new JPanel();
 	
-	public DialogExito() {
+	public DialogExito(String msg) {
 		super();
-		inizializate();
+		inizializate(msg);
 	}
-	public void inizializate() {
+	public void inizializate(String msg) {
 		
 		setVisible(true);
 		setResizable(false);
 		setBounds(100, 100, 400, 200);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setTitle("");
+		setIconImage(null);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblInformacion = new JLabel("La competencia fue creada correctamente.");
-			lblInformacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblInformacion.setBounds(103, 30, 281, 103);
-			contentPanel.add(lblInformacion);
-		}
-		{
 			JLabel lblExito = new JLabel("\u00C9XITO");
-			lblExito.setBounds(168, 11, 77, 25);
+			lblExito.setBounds(162, 11, 77, 25);
 			lblExito.setFont(new Font("Tahoma", Font.BOLD, 20));
 			contentPanel.add(lblExito);
 		}
@@ -50,7 +51,21 @@ public class DialogExito extends JDialog {
 			contentPanel.add(imgExito);
 		}
 		{
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(89, 30, 299, 103);
+			contentPanel.add(scrollPane);
+			{
+				JTextArea txtMsg = new JTextArea();
+				txtMsg.setText(msg);
+				txtMsg.setMaximumSize(new Dimension(13, 28));
+				txtMsg.setLineWrap(true);
+				txtMsg.setEditable(false);
+				scrollPane.setViewportView(txtMsg);
+			}
+		}
+		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(Color.WHITE);
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			{
@@ -68,5 +83,4 @@ public class DialogExito extends JDialog {
 			
 		}
 	}
-
 }

@@ -9,11 +9,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Frame;
 import java.awt.Toolkit;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 
 public class MainApplication extends JFrame {
@@ -29,7 +33,7 @@ public class MainApplication extends JFrame {
 		Dimension d = this.getSize();
 		this.remove(actual);
 		this.actual = p;
-		this.add(this.actual);
+		getContentPane().add(this.actual);
 		this.pack();
 		this.revalidate();
 		this.repaint();
@@ -58,15 +62,20 @@ public class MainApplication extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(MainApplication.class.getResource("/img/medal.png")));
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.getContentPane().setBackground(Color.WHITE);
-		this.setBounds(100, 100, 1280, 751);
+		this.setBounds(100, 100, 286, 294);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout(0, 0));
 		this.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		
-		this.add(actual);
+		getContentPane().add(actual);
 		this.pack();
+		
 		this.revalidate();
 		this.repaint();
+	}
+
+	public JComponent getMenu() {
+		return getJMenuBar();
 	}
 }
