@@ -1,0 +1,22 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+  version="2.1">
+
+  <persistence-unit name="PERSISTENCE">
+    <description> TP</description>
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+    <properties>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://208.113.158.158:3306/dsi20203c" />
+      <property name="javax.persistence.jdbc.user" value="dsi20203c" />
+      <property name="javax.persistence.jdbc.password" value="dsi2020**" />
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.hbm2ddl.auto" value="update" />        
+    </properties>
+
+  </persistence-unit>
+
+</persistence>
