@@ -3,17 +3,29 @@ package tp.clases;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import tp.DTOs.ItemLugarDTO;
 import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
 import tp.enums.ModalidadDePuntuacion;
-
+@Entity
+@PrimaryKeyJoinColumn(referencedColumnName="id_competencia")
+@Table(name="Competencia_Liga")
 public class CompetenciaLiga extends Competencia {
-	
+	@Column
 	private Boolean empate;
-	private Integer puntosXPresentarse;
-	private Integer puntosXGanado;
-	private Integer puntosXEmpate;
+	@Column
+	private Integer puntos_por_presentarse;
+	@Column
+	private Integer puntos_por_ganar;
+	@Column
+	private Integer puntos_por_empate;
+	@Transient
 	private List<EstadisticaTabla> estadisticas;
 	
 	// constructor sin params
@@ -26,12 +38,12 @@ public class CompetenciaLiga extends Competencia {
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,
 			Integer id_deporte, List<EstadisticaTabla> estadisticas, List<ItemLugarDTO> list,Boolean empate) {
 		super( nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado , modalidadDePuntuacion, tantosXAusencia,
-				idAdministrador, id_deporte,list,empate);
+				idAdministrador, id_deporte,list);
 		
 		this.setEmpate(empate);
-		this.setPuntosXPresentarse(puntosXPresentarse);
-		this.setPuntosXGanado(puntosXGanado);
-		this.setPuntosXEmpate(puntosXEmpate);
+		this.setPuntosXPresentarse(puntos_por_presentarse);
+		this.setPuntosXGanado(puntos_por_ganar);
+		this.setPuntosXEmpate(puntos_por_empate);
 		this.setEstadisticas(estadisticas);
 	}
 
@@ -49,32 +61,32 @@ public class CompetenciaLiga extends Competencia {
 
 
 	public Integer getPuntosXPresentarse() {
-		return puntosXPresentarse;
+		return puntos_por_presentarse;
 	}
 
 
 	public void setPuntosXPresentarse(Integer puntosXPresentarse) {
-		this.puntosXPresentarse = puntosXPresentarse;
+		this.puntos_por_presentarse = puntosXPresentarse;
 	}
 
 
 	public Integer getPuntosXEmpate() {
-		return puntosXEmpate;
+		return puntos_por_empate;
 	}
 
 
 	public void setPuntosXEmpate(Integer puntosXEmpate) {
-		this.puntosXEmpate = puntosXEmpate;
+		this.puntos_por_empate = puntosXEmpate;
 	}
 
 
 	public Integer getPuntosXGanado() {
-		return puntosXGanado;
+		return puntos_por_ganar;
 	}
 
 
 	public void setPuntosXGanado(Integer puntosXGanado) {
-		this.puntosXGanado = puntosXGanado;
+		this.puntos_por_ganar = puntosXGanado;
 	}
 
 

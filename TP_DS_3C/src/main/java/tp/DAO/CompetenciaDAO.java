@@ -10,6 +10,8 @@ import java.util.List;
 import tp.app.App;
 import tp.clases.Competencia;
 import tp.clases.CompetenciaEliminacionDoble;
+import tp.clases.CompetenciaEliminacionSimple;
+import tp.clases.CompetenciaLiga;
 
 
 
@@ -17,6 +19,18 @@ public class CompetenciaDAO {
 
 	
 	public Boolean Save(CompetenciaEliminacionDoble comp) {
+		App.entity.getTransaction().begin();
+		App.entity.persist(comp);
+		App.entity.getTransaction().commit();
+		return true;
+	}
+	public Boolean Save(CompetenciaEliminacionSimple comp) {
+		App.entity.getTransaction().begin();
+		App.entity.persist(comp);
+		App.entity.getTransaction().commit();
+		return true;
+	}
+	public Boolean Save(CompetenciaLiga comp) {
 		App.entity.getTransaction().begin();
 		App.entity.persist(comp);
 		App.entity.getTransaction().commit();

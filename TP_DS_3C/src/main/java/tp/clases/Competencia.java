@@ -52,8 +52,7 @@ public class Competencia {
 	private List<ItemLugarDTO> Lugares;
 	@Transient
 	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
-	@Column
-	private Boolean empate;
+
 	
 	
 	// constructor sin params
@@ -62,7 +61,7 @@ public class Competencia {
 	}
 		
 	// constructor
-	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Integer id_deporte,List<ItemLugarDTO> list,Boolean empate) {
+	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Integer id_deporte,List<ItemLugarDTO> list) {
 		//this.setIdCompetencia(id);
 		this.setNombre(nombre);
 		this.setModalidad(modalidad.toString());
@@ -76,7 +75,6 @@ public class Competencia {
 		this.setIdAdministrador(idAdministrador);
 		this.setIdDeporte(id_deporte);
 		this.Lugares = list;
-		this.empate = empate;
 		this.Lugares = list;
 	}
 	
@@ -257,13 +255,6 @@ public class Competencia {
 		this.id_deporte = id_deporte;
 	}
 
-	public Boolean getEmpate() {
-		return empate;
-	}
-
-	public void setEmpate(Boolean empate) {
-		this.empate = empate;
-	}
 
 	public Integer getFixture() {
 		return id_fixture;

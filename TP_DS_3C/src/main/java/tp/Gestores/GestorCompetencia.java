@@ -27,16 +27,18 @@ public class GestorCompetencia {
 					 null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA, DTO.getPuntuacion(),
 					 DTO.getTantosXAusencia(),DTO.getId_usuario(),DTO.getId_deporte(),
 					 null,DTO.getLugares(),DTO.getEmpate());
+			 this.competenciaDao.Save((CompetenciaLiga)competencia);
 			 break;
 		case ELIMINACION_DIRECTA:
 			 competencia = new CompetenciaEliminacionSimple(DTO.getNombre(), DTO.getModalidad(),
 					 null,null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA,DTO.getPuntuacion(),
-					 DTO.getTantosXAusencia(),DTO.getId_usuario(),DTO.getId_deporte(),DTO.getLugares(),DTO.getEmpate());
+					 DTO.getTantosXAusencia(),DTO.getId_usuario(),DTO.getId_deporte(),DTO.getLugares());
+			 this.competenciaDao.Save((CompetenciaEliminacionSimple)competencia);
 			 break;
 		case ELIMINACION_DOBLE:
 			 competencia = new CompetenciaEliminacionDoble(DTO.getNombre(), DTO.getModalidad(),
 					 null,null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA,DTO.getPuntuacion(),
-					 DTO.getTantosXAusencia(),DTO.getId_usuario(),DTO.getId_deporte(),DTO.getLugares(),DTO.getEmpate());
+					 DTO.getTantosXAusencia(),DTO.getId_usuario(),DTO.getId_deporte(),DTO.getLugares());
 			 this.competenciaDao.Save((CompetenciaEliminacionDoble)competencia);
 			 	break;
 		}
