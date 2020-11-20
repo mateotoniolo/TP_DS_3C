@@ -228,6 +228,7 @@ public class PanelAltaCompetencia extends JPanel {
 			this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vac�a la tabla
 			this.tableLugares.updateUI();
 			btnModificarLugar.setEnabled(false);
+			id_deporte = ((Item)this.boxDeporte.getSelectedItem()).getId();
 //			TODO validaciones
 			ingresoNombre = (txtNombre.getText() != "");
 			ingresoDeporte = (boxDeporte.getSelectedItem() != "----Seleccionar----");
@@ -761,14 +762,18 @@ public class PanelAltaCompetencia extends JPanel {
 			id_deporte = ((Item)this.boxDeporte.getSelectedItem()).getId();
 			
 			//Asigna valores de DTO
-			//-------------------------------------------------------------------------------------------------------------------
+			//-----------------------------------------------------------------------------------------------------------------------------------------------------------
 			compDTO = new CompetenciaDTO(this.nombreCompetencia,this.modalidadCompetencia, this.reglamentoCompetencia,
 					this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
 					this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
 			//
-			if(gestorCompetencia.Save(compDTO)) {
-				System.out.println("Se guardo con exito");
-			}
+//			if(gestorCompetencia.getCompetenciaByName(this.nombreCompetencia)) {
+				if(gestorCompetencia.Save(compDTO)) {
+					System.out.println("Se guardo con exito");
+				}
+//			}else {
+//				System.out.println("Ya existe una Competencia con ese nombre");
+//			}
 		});
 		
 	}

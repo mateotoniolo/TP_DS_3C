@@ -51,6 +51,13 @@ public class GestorCompetencia {
 		return DeporteDAO.getDeportesDTO();
 		
 	}
+	public static Boolean getCompetenciaByName(String nombre) {
+		if(CompetenciaDAO.getCompetenciaByName(nombre).equals(null)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 	public static List<CompetenciaDTO> listarCompetencias() {
 		return CompetenciaDAO.getAllCompetenciasDTO();

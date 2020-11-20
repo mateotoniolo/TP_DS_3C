@@ -50,28 +50,14 @@ public class DialogAltaLugar extends JDialog {
 		}
 		
 	}
-//	public class cargar implements Runnable {
-//		PanelAltaCompetencia  panel= null;
-//		JComboBox box = null;
-//		public cargar(JComboBox cb,PanelAltaCompetencia p) {
-//			panel = p;
-//			box = cb;
-//		}
-//		@Override
-//		public void run() {
-//			cargar(boxLugar,panel.getId_usuario(),panel.getDeporteCompetencia());		
-//		}
-//		
-//	}
+
 
 	public DialogAltaLugar(PanelAltaCompetencia p) {
 		try {
-//			DialogAltaLugar dialog = new DialogAltaLugar();
+
 			this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			this.setVisible(true);
-			//Un Thread crea el Dialog mientras que el otro busca los lugares disponible para ese usuario y ese deporte
 			new Thread (new iniciar(p), "inicializar").start();
-			//new Thread (new cargar(boxLugar,p), "cargar").start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -114,6 +100,9 @@ public class DialogAltaLugar extends JDialog {
 		lblLugar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		boxLugar.setBounds(6, 35, 215, 26);
+		for (String lugar: GestorUsuario.getLugaresDisponibles(p.getId_usuario(),p.getId_deporte())){
+			boxLugar.addItem(lugar);
+		}
 		contentPanel.add(boxLugar);
 		
 		
@@ -131,8 +120,8 @@ public class DialogAltaLugar extends JDialog {
 				btnConfirmar.setBackground(new Color(102, 102, 255));
 				btnConfirmar.addActionListener(a -> {
 					disponibilidad = Integer.parseInt(textField.getText());
-					Optional<ItemLugarDTO> optional = lugares.stream().filter(m -> m.getNombre().equals(this.boxLugar.getSelectedItem())).findFirst();
-					ItemLugarDTO item = new ItemLugarDTO(optional.get().getCodigo(),optional.get().getNombre(), this.disponibilidad);
+					Lugar place = GestorUsuario.getLugarByNombre(this.boxLugar.getSelectedItem().toString());
+					ItemLugarDTO item = new ItemLugarDTO(place.getId(),place.getNombre(), this.disponibilidad);
 					p.addItemTM(item);
 					this.dispose();
 					//Crea el item con los datos ingresados
@@ -154,7 +143,7 @@ public class DialogAltaLugar extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
 		
-			this.lugares = GestorUsuario.cargarLugares(this.boxLugar, p.getId_usuario(), p.getDeporteCompetencia());
+			
 			
 	}
 	

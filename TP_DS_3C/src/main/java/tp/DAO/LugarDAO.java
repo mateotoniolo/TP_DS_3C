@@ -7,35 +7,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.swing.JComboBox;
 
+import org.hibernate.mapping.Collection;
+
 import tp.DTOs.ItemLugarDTO;
+import tp.app.App;
 import tp.clases.Lugar;
 
 
 public class LugarDAO {
 	
-	public static List<String> getLugares() {
-		Connection con = DataBase.getConexion();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		List<String> places = new ArrayList<String>();
-		try {
-			pstm = con.prepareStatement(
-					"SELECT nombre FROM dsi20203c.Lugar");
-			rs = pstm.executeQuery();
-			while(rs.next()) {
-				places.add(rs.getString(1)) ;
-			}
-		}catch(Exception e) {
-			System.out.println(e.getMessage());	
-		}
-		finally {
-			DataBase.cerrarRs(rs);
-			DataBase.cerrarPstm(pstm);
-			DataBase.cerrarConexion(con);
-		}
-		return places;
+	public static List<String> getLugaresDisponibles(Integer usuario, Integer deporte) {
+		
+		Query query=App.entity.createQuery("SELECT l.nombre FROM Lugar l , Relacion_Lugar_Deporte rld WHERE l.codigo = rld.codigo AND l.id_usuario = "+usuario+" AND rld.id_deporte = "+deporte );
+		List<String> lugares = (List<String>)query.getResultList();
+	
+		return lugares;
 	}
 	
 	public static List<ItemLugarDTO> getLugarByDeporteUsuario(Integer id_deporte, Integer id_usuario) {
@@ -66,29 +55,10 @@ public class LugarDAO {
 		return null;
 	}
 	
-	public static Lugar getLugarByID(Integer id_Lugar) {
-		Connection con = DataBase.getConexion();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		Lugar l = null;
-		
-		try {
-			pstm = con.prepareStatement(
-					"SELECT * FROM dsi20203c.Lugar WHERE codigo = ?");
-			pstm.setInt(1, id_Lugar);
-			rs = pstm.executeQuery();
-			while(rs.next()) {
-				l=parsearRS(rs);
-			}
-		}catch(Exception e) {
-			System.out.println(e.getMessage());	
-		}
-		finally {
-			DataBase.cerrarRs(rs);
-			DataBase.cerrarPstm(pstm);
-			DataBase.cerrarConexion(con);
-		}
-		return l;
+	public static Lugar getLugarByNombre(String nombre) {
+		Query query=App.entity.createQuery("SELECT l FROM Lugar l  WHERE l.nombre = '"+ nombre+"'" );
+		List<Lugar> lugares = (List<Lugar>)query.getResultList();
+		return lugares.get(0);
 	}
 	
 	public static List<ItemLugarDTO> cargar(JComboBox<String> b, Integer id_usuario, String deporte) {
@@ -105,7 +75,7 @@ public class LugarDAO {
 		
 		return new Lugar(Integer.valueOf(rs.getInt(1)),
 				rs.getString(2),
-				rs.getString(3));
+				rs.getString(3),6);
 	}
 	
 }
