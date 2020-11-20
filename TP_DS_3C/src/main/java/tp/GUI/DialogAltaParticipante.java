@@ -11,6 +11,7 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -42,13 +43,15 @@ public class DialogAltaParticipante extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogAltaParticipante(Competencia competencia) {
+	public DialogAltaParticipante(JFrame m, Competencia competencia) {
 		setTitle("MODIFICAR RESULTADO");
 		setBounds(100, 100, 800, 400);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(102, 102, 102));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setLocationRelativeTo(m);
+		
 		JPanel panelCeleste = new JPanel();
 		panelCeleste.setBackground(new Color(153, 204, 255));
 		JPanel panelNombreEncuentro = new JPanel();
@@ -213,7 +216,7 @@ public class DialogAltaParticipante extends JDialog {
 //					} else {
 //						competencia.addParticipante();
 						competencia.setEstado("CREADA");
-						JDialog dialogExito = new DialogExito("Participante agregado con exito");
+						JDialog dialogExito = new DialogExito(m, "Participante agregado con exito");
 						dispose();
 //					}
 					

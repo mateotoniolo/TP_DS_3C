@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
@@ -22,10 +23,10 @@ public class DialogSeguridad extends JDialog {
 	
 	public final JPanel contentPanel = new JPanel();
 	
-	public DialogSeguridad(String nombreCompetencia) {
-		inizializate(nombreCompetencia);
+	public DialogSeguridad(JFrame m, String nombreCompetencia) {
+		inizializate(m, nombreCompetencia);
 	}
-	public void inizializate(String nombreCompetencia) {
+	public void inizializate(JFrame m, String nombreCompetencia) {
 		
 		setResizable(false);
 		setBounds(100, 100, 350, 200);
@@ -34,6 +35,7 @@ public class DialogSeguridad extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		setLocationRelativeTo(m);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));

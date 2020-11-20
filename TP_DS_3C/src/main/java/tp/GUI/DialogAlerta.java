@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
@@ -23,12 +24,12 @@ public class DialogAlerta extends JDialog {
 	public final JPanel contentPanel = new JPanel();
 	
 	
-	public DialogAlerta(String msg) {
+	public DialogAlerta(JFrame m, String msg) {
 		super();
-		inizialize(msg);
+		inizialize(m, msg);
 	}
 	
-	public void inizialize(String msg) {
+	public void inizialize(JFrame m, String msg) {
 		
 
 		setVisible(true);
@@ -41,6 +42,8 @@ public class DialogAlerta extends JDialog {
 		setTitle("");
 		setIconImage(null);
 		contentPanel.setLayout(null);
+		setLocationRelativeTo(m);
+		
 		{
 			JLabel lblError = new JLabel("ERROR");
 			lblError.setBounds(180, 11, 77, 25);

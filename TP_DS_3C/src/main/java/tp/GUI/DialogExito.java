@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
@@ -22,11 +23,11 @@ public class DialogExito extends JDialog {
 	
 	public final JPanel contentPanel = new JPanel();
 	
-	public DialogExito(String msg) {
+	public DialogExito(JFrame m, String msg) {
 		super();
-		inizializate(msg);
+		inizializate(m, msg);
 	}
-	public void inizializate(String msg) {
+	public void inizializate(JFrame m, String msg) {
 		
 		setVisible(true);
 		setResizable(false);
@@ -37,6 +38,8 @@ public class DialogExito extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		setTitle("");
 		setIconImage(null);
+		setLocationRelativeTo(m);
+		
 		contentPanel.setLayout(null);
 		{
 			JLabel lblExito = new JLabel("\u00C9XITO");

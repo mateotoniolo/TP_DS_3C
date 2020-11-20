@@ -20,11 +20,15 @@ import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import tp.clases.Competencia;
+import javax.swing.JToggleButton;
+import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
 
 public class PanelListarParticipantes extends JPanel {
 	private JTable tablaParticipantes;
@@ -33,11 +37,11 @@ public class PanelListarParticipantes extends JPanel {
 	 * Create the panel.
 	 */
 
-	public PanelListarParticipantes(MainApplication m, Competencia competencia) {
-		initialize(m, competencia);
+	public PanelListarParticipantes(MainApplication m, JPanel llamante, Competencia competencia) {
+		initialize(m, llamante, competencia);
 	}
 
-	private void initialize(MainApplication m, Competencia competencia ) {
+	private void initialize(MainApplication m, JPanel llamante, Competencia competencia ) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -57,18 +61,6 @@ public class PanelListarParticipantes extends JPanel {
 		JPanel panelNombreCompetencia = new JPanel();
 		panelNombreCompetencia.setBackground(new Color(153, 204, 255));
 		
-		JButton btnNuevoParticipante = new JButton("Nuevo");
-		btnNuevoParticipante.setBackground(new Color(51, 102, 255));
-		
-		btnNuevoParticipante.addActionListener( a -> {
-			if(competencia.getEstado() != "CREADA" && competencia.getEstado()!="PLANIFICADA") {
-				JDialog dialogAlerta = new DialogAlerta("No es posible agregar participantes a esta Competencia");
-			} else {
-				JDialog dialogAltaParticipantes = new DialogAltaParticipante(competencia);
-				dialogAltaParticipantes.setVisible(true);
-			}
-		});
-		
 		JScrollPane scrollPaneTabla = new JScrollPane();
 		scrollPaneTabla.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		scrollPaneTabla.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -76,16 +68,19 @@ public class PanelListarParticipantes extends JPanel {
 		JPanel panelNombreEncuentro = new JPanel();
 		panelNombreEncuentro.setBackground(Color.BLACK);
 		panelNombreEncuentro.setLayout(new BorderLayout(0, 0));
+		
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setDividerSize(0);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panelNombreEncuentro, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
-						.addComponent(panelNombreCompetencia, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
-						.addComponent(btnNuevoParticipante, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-						.addComponent(scrollPaneTabla, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panelNombreEncuentro, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
+						.addComponent(panelNombreCompetencia, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
+						.addComponent(scrollPaneTabla, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
+						.addComponent(splitPane, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -97,10 +92,30 @@ public class PanelListarParticipantes extends JPanel {
 					.addComponent(panelNombreEncuentro, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPaneTabla, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNuevoParticipante, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
+		
+		JButton btnNuevoParticipante = new JButton("Nuevo");
+		splitPane.setRightComponent(btnNuevoParticipante);
+		btnNuevoParticipante.setBackground(new Color(51, 102, 255));
+		
+		JButton btnAtras = new JButton("Atras");
+		splitPane.setLeftComponent(btnAtras);
+		
+		btnAtras.addActionListener( a -> {
+			m.cambiarPanel(llamante);
+		});
+		
+		btnNuevoParticipante.addActionListener( a -> {
+			if(competencia.getEstado() != "CREADA" && competencia.getEstado()!="PLANIFICADA") {
+				JDialog dialogAlerta = new DialogAlerta(m, "No es posible agregar participantes a esta Competencia");
+			} else {
+				JDialog dialogAltaParticipantes = new DialogAltaParticipante(m, competencia);
+				dialogAltaParticipantes.setVisible(true);
+			}
+		});
 		
 		tablaParticipantes = new JTable();
 		tablaParticipantes.setSelectionBackground(new Color(51, 102, 255));

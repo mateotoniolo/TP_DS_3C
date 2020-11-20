@@ -51,4 +51,8 @@ public class GestorCompetencia {
 		return DeporteDAO.getDeportesDTO();
 		
 	}
+
+	public static List<CompetenciaDTO> listarCompetencias() {
+		return CompetenciaDAO.getAllCompetenciasDTO();
+	}
 }

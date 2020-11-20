@@ -108,7 +108,7 @@ public class PanelVerCompetencia extends JPanel {
 		panelBotonesL.add(btnVerParticipantes);
 		
 		btnVerParticipantes.addActionListener( a -> {
-			m.cambiarPanel(new PanelListarParticipantes(m, competencia));
+			m.cambiarPanel(new PanelListarParticipantes(m, this, competencia));
 		});
 		
 		JButton btnGenerarFixture = new JButton("Generar Fixture");

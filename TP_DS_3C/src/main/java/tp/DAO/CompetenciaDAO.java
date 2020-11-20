@@ -7,11 +7,19 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
+
+import tp.DTOs.CompetenciaDTO;
+import tp.DTOs.DeporteDTO;
+import tp.DTOs.ItemLugarDTO;
 import tp.app.App;
 import tp.clases.Competencia;
 import tp.clases.CompetenciaEliminacionDoble;
 import tp.clases.CompetenciaEliminacionSimple;
 import tp.clases.CompetenciaLiga;
+import tp.clases.Deporte;
+import tp.enums.Modalidad;
+import tp.enums.ModalidadDePuntuacion;
 
 
 
@@ -112,5 +120,18 @@ public class CompetenciaDAO {
 			DataBase.cerrarConexion(con);
 		}
 		return id_Competencia;
+	}
+	
+	public static List<CompetenciaDTO> getAllCompetenciasDTO() {
+		List<Competencia> listaCompetencias= new ArrayList<>();
+		List<CompetenciaDTO> listaCompetenciasDTO= new ArrayList<>();
+		Query query=App.entity.createQuery("SELECT p FROM Competencia p");
+		listaCompetencias=(List<Competencia>)query.getResultList();
+		for (Competencia p : listaCompetencias) {
+			listaCompetenciasDTO.add(new CompetenciaDTO(p.getNombre(), null/*modalidad*/, null/*reglamento*/, p.getCantSets(),
+					p.getModalidadDePuntuacion(),p.getTantosXAusencia(), null/*EMPATE*/, null/*PUNTOSXPRESENTARSE*/, null/*puntosXEmpate*/,
+					null/*puntosXGanado*/, p.getId_deporte(), p.getLugares(), p.getId_administrador()));
+		}
+		return listaCompetenciasDTO;
 	}
 }

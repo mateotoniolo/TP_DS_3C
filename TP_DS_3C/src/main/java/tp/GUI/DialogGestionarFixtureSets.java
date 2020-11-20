@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
@@ -32,29 +33,15 @@ public class DialogGestionarFixtureSets extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			DialogGestionarFixtureSets dialog = new DialogGestionarFixtureSets();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
-	public DialogGestionarFixtureSets() {
+	public DialogGestionarFixtureSets(JFrame m) {
 		setTitle("MODIFICAR RESULTADO");
 		setBounds(100, 100, 800, 400);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(102, 102, 102));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setLocationRelativeTo(m);
+		
 		JPanel panelCeleste = new JPanel();
 		panelCeleste.setBackground(new Color(153, 204, 255));
 		JPanel panelNombreEncuentro = new JPanel();

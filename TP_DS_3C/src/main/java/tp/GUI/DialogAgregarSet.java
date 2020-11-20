@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
@@ -28,12 +29,12 @@ public class DialogAgregarSet extends JDialog {
 	private JTextField textField_1;
 	private JTextField textField;
 	
-	public DialogAgregarSet() {
+	public DialogAgregarSet(JFrame m) {
 		super();
 		setTitle("AGREGAR SET");
-		inizializate();
+		inizializate(m);
 	}
-	public void inizializate() {
+	public void inizializate(JFrame m) {
 		
 		setVisible(true);
 		setResizable(false);
@@ -42,6 +43,7 @@ public class DialogAgregarSet extends JDialog {
 		contentPanel.setBackground(new Color(102, 102, 102));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setLocationRelativeTo(m);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));

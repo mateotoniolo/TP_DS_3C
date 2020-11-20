@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
@@ -29,29 +30,15 @@ public class DialogGestionarFixturePuntuacion extends JDialog {
 	private JTextField textField_1;
 	private JTextField textField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			DialogGestionarFixturePuntuacion dialog = new DialogGestionarFixturePuntuacion();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
-	public DialogGestionarFixturePuntuacion() {
+	public DialogGestionarFixturePuntuacion(JFrame m) {
 		setTitle("MODIFICAR RESULTADO");
 		setBounds(100, 100, 800, 400);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(102, 102, 102));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setLocationRelativeTo(m);
+		
 		JPanel panelCeleste = new JPanel();
 		panelCeleste.setBackground(new Color(153, 204, 255));
 		JPanel panelNombreEncuentro = new JPanel();

@@ -27,17 +27,21 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+import tp.DTOs.CompetenciaDTO;
+import tp.DTOs.DeporteDTO;
+import tp.Gestores.GestorCompetencia;
 import tp.clases.Competencia;
 import tp.enums.EstadoCompetencia;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
+import java.util.List;
+
 import tp.enums.ModalidadDePuntuacion;
 
 public class PanelListarCompetenciasDeportivas extends JPanel {
 
 	private Component btnConfirmar;
 	private JTable tablaCompetencias;
-	private JTable table;
 	private JTextField textField;
 
 	public PanelListarCompetenciasDeportivas(MainApplication m) {
@@ -183,13 +187,20 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		scrollTablaCompetencias.setBackground(new Color(255, 255, 255));
 		add(scrollTablaCompetencias, BorderLayout.CENTER);
 		
+//		List<CompetenciaDTO> competencias = GestorCompetencia.listarCompetencias();
+		Integer i=0;
+		Object[][] rows = null;
+//		for(CompetenciaDTO unaFila : competencias) {
+//			rows[i][0] = unaFila.getNombre();
+//			rows[i][0] = unaFila.getId_deporte();
+//			rows[i][0] = unaFila.getModalidad().toString();
+//			rows[i][0] = null/*unaFila.getEstado()*/;
+//			i++;
+//		}
+		
 		tablaCompetencias = new JTable();
 		tablaCompetencias.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
 				{null, null, null, null},
 			},
 			new String[] {
@@ -215,66 +226,6 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		panel_3.setPreferredSize(new Dimension(10, 50));
 		add(panel_3, BorderLayout.SOUTH);
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		table = new JTable();
-		table.setSelectionForeground(new Color(0, 0, 0));
-		table.setSelectionBackground(new Color(51, 102, 255));
-		table.setBackground(new Color(51, 102, 255));
-		table.setShowVerticalLines(true);
-		table.setRowHeight(20);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"<", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ">"},
-			},
-			new String[] {
-				"<", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ">"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(0).setMinWidth(30);
-		table.getColumnModel().getColumn(0).setMaxWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(20);
-		table.getColumnModel().getColumn(1).setMinWidth(20);
-		table.getColumnModel().getColumn(1).setMaxWidth(20);
-		table.getColumnModel().getColumn(2).setPreferredWidth(20);
-		table.getColumnModel().getColumn(2).setMinWidth(20);
-		table.getColumnModel().getColumn(2).setMaxWidth(20);
-		table.getColumnModel().getColumn(3).setPreferredWidth(20);
-		table.getColumnModel().getColumn(3).setMinWidth(20);
-		table.getColumnModel().getColumn(3).setMaxWidth(20);
-		table.getColumnModel().getColumn(4).setPreferredWidth(20);
-		table.getColumnModel().getColumn(4).setMinWidth(20);
-		table.getColumnModel().getColumn(4).setMaxWidth(20);
-		table.getColumnModel().getColumn(5).setPreferredWidth(20);
-		table.getColumnModel().getColumn(5).setMinWidth(20);
-		table.getColumnModel().getColumn(5).setMaxWidth(0);
-		table.getColumnModel().getColumn(6).setPreferredWidth(20);
-		table.getColumnModel().getColumn(6).setMinWidth(20);
-		table.getColumnModel().getColumn(6).setMaxWidth(20);
-		table.getColumnModel().getColumn(7).setPreferredWidth(20);
-		table.getColumnModel().getColumn(7).setMinWidth(20);
-		table.getColumnModel().getColumn(7).setMaxWidth(20);
-		table.getColumnModel().getColumn(8).setPreferredWidth(20);
-		table.getColumnModel().getColumn(8).setMinWidth(20);
-		table.getColumnModel().getColumn(8).setMaxWidth(20);
-		table.getColumnModel().getColumn(9).setPreferredWidth(20);
-		table.getColumnModel().getColumn(9).setMinWidth(20);
-		table.getColumnModel().getColumn(9).setMaxWidth(20);
-		table.getColumnModel().getColumn(10).setPreferredWidth(20);
-		table.getColumnModel().getColumn(10).setMinWidth(20);
-		table.getColumnModel().getColumn(10).setMaxWidth(20);
-		table.getColumnModel().getColumn(11).setPreferredWidth(30);
-		table.getColumnModel().getColumn(11).setMinWidth(30);
-		table.getColumnModel().getColumn(11).setMaxWidth(30);
-		panel_3.add(table);
 		
 		JSplitPane paneDetallesNuevaCompetencia = new JSplitPane();
 		paneDetallesNuevaCompetencia.setDividerSize(0);
