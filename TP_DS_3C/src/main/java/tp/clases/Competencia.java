@@ -49,6 +49,8 @@ public class Competencia {
 	@Column
 	private Integer id_deporte;	
 	@Transient
+	private Deporte deporte;
+	@Transient
 	private List<ItemLugarDTO> Lugares;
 	@Transient
 	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
@@ -61,7 +63,7 @@ public class Competencia {
 	}
 		
 	// constructor
-	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Integer id_deporte,List<ItemLugarDTO> list) {
+	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Deporte deporte,List<ItemLugarDTO> list) {
 		//this.setIdCompetencia(id);
 		this.setNombre(nombre);
 		this.setModalidad(modalidad.toString());
@@ -73,7 +75,8 @@ public class Competencia {
 		this.setModalidadDePuntuacion(modalidadDePuntuacion);
 		this.setTantosXAusencia(tantosXAusencia);		
 		this.setIdAdministrador(idAdministrador);
-		this.setIdDeporte(id_deporte);
+		this.deporte = deporte;
+		this.id_deporte = deporte.getIdDeporte();
 		this.Lugares = list;
 		this.Lugares = list;
 	}
@@ -246,6 +249,42 @@ public class Competencia {
 		this.id_usuario = id_administrador;
 	}
 
+	public Integer getFixture() {
+		return id_fixture;
+	}
+
+	public Integer getId_competencia() {
+		return id_competencia;
+	}
+
+	public void setId_competencia(Integer id_competencia) {
+		this.id_competencia = id_competencia;
+	}
+
+	public Integer getId_fixture() {
+		return id_fixture;
+	}
+
+	public void setId_fixture(Integer id_fixture) {
+		this.id_fixture = id_fixture;
+	}
+
+	public Integer getCant_sets() {
+		return cant_sets;
+	}
+
+	public void setCant_sets(Integer cant_sets) {
+		this.cant_sets = cant_sets;
+	}
+
+	public Integer getId_usuario() {
+		return id_usuario;
+	}
+
+	public void setId_usuario(Integer id_usuario) {
+		this.id_usuario = id_usuario;
+	}
+
 	public Integer getId_deporte() {
 		return id_deporte;
 	}
@@ -254,8 +293,11 @@ public class Competencia {
 		this.id_deporte = id_deporte;
 	}
 
+	public Deporte getDeporte() {
+		return deporte;
+	}
 
-	public Integer getFixture() {
-		return id_fixture;
+	public void setDeporte(Deporte deporte) {
+		this.deporte = deporte;
 	}
 }

@@ -60,22 +60,7 @@ public class LugarDAO {
 		List<Lugar> lugares = (List<Lugar>)query.getResultList();
 		return lugares.get(0);
 	}
-	
-	public static List<ItemLugarDTO> cargar(JComboBox<String> b, Integer id_usuario, String deporte) {
-		DeporteDAO deporteDao = new DeporteDAO();
-		 //LugarDAO.getLugarByDeporteUsuario(b,deporteDao.getIDbyNombre(deporte), id_usuario);
-		List<ItemLugarDTO> list =LugarDAO.getLugarByDeporteUsuario(deporteDao.getIDbyNombre(deporte), id_usuario);
-		for(ItemLugarDTO lugar : list ) {
-			b.addItem(lugar.getNombre());
-		}
-		return list;
-	}
-	
-	static Lugar parsearRS(ResultSet rs) throws SQLException {
-		
-		return new Lugar(Integer.valueOf(rs.getInt(1)),
-				rs.getString(2),
-				rs.getString(3),6);
-	}
-	
 }
+	
+
+

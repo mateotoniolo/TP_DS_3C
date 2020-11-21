@@ -36,7 +36,7 @@ public class CompetenciaLiga extends Competencia {
 	public CompetenciaLiga( String nombre, Modalidad modalidad,
 			List<Participante> listaParticipantes, Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado,
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,
-			Integer id_deporte, List<EstadisticaTabla> estadisticas, List<ItemLugarDTO> list,Boolean empate) {
+			Deporte id_deporte, List<EstadisticaTabla> estadisticas, List<ItemLugarDTO> list,Boolean empate) {
 		super( nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado , modalidadDePuntuacion, tantosXAusencia,
 				idAdministrador, id_deporte,list);
 		

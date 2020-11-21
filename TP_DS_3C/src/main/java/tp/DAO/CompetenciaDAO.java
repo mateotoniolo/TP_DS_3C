@@ -44,10 +44,14 @@ public class CompetenciaDAO {
 		App.entity.getTransaction().commit();
 		return true;
 	}
-	public static Competencia getCompetenciaByName(String nombre) {
-		Query query=App.entity.createQuery("SELECT c FROM Competencia c WHERE c.nombre = '"+nombre+"'");
-		List<Competencia> lugares = (List<Competencia>)query.getResultList();
-		return lugares.get(0);
+	public static Integer getCompetenciaByName(String nombre) {
+		Query query=App.entity.createQuery("SELECT id_competencia FROM Competencia c WHERE c.nombre = '"+nombre+"'");
+		List<Integer> lugares = (List<Integer>)query.getResultList();
+		if(lugares.isEmpty()) {
+			return null;
+		}else {
+			return lugares.get(0);
+		}
 	}
 	
 	public Boolean SaveCompetenciaModalidad(Competencia comp) {

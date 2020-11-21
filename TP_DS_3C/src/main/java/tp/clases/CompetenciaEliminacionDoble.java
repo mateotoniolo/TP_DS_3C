@@ -24,9 +24,9 @@ public class CompetenciaEliminacionDoble extends Competencia {
 	public CompetenciaEliminacionDoble( String nombre, Modalidad modalidad,
 			List<Participante> listaParticipantes, Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado,
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,
-			Integer id_deporte, List<ItemLugarDTO> list) {
+			Deporte deporte, List<ItemLugarDTO> list) {
 		super( nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado, modalidadDePuntuacion, tantosXAusencia,
-				idAdministrador, id_deporte, list);
+				idAdministrador, deporte, list);
 		
 		
 	}
