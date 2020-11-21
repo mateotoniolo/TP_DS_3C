@@ -28,6 +28,14 @@ public class PanelVerCompetencia extends JPanel {
 	private JTable table;
 	private JPanel panelBotonesR;
 
+	
+	//Gestores
+	private GestorCompetencia gestorCompetencia = new GestorCompetencia();
+		
+	//DTO
+	private CompetenciaDTO compDTO;
+	private CompetenciaPartidosDTO compPartDTO;
+		
 	/**
 	 * Create the panel.
 	 */
@@ -35,11 +43,12 @@ public class PanelVerCompetencia extends JPanel {
 //		initialize(m);
 //	}
 	
-	public PanelVerCompetencia(MainApplication m, Competencia competencia) {
-		initialize(m, competencia);
+	// Corrección, entre interfaces solo podemos pasar parametros simples
+	public PanelVerCompetencia(MainApplication m, Integer id_competencia) {
+		initialize(m, id_competencia);
 	}
 
-	private void initialize(MainApplication m, Competencia competencia) {
+	private void initialize(MainApplication m, Integer id_competencia) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -51,6 +60,9 @@ public class PanelVerCompetencia extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		compDTO = new CompetenciaDTO(id_competencia);
+		compPartDTO = gestorCompetencia.mostrarCompetencia(compDTO);
 		
 		setBackground(new Color(102, 102, 102));
 		m.setTitle("");
@@ -108,7 +120,7 @@ public class PanelVerCompetencia extends JPanel {
 		panelBotonesL.add(btnVerParticipantes);
 		
 		btnVerParticipantes.addActionListener( a -> {
-			m.cambiarPanel(new PanelListarParticipantes(m, this, competencia));
+			m.cambiarPanel(new PanelListarParticipantes(m, this, id_competencia));
 		});
 		
 		JButton btnGenerarFixture = new JButton("Generar Fixture");
@@ -119,6 +131,38 @@ public class PanelVerCompetencia extends JPanel {
 		btnVerFixture.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		btnVerFixture.setBackground(new Color(51, 102, 255));
 		btnVerFixture.setForeground(new Color(0, 0, 0));
+		
+		// Si el fixture no está creado, se bloquea el botón
+		if(!compPartDTO.isCreated()) {
+			btnVerFixture.setEnabled(false);
+		}
+		
+		
+		// Logica de botones
+		btnVerTablaDePosiciones.addActionListener( a -> {
+			//m.cambiarPanel(new PanelTablaDePosiciones(m, id_competencia));
+		});
+		
+		btnModificar.addActionListener( a -> {
+			//m.cambiarPanel(new PanelModificarCompetencia(m, id_competencia));
+		});
+		
+		btnEliminar.addActionListener( a -> {
+			//m.cambiarPanel(new PanelEliminarCompetencia(m, id_competencia));
+		});
+		
+		btnVerParticipantes.addActionListener( a -> {
+			m.cambiarPanel(new PanelListarParticipantes(m, id_competencia));
+		});
+		
+		btnGenerarFixture.addActionListener( a -> {
+			//m.cambiarPanel(new PanelGenerarFixture(m, id_competencia));
+		});
+		
+		btnVerFixture.addActionListener( a -> {
+			//m.cambiarPanel(new PanelVerFixture(m, id_competencia));
+		});
+		
 		panelBotonesL.add(btnVerFixture);
 		panelDown.setLayout(gl_panelDown);
 		
@@ -161,10 +205,10 @@ public class PanelVerCompetencia extends JPanel {
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(PanelVerCompetencia.class.getResource("/img/marca.png")));
 		
-		JLabel lblNewLabel_1 = new JLabel("Modalidad:  ----------------------");
+		JLabel lblNewLabel_1 = new JLabel("Modalidad: " + compPartDTO.getModalidad());
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Deporte: ----------------------");
+		JLabel lblNewLabel_1_1 = new JLabel("Deporte: " + compPartDTO.getDeporte());
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
 		JLabel lblNewLabel_2_1 = new JLabel("");
@@ -173,7 +217,7 @@ public class PanelVerCompetencia extends JPanel {
 		JLabel lblNewLabel_2_1_1 = new JLabel("");
 		lblNewLabel_2_1_1.setIcon(new ImageIcon(PanelVerCompetencia.class.getResource("/img/marca.png")));
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Estado: ----------------------");
+		JLabel lblNewLabel_1_1_1 = new JLabel("Estado: " + compPartDTO.getEstado());
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -238,9 +282,9 @@ public class PanelVerCompetencia extends JPanel {
 		);
 		panelCentral.setLayout(gl_panelCentral);
 		panelNombreCompetencia.setLayout(new BoxLayout(panelNombreCompetencia, BoxLayout.X_AXIS));
-		
+
 		JLabel lblNombreCompetencia = new JLabel("Competencia");
-		if(competencia.getNombre()!=null) lblNombreCompetencia.setText(competencia.getNombre()); 
+		if(compPartDTO.getNombre()!=null) lblNombreCompetencia.setText(compPartDTO.getNombre()); 
 		lblNombreCompetencia.setForeground(new Color(0, 0, 0));
 		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 35));
 		panelNombreCompetencia.add(lblNombreCompetencia);
