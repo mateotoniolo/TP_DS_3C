@@ -78,7 +78,6 @@ public class DialogAltaLugar extends JDialog {
 		textField.setBounds(233, 34, 195, 28);
 		textField.setBorder(new LineBorder(Color.BLACK, 2));
 		contentPanel.add(textField);
-		textField.setColumns(10);
 		
 		textField.addKeyListener(new java.awt.event.KeyAdapter() {
 
@@ -121,7 +120,7 @@ public class DialogAltaLugar extends JDialog {
 				btnConfirmar.addActionListener(a -> {
 					disponibilidad = Integer.parseInt(textField.getText());
 					Lugar place = GestorUsuario.getLugarByNombre(this.boxLugar.getSelectedItem().toString());
-					ItemLugarDTO item = new ItemLugarDTO(place.getId(),place.getNombre(), this.disponibilidad);
+					ItemLugarDTO item = new ItemLugarDTO(place.getId(),place.getNombre(), disponibilidad);
 					p.addItemTM(item);
 					this.dispose();
 					//Crea el item con los datos ingresados

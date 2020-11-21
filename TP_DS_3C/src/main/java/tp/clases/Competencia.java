@@ -4,16 +4,22 @@ import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
 import tp.enums.ModalidadDePuntuacion;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -44,14 +50,14 @@ public class Competencia {
 	private ModalidadDePuntuacion puntuacion;
 	@Column
 	private Double tantosXAusencia;
-	@Column
-	private Integer id_usuario;
-	@Column
-	private Integer id_deporte;	
-	@Transient
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_usuario",referencedColumnName = "id_usuario")
+	private Usuario usuario;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_deporte",referencedColumnName = "id_deporte")
 	private Deporte deporte;
-	@Transient
-	private List<ItemLugarDTO> Lugares;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ItemLugar> Lugares;
 	@Transient
 	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
 
@@ -63,7 +69,9 @@ public class Competencia {
 	}
 		
 	// constructor
-	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador, Deporte deporte,List<ItemLugarDTO> list) {
+	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, 
+			Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, 
+			Double tantosXAusencia, Usuario usuario, Deporte deporte) {
 		//this.setIdCompetencia(id);
 		this.setNombre(nombre);
 		this.setModalidad(modalidad.toString());
@@ -74,21 +82,12 @@ public class Competencia {
 		this.setCantSets(cantSets);
 		this.setModalidadDePuntuacion(modalidadDePuntuacion);
 		this.setTantosXAusencia(tantosXAusencia);		
-		this.setIdAdministrador(idAdministrador);
+		this.usuario = usuario;
 		this.deporte = deporte;
-		this.id_deporte = deporte.getIdDeporte();
-		this.Lugares = list;
-		this.Lugares = list;
+		this.Lugares = new ArrayList<>();
 	}
 	
 	// Getters y Setters	
-	public Integer getIdDeporte(){
-		return id_deporte;
-	}
-	
-	public void setIdDeporte(Integer id_deporte){
-		this.id_deporte = id_deporte;
-	}
 
 	public void setFixture(Integer fixture) {
 		this.id_fixture = fixture;
@@ -165,12 +164,6 @@ public class Competencia {
 	public void setReglamento(String reglamento) {
 		this.reglamento = reglamento;
 	}
-
-
-	public Integer getIdAdministrador() {
-		return id_usuario;
-	}
-	
 	
 	public Double getTantosXAusencia() {
 		return tantosXAusencia;
@@ -181,10 +174,6 @@ public class Competencia {
 		this.tantosXAusencia = tantosXAusencia2;
 	}
 
-	public void setIdAdministrador(Integer id) {
-		this.id_usuario = id;
-	}
-
 	public Integer getCantSets() {
 		return cant_sets;
 	}
@@ -193,15 +182,19 @@ public class Competencia {
 		this.cant_sets = cantSets2;
 	}
 
-	public List<ItemLugarDTO> getLugares() {
+	public List<ItemLugar> getLugares() {
 		return Lugares;
 	}
+	
+	public void addLugar(ItemLugar item) {
+		this.Lugares.add(item);
+	}
 
-	public void setLugares(List<ItemLugarDTO> lugares) {
+	public void setLugares(List<ItemLugar> lugares) {
 		Lugares = lugares;
 	}
 	
-	public void addItem(ItemLugarDTO lugar) {
+	public void addItem(ItemLugar lugar) {
 		this.Lugares.add(lugar);
 	}
 
@@ -225,13 +218,6 @@ public class Competencia {
 		this.id_competencia = id_Competencia;
 	}
 
-//	public List<Participante> getListaParticipantes() {
-//		return listaParticipantes;
-//	}
-//
-//	public void setListaParticipantes(List<Participante> listaParticipantes) {
-//		this.listaParticipantes = listaParticipantes;
-//	}
 
 	public ModalidadDePuntuacion getPuntuacion() {
 		return puntuacion;
@@ -239,14 +225,6 @@ public class Competencia {
 
 	public void setPuntuacion(ModalidadDePuntuacion puntuacion) {
 		this.puntuacion = puntuacion;
-	}
-
-	public Integer getId_administrador() {
-		return id_usuario;
-	}
-
-	public void setId_administrador(Integer id_administrador) {
-		this.id_usuario = id_administrador;
 	}
 
 	public Integer getFixture() {
@@ -275,22 +253,6 @@ public class Competencia {
 
 	public void setCant_sets(Integer cant_sets) {
 		this.cant_sets = cant_sets;
-	}
-
-	public Integer getId_usuario() {
-		return id_usuario;
-	}
-
-	public void setId_usuario(Integer id_usuario) {
-		this.id_usuario = id_usuario;
-	}
-
-	public Integer getId_deporte() {
-		return id_deporte;
-	}
-
-	public void setId_deporte(Integer id_deporte) {
-		this.id_deporte = id_deporte;
 	}
 
 	public Deporte getDeporte() {

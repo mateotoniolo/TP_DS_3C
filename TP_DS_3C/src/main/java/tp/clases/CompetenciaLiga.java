@@ -35,10 +35,10 @@ public class CompetenciaLiga extends Competencia {
 	
 	public CompetenciaLiga( String nombre, Modalidad modalidad,
 			List<Participante> listaParticipantes, Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado,
-			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Integer idAdministrador,
-			Deporte id_deporte, List<EstadisticaTabla> estadisticas, List<ItemLugarDTO> list,Boolean empate) {
+			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Usuario usuario,
+			Deporte id_deporte, List<EstadisticaTabla> estadisticas, Boolean empate) {
 		super( nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado , modalidadDePuntuacion, tantosXAusencia,
-				idAdministrador, id_deporte,list);
+				usuario, id_deporte);
 		
 		this.setEmpate(empate);
 		this.setPuntosXPresentarse(puntos_por_presentarse);

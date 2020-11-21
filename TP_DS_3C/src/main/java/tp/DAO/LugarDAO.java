@@ -27,36 +27,14 @@ public class LugarDAO {
 		return lugares;
 	}
 	
-	public static List<ItemLugarDTO> getLugarByDeporteUsuario(Integer id_deporte, Integer id_usuario) {
-		Connection con = DataBase.getConexion();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		List<ItemLugarDTO> places = new ArrayList<ItemLugarDTO>();
-		LugarDAO lugarDao = new LugarDAO();
-		try {
-			pstm = con.prepareStatement(
-					"SELECT * FROM dsi20203c.Lugar l INNER JOIN dsi20203c.Relacion_Lugar_Deporte rld ON l.codigo = rld.codigo WHERE l.id_usuario = ? AND rld.id_deporte = ? ");
-			pstm.setInt(1, id_usuario);
-			pstm.setInt(2, id_deporte);
-			rs = pstm.executeQuery();
-			while(rs.next()) {
-				places.add(new ItemLugarDTO(Integer.valueOf(rs.getInt(1)),
-						rs.getString(2)));
-			}
-			return places;
-		}catch(Exception e) {
-			System.out.println(e.getMessage());	
-		}
-		finally {
-			DataBase.cerrarRs(rs);
-			DataBase.cerrarPstm(pstm);
-			DataBase.cerrarConexion(con);
-		}
-		return null;
-	}
-	
 	public static Lugar getLugarByNombre(String nombre) {
 		Query query=App.entity.createQuery("SELECT l FROM Lugar l  WHERE l.nombre = '"+ nombre+"'" );
+		List<Lugar> lugares = (List<Lugar>)query.getResultList();
+		return lugares.get(0);
+	}
+	
+	public static Lugar getLugarByCodigo(Integer codigo) {
+		Query query=App.entity.createQuery("SELECT l FROM Lugar l  WHERE l.codigo = '"+ codigo+"'" );
 		List<Lugar> lugares = (List<Lugar>)query.getResultList();
 		return lugares.get(0);
 	}

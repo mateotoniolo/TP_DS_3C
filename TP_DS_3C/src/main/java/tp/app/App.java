@@ -12,7 +12,9 @@ import org.hibernate.mapping.Collection;
 
 import tp.DAO.DataBase;
 import tp.GUI.MainApplication;
+import tp.clases.Competencia;
 import tp.clases.Deporte;
+import tp.clases.ItemLugar;
 import tp.clases.Lugar;
 
 public class App {
@@ -28,7 +30,7 @@ public static void main(String[] args) {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
+			} 
 		});
 		
 }

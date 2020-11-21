@@ -2,20 +2,45 @@ package tp.clases;
 
 import tp.enums.TipoDni;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import tp.auditorias.AuditoriaIngresoUsuario;
-
+@Entity
+@Table(name="Usuario")
 public class Usuario {
-
-	private String id_Usuario;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id_usuario;
+	@Column
 	private String correoElectronico;
+	@Column
 	private String contrasenia;
+	@Column
 	private String nombre;
+	@Column
 	private String apellido;
+	@Column
 	private TipoDni tipoDni;
-	private Double documento;
+	@Column
+	private Double dni;
+	@Column
+	private Integer id_localidad;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Competencia> competencias;
+	@Transient
 	private Localidad localidad;
+	@Transient
 	private List<AuditoriaIngresoUsuario> historialIngresos;
 
 	// constructor sin params
@@ -23,7 +48,7 @@ public class Usuario {
 		super();
 	}
 	
-	public Usuario(String idUsuario, String correoElectronico, String contrasenia, String nombre, String apellido, TipoDni tipoDni, Double documento, Localidad localidad){
+	public Usuario(Integer idUsuario, String correoElectronico, String contrasenia, String nombre, String apellido, TipoDni tipoDni, Double documento, Localidad localidad){
 		this.setIdUsuario(idUsuario);
 		this.setCcorreoElectronico(correoElectronico);
 		this.setContrasenia(contrasenia);
@@ -32,6 +57,8 @@ public class Usuario {
 		this.setTipoDocumento(tipoDni);
 		this.setNroDocumento(documento);
 		this.setLocalidad(localidad);
+		this.id_localidad = this.localidad.getIdLocalidad();
+		this.competencias = new ArrayList<>();
 	}
 
 	// Getters y Setters
@@ -76,11 +103,11 @@ public class Usuario {
 	}
 
 	public Double getNroDocumento() {
-		return documento;
+		return dni;
 	}
 
 	public void setNroDocumento(Double documento) {
-		this.documento = documento;
+		this.dni = documento;
 	}
 
 	public TipoDni getTipoDocumento() {
@@ -91,12 +118,12 @@ public class Usuario {
 		this.tipoDni = tipoDni;
 	}
 
-	public String getIdUsuario() {
-		return id_Usuario;
+	public Integer getIdUsuario() {
+		return id_usuario;
 	}
 
-	public void setIdUsuario(String idUsuario) {
-		this.id_Usuario = idUsuario;
+	public void setIdUsuario(Integer idUsuario) {
+		this.id_usuario = idUsuario;
 	}
 
 	public List<AuditoriaIngresoUsuario> getHistorialIngresos() {
@@ -109,5 +136,13 @@ public class Usuario {
 	
 	public void addIngreso(AuditoriaIngresoUsuario ingreso) {
 		this.historialIngresos.add(ingreso);
+	}
+
+	public List<Competencia> getCompetencias() {
+		return competencias;
+	}
+
+	public void addCompetencia(Competencia competencias) {
+		this.competencias.add(competencias);
 	}
 }

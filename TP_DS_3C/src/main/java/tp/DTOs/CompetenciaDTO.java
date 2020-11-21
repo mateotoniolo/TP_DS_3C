@@ -25,7 +25,8 @@ public class CompetenciaDTO {
 	
 	
 	public CompetenciaDTO( String name, Modalidad modalidad, String reglamento, Integer cantSets, ModalidadDePuntuacion Puntuacion
-			,Double tantosXAusencia,Boolean empate,Double puntosXPresentarse, Double puntosXEmpate, Double puntosXGanado, Integer id_deporte, List<ItemLugarDTO> Lugares,
+			,Double tantosXAusencia,Boolean empate,Double puntosXPresentarse, Double puntosXEmpate, Double puntosXGanado,
+			Integer id_deporte, List<ItemLugarDTO> Lugares,
 			Integer id_usuario) {
 		this.nombre = name;
 		this.modalidad = modalidad;

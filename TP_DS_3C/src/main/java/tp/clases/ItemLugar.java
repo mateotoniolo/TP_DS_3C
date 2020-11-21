@@ -1,10 +1,33 @@
 package tp.clases;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+@Entity
 public class ItemLugar {
-	private Lugar Lugar; // id_lugar o Objeto Lugar?
-	private Integer competencia; // id_competencia o Objeto Competencia?
-	private Integer cantidadEncuentros;
-	private Boolean disponibilidad;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id_item;
+	
+	@Column
+	private Integer disponibilidad;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="codigo_lugar",referencedColumnName = "codigo")
+	private Lugar Lugar; 
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_competencia",referencedColumnName = "id_competencia")
+	private Competencia competencia; 
+	
+	
 	
 	// constructor sin params
 	public ItemLugar() {
@@ -12,11 +35,10 @@ public class ItemLugar {
 	}
 	
 	// constructor
-	public ItemLugar(Lugar lugar, Integer competencia, Integer cantidadEncuentros, Boolean disponibilidad) {
-		this.setLugar(lugar);
+	public ItemLugar( Competencia competencia,Lugar lugar, Integer disponibilidad) {
 		this.setCompetencia(competencia);
-		this.setCantidadEncuentros(cantidadEncuentros);
-		this.setDisponibilidad(disponibilidad);
+		this.Lugar = lugar;
+		this.disponibilidad = disponibilidad;
 	}
 
 	// Getters y Setters
@@ -31,27 +53,19 @@ public class ItemLugar {
 		return this.Lugar.getId();
 	}
 
-	public Integer getCompetencia() {
+	public Competencia getCompetencia() {
 		return competencia;
 	}
 
-	public void setCompetencia(Integer competencia) {
+	public void setCompetencia(Competencia competencia) {
 		this.competencia = competencia;
 	}
 
-	public Integer getCantidadEncuentros() {
-		return cantidadEncuentros;
-	}
-
-	public void setCantidadEncuentros(Integer cantidadEncuentros) {
-		this.cantidadEncuentros = cantidadEncuentros;
-	}
-
-	public Boolean getDisponibilidad() {
+	public Integer getDisponibilidad() {
 		return disponibilidad;
 	}
 
-	public void setDisponibilidad(Boolean disponibilidad) {
-		this.disponibilidad = disponibilidad;
+	public void setDisponibilidad(Integer disponibilidad2) {
+		this.disponibilidad = disponibilidad2;
 	}
 }
