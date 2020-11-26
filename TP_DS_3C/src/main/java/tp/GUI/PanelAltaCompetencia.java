@@ -768,9 +768,9 @@ public class PanelAltaCompetencia extends JPanel {
 					this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
 			//
 
-				if(gestorCompetencia.crearCompetencia(compDTO)) {
-					System.out.println("Se guardo con exito");
-				}
+				gestorCompetencia.crearCompetencia(compDTO);
+					
+				
 		});
 		
 	}
