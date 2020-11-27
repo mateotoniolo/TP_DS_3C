@@ -262,4 +262,12 @@ public class Competencia {
 	public void setDeporte(Deporte deporte) {
 		this.deporte = deporte;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 }

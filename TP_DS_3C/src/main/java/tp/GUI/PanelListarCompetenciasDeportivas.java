@@ -238,7 +238,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 //			TODO distinguir competencia 
 //			tablaCompetencias.getSelectedRow());
 			
-			m.cambiarPanel(new PanelVerCompetencia(m, new Competencia()));
+//			m.cambiarPanel(new PanelVerCompetencia(m, new Competencia()));
 		});
 		
 		JButton btnNuevaCompetencia = new JButton("Nueva Competencia");

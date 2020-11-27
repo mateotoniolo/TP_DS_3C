@@ -54,7 +54,6 @@ public class DialogAltaLugar extends JDialog {
 
 	public DialogAltaLugar(PanelAltaCompetencia p) {
 		try {
-
 			this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			this.setVisible(true);
 			new Thread (new iniciar(p), "inicializar").start();

@@ -1,14 +1,13 @@
 package tp.GUI;
 
 import javax.swing.*;
-import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import java.util.List;
+
 
 import tp.DAO.*;
 import tp.DTOs.CompetenciaDTO;
@@ -17,8 +16,8 @@ import tp.DTOs.ItemLugarDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.clases.*;
 import tp.enums.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
+
+
 
 
 public class PanelAltaCompetencia extends JPanel {
@@ -74,6 +73,7 @@ public class PanelAltaCompetencia extends JPanel {
 	private boolean ingresoCantidadSets = false;
 	private boolean ingresoTantosXAusencia = false;
 	private boolean ingresoPuntosEmpate = false;
+	private JFrame frame;
 
 	//Define el Table model
 	AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
@@ -83,7 +83,7 @@ public class PanelAltaCompetencia extends JPanel {
 	}
 
 	private void initialize(MainApplication m) {
-		
+		frame = m;
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 		        if ("Nimbus".equals(info.getName())) {
@@ -216,6 +216,7 @@ public class PanelAltaCompetencia extends JPanel {
 	        }
 	    }
 		Vector model = new Vector();
+		model.addElement(new Item(-1,"----Seleccionar----"));
 		for(DeporteDTO d : GestorCompetencia.getDeportes()) {
 			model.addElement(new Item(d.getId_deporte(),d.getNombre()));
 		}
@@ -767,9 +768,13 @@ public class PanelAltaCompetencia extends JPanel {
 					this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
 					this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
 			//
-
+			try {
 				gestorCompetencia.crearCompetencia(compDTO);
-					
+//				DialogExito dialogExito = new DialogExito(frame,"La competencia se guardo con EXITO");
+				JOptionPane.showMessageDialog(null, "La Competencia se guardo con exito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,emoji("icon/correcto1.png", 32,32));
+			}catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Ya existe una competencia con ese nombre. Reingrese uno distinto","Error",JOptionPane.ERROR_MESSAGE,emoji("icon/alerta1.png", 32,32));
+			}
 				
 		});
 		
@@ -810,5 +815,17 @@ public class PanelAltaCompetencia extends JPanel {
 	public void addItemTM(ItemLugarDTO item) { // este metodo agrega el item para la tabla 
 		this.tableModel.addItemTM(item);
 		this.tableLugares.updateUI();
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+	static public ImageIcon emoji(String fileName, int width, int height) {
+		Image imagen = new ImageIcon(fileName).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
+		return new ImageIcon(imagen);
 	}
 }

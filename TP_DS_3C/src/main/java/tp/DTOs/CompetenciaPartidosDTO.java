@@ -2,6 +2,7 @@ package tp.DTOs;
 
 import java.util.List;
 
+import tp.clases.Deporte;
 import tp.enums.Modalidad;
 import tp.enums.ModalidadDePuntuacion;
 
@@ -28,8 +29,8 @@ public class CompetenciaPartidosDTO {
 		return competencia.getModalidad();
 	}
 	
-	public Deporte getDeporte() {
-		return competencia.getDeporte();
+	public Integer getDeporte() {
+		return competencia.getId_deporte();
 	}
 	
 	public String getEstado() {

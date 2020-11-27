@@ -44,10 +44,10 @@ public class CompetenciaDAO {
 		App.entity.getTransaction().commit();
 		return true;
 	}
-	public static Integer getCompetenciaByName(String nombre) {
+	public static List<Competencia> getCompetenciaByName(String nombre) {
 		Query query=App.entity.createQuery("SELECT c FROM Competencia c WHERE c.nombre = '"+nombre+"'");
 		List<Competencia> competencias = (List<Competencia>)query.getResultList();
-		return null;
+		return competencias;
 	}
 	
 	public Boolean SaveCompetenciaModalidad(Competencia comp) {
@@ -130,13 +130,13 @@ public class CompetenciaDAO {
 	public static List<CompetenciaDTO> getAllCompetenciasDTO() {
 		List<Competencia> listaCompetencias= new ArrayList<>();
 		List<CompetenciaDTO> listaCompetenciasDTO= new ArrayList<>();
-		Query query=App.entity.createQuery("SELECT p FROM Competencia p");
-		listaCompetencias=(List<Competencia>)query.getResultList();
-		for (Competencia p : listaCompetencias) {
-			listaCompetenciasDTO.add(new CompetenciaDTO(p.getNombre(), null/*modalidad*/, null/*reglamento*/, p.getCantSets(),
-					p.getModalidadDePuntuacion(),p.getTantosXAusencia(), null/*EMPATE*/, null/*PUNTOSXPRESENTARSE*/, null/*puntosXEmpate*/,
-					null/*puntosXGanado*/, p.getId_deporte(), p.getLugares(), p.getId_administrador()));
-		}
+//		Query query=App.entity.createQuery("SELECT p FROM Competencia p");
+//		listaCompetencias=(List<Competencia>)query.getResultList();
+//		for (Competencia p : listaCompetencias) {
+//			listaCompetenciasDTO.add(new CompetenciaDTO(p.getNombre(), null/*modalidad*/, null/*reglamento*/, p.getCantSets(),
+//					p.getModalidadDePuntuacion(),p.getTantosXAusencia(), null/*EMPATE*/, null/*PUNTOSXPRESENTARSE*/, null/*puntosXEmpate*/,
+//					null/*puntosXGanado*/, p.getDeporte().getIdDeporte(), p.getLugares(), p.getUsuario().getIdUsuario()));
+//		}
 		return listaCompetenciasDTO;
 	}
 }

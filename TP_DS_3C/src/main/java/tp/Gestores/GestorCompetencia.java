@@ -27,9 +27,9 @@ public class GestorCompetencia {
 	private Competencia competencia ;
 	
 	
-	public Boolean crearCompetencia(CompetenciaDTO DTO) {
-	if(!GestorCompetencia.getCompetenciaByName(DTO.getNombre())) {
-		System.out.println("TIRAR EXCEPTION");
+	public Boolean crearCompetencia(CompetenciaDTO DTO) throws Exception {
+	if(!(GestorCompetencia.getCompetenciaByName(DTO.getNombre()).isEmpty())) {
+		throw new Exception("Ya existe");
 	}
 	Deporte deporte = DeporteDAO.getDeporteById(DTO.getId_deporte());
 	Usuario usuario = UsuarioDAO.getUsuarioById(DTO.getId_usuario());
@@ -82,12 +82,9 @@ public class GestorCompetencia {
 		return DeporteDAO.getDeportesDTO();
 		
 	}
-	public static Boolean getCompetenciaByName(String nombre) {
-		if(CompetenciaDAO.getCompetenciaByName(nombre) == null) {
-			return true;
-		}else {
-			return false;
-		}
+	public static List<Competencia> getCompetenciaByName(String nombre) {
+		return CompetenciaDAO.getCompetenciaByName(nombre);
+		
 	}
 
 	public static List<CompetenciaDTO> listarCompetencias() {
