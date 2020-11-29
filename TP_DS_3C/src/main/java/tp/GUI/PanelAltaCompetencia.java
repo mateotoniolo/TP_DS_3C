@@ -767,13 +767,67 @@ public class PanelAltaCompetencia extends JPanel {
 			compDTO = new CompetenciaDTO(this.nombreCompetencia,this.modalidadCompetencia, this.reglamentoCompetencia,
 					this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
 					this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
-			//
+
+//			try {
+//				gestorCompetencia.crearCompetencia(compDTO);
+////				DialogExito dialogExito = new DialogExito(frame,"La competencia se guardo con EXITO");
+//				JOptionPane.showMessageDialog(null, "La Competencia se guardo con exito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,emoji("icon/correcto1.png", 32,32));
+//			}catch(Exception e) {
+//				JOptionPane.showMessageDialog(null, "Ya existe una competencia con ese nombre. Reingrese uno distinto","Error",JOptionPane.ERROR_MESSAGE,emoji("icon/alerta1.png", 32,32));
+//			}
 			try {
+				//TODO validacion de que los campos no estan completos, con mensaje especificando cada campo.
+				//nombre competencia, deporte(?), lugares, modalidad(?), forma puntuacion(?)
+				//liga: puntos ganar, empate(?), puntos empate(*), puntos presentarse
+				//sets: cant max de sets, puntuacion: tantos por ausencia
+				//confirmar si esta bien, los que tienen signos de pregunta no se si tienen un default 
+				String CamposVacios="";
+				if(compDTO.getNombre().isEmpty()) {
+					CamposVacios=CamposVacios+"La competencia debe tener un nombre \n";
+				}
+				if(compDTO.getLugares().isEmpty()) {
+					CamposVacios=CamposVacios+"La competencia debe tener al menos un lugar de realización \n ";
+				}
+				if(compDTO.getModalidad()==tp.enums.Modalidad.LIGA) {
+					if(compDTO.getEmpate()&&compDTO.getPuntosXEmpate()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar puntos por empate \n ";
+					}
+					if(compDTO.getPuntosXGanado()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado \n ";
+					}
+					if(compDTO.getPuntosXPresentarse()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar puntos por partido perdido \n ";
+					}
+				}
+				switch(compDTO.getPuntuacion()) {
+				case SETS:
+					if(compDTO.getCantSets()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar una cantidad válida de sets \n ";
+					}
+					break;
+				default:
+					if(compDTO.getTantosXAusencia()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar puntos por ausencia \n ";
+					}
+				}
+				if(!CamposVacios.equals("")) {
+					throw new Exception("Campos incompletos: \n"+CamposVacios);
+				}
+				if(compDTO.getPuntuacion()==ModalidadDePuntuacion.SETS &&
+						(compDTO.getCantSets()%2!=1||compDTO.getCantSets()>10)) {
+					throw new Exception("La cantidad de sets no es impar o es mayor a 10.");
+				}
+				if(compDTO.getEmpate()&&(compDTO.getPuntosXEmpate()>compDTO.getPuntosXGanado())) {
+					throw new Exception("Los puntos por empate son mayores a los puntos por ganar.");
+				}
+				if(compDTO.getPuntosXPresentarse()>=compDTO.getPuntosXGanado()) {
+					throw new Exception("Los puntos por presentarse son mayores a los puntos por ganar.");
+				}
 				gestorCompetencia.crearCompetencia(compDTO);
-//				DialogExito dialogExito = new DialogExito(frame,"La competencia se guardo con EXITO");
+
 				JOptionPane.showMessageDialog(null, "La Competencia se guardo con exito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,emoji("icon/correcto1.png", 32,32));
 			}catch(Exception e) {
-				JOptionPane.showMessageDialog(null, "Ya existe una competencia con ese nombre. Reingrese uno distinto","Error",JOptionPane.ERROR_MESSAGE,emoji("icon/alerta1.png", 32,32));
+				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,emoji("icon/alerta1.png", 32,32));
 			}
 				
 		});
