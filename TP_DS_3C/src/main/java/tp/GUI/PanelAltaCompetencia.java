@@ -338,7 +338,6 @@ public class PanelAltaCompetencia extends JPanel {
 			rdbtnPuntuacion.setSelected(false);
 			rdbtnPuntuacionFinal.setSelected(false);
 			txtCantidadSets.setEnabled(true);
-			txtTantosAusencia.setText("");
 			
 			if(!rdbtnPuntuacion.isSelected() && !rdbtnPuntuacionFinal.isSelected()) {
 				rdbtnSets.setSelected(true);
