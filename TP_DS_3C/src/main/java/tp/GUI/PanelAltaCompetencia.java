@@ -815,13 +815,13 @@ public class PanelAltaCompetencia extends JPanel {
 				}
 				if(compDTO.getPuntuacion()==ModalidadDePuntuacion.SETS &&
 						(compDTO.getCantSets()%2!=1||compDTO.getCantSets()>10)) {
-					throw new Exception("La cantidad de sets no es impar o es mayor a 10.");
+					throw new Exception("La cantidad de sets no es impar o es mayor a 10. \n");
 				}
 				if(compDTO.getEmpate()&&(compDTO.getPuntosXEmpate()>compDTO.getPuntosXGanado())) {
-					throw new Exception("Los puntos por empate son mayores a los puntos por ganar.");
+					throw new Exception("Los puntos por empate son mayores a los puntos por ganar.\n");
 				}
 				if(compDTO.getPuntosXPresentarse()>=compDTO.getPuntosXGanado()) {
-					throw new Exception("Los puntos por presentarse son mayores a los puntos por ganar.");
+					throw new Exception("Los puntos por presentarse son mayores a los puntos por ganar. \n");
 				}
 				gestorCompetencia.crearCompetencia(compDTO);
 
