@@ -36,9 +36,9 @@ public class PanelAltaCompetencia extends JPanel {
 	private ModalidadDePuntuacion puntuacion;
 	private Double tantosXAusencia;
 	private Boolean empate = false;
-	private Double puntosPartidoGanado;
-	private Double puntosPresentarse;
-	private Double puntosEmpate;
+	private Double puntosPartidoGanado = null;
+	private Double puntosPresentarse = null;
+	private Double puntosEmpate = null;
 	private Integer id_usuario = 6;
 	private Competencia competencia;
 	
@@ -709,13 +709,6 @@ public class PanelAltaCompetencia extends JPanel {
 									this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
 									this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
 
-//			try {
-//				gestorCompetencia.crearCompetencia(compDTO);
-////				DialogExito dialogExito = new DialogExito(frame,"La competencia se guardo con EXITO");
-//				JOptionPane.showMessageDialog(null, "La Competencia se guardo con exito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,emoji("icon/correcto1.png", 32,32));
-//			}catch(Exception e) {
-//				JOptionPane.showMessageDialog(null, "Ya existe una competencia con ese nombre. Reingrese uno distinto","Error",JOptionPane.ERROR_MESSAGE,emoji("icon/alerta1.png", 32,32));
-//			}
 							try {
 								//TODO validacion de que los campos no estan completos, con mensaje especificando cada campo.
 								//nombre competencia, deporte(?), lugares, modalidad(?), forma puntuacion(?)
@@ -761,12 +754,14 @@ public class PanelAltaCompetencia extends JPanel {
 								if(compDTO.getEmpate()&&(compDTO.getPuntosXEmpate()>compDTO.getPuntosXGanado())) {
 									throw new Exception("Los puntos por empate son mayores a los puntos por ganar.");
 								}
-								if(compDTO.getPuntosXPresentarse()>=compDTO.getPuntosXGanado()) {
+								if((compDTO.getPuntuacion() == ModalidadDePuntuacion.SETS) && (compDTO.getPuntosXPresentarse() >= compDTO.getPuntosXGanado())) {
 									throw new Exception("Los puntos por presentarse son mayores a los puntos por ganar.");
 								}
+								
 								gestorCompetencia.crearCompetencia(compDTO);
 
 								JOptionPane.showMessageDialog(null, "La Competencia se guardo con exito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,emoji("icon/correcto1.png", 32,32));
+								m.cambiarPanel(new PanelListarParticipantes(m,(JPanel)this,GestorCompetencia.getCompetenciaByName(this.nombreCompetencia)));
 							}catch(Exception e) {
 								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,emoji("icon/alerta1.png", 32,32));
 							}

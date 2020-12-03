@@ -58,6 +58,8 @@ public class Competencia {
 	private Deporte deporte;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ItemLugar> Lugares;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Participante> Participantes;
 	@Transient
 	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
 
@@ -85,6 +87,7 @@ public class Competencia {
 		this.usuario = usuario;
 		this.deporte = deporte;
 		this.Lugares = new ArrayList<>();
+		this.Participantes = new ArrayList<>();
 	}
 	
 	// Getters y Setters	

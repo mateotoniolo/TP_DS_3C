@@ -28,7 +28,7 @@ public class GestorCompetencia {
 	
 	
 	public Boolean crearCompetencia(CompetenciaDTO DTO) throws Exception {
-	if(!(GestorCompetencia.getCompetenciaByName(DTO.getNombre()).isEmpty())) {
+	if(!(GestorCompetencia.getCompetenciaByName(DTO.getNombre()) == null)) {
 		throw new Exception("Ya existe");
 	}
 	Deporte deporte = DeporteDAO.getDeporteById(DTO.getId_deporte());
@@ -82,7 +82,7 @@ public class GestorCompetencia {
 		return DeporteDAO.getDeportesDTO();
 		
 	}
-	public static List<Competencia> getCompetenciaByName(String nombre) {
+	public static Competencia getCompetenciaByName(String nombre) {
 		return CompetenciaDAO.getCompetenciaByName(nombre);
 		
 	}
@@ -90,4 +90,6 @@ public class GestorCompetencia {
 	public static List<CompetenciaDTO> listarCompetencias() {
 		return CompetenciaDAO.getAllCompetenciasDTO();
 	}
+	
+	
 }
