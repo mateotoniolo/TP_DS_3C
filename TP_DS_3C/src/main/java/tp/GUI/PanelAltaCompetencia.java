@@ -200,7 +200,7 @@ public class PanelAltaCompetencia extends JPanel {
 		       	this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vac�a la tabla
 		       	this.tableLugares.updateUI();
 		       	btnModificarLugar.setEnabled(false);
-		       	id_deporte = ((Item)this.boxDeporte.getSelectedItem()).getId();
+		       	id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
 
 		       });
 		
@@ -702,7 +702,7 @@ public class PanelAltaCompetencia extends JPanel {
 								this.cantSets = 0;
 							}
 							//Set de idDeporte
-							id_deporte = ((Item)this.boxDeporte.getSelectedItem()).getId();
+							id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
 							
 							//Asigna valores de DTO
 							//-----------------------------------------------------------------------------------------------------------------------------------------------------------

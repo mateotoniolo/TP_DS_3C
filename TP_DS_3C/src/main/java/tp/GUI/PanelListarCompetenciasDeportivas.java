@@ -44,7 +44,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 	private JTable tablaCompetencias;
 	private JTextField textField;
 
-	public PanelListarCompetenciasDeportivas(MainApplication m) {
+	public PanelListarCompetenciasDeportivas(MainApplication m, PanelHome panelHome) {
 		initialize(m);
 	}
 
