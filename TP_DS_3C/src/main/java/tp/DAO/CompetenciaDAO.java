@@ -142,4 +142,9 @@ public class CompetenciaDAO {
 //		}
 		return listaCompetenciasDTO;
 	}
+	public static Competencia getCompetenciaByID(Integer id) {
+		Competencia competencia = new Competencia();
+		competencia = App.entity.find(Competencia.class, id);
+		return competencia;
+	}
 }

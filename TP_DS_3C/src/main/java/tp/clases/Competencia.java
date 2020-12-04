@@ -213,9 +213,6 @@ public class Competencia {
 		this.historialBaja.add(baja);
 	}
 
-	public Integer getId_Competencia() {
-		return id_competencia;
-	}
 
 	public void setId_Competencia(Integer id_Competencia) {
 		this.id_competencia = id_Competencia;
@@ -272,5 +269,13 @@ public class Competencia {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public List<Participante> getParticipantes() {
+		return Participantes;
+	}
+
+	public void setParticipantes(List<Participante> participantes) {
+		Participantes = participantes;
 	}
 }

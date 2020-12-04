@@ -25,7 +25,11 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+import tp.DTOs.ParticipanteDTO;
+import tp.Gestores.GestorCompetencia;
 import tp.clases.Competencia;
+import tp.clases.Participante;
+
 import javax.swing.JToggleButton;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
@@ -37,11 +41,11 @@ public class PanelListarParticipantes extends JPanel {
 	 * Create the panel.
 	 */
 
-	public PanelListarParticipantes(MainApplication m, JPanel llamante, Competencia competencia) {
-		initialize(m, llamante, competencia);
+	public PanelListarParticipantes(MainApplication m, JPanel llamante, Integer id_competencia) {
+		initialize(m, llamante, id_competencia);
 	}
 
-	private void initialize(MainApplication m, JPanel llamante, Competencia competencia ) {
+	private void initialize(MainApplication m, JPanel llamante, Integer id_competencia ) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -53,6 +57,7 @@ public class PanelListarParticipantes extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		Competencia competencia = GestorCompetencia.getCompetenciaByID(id_competencia);
 		
 		setBackground(new Color(102, 102, 102));
 		m.setTitle("PARTICIPANTES");
@@ -116,59 +121,44 @@ public class PanelListarParticipantes extends JPanel {
 				dialogAltaParticipantes.setVisible(true);
 			}
 		});
-		
+		ListarParticipantesTM tableModel  = new ListarParticipantesTM();
+		for(Participante p : competencia.getParticipantes()) {
+			tableModel.addItemTM(new ParticipanteDTO(p.getNombre(),p.getEmail()));
+		}
 		tablaParticipantes = new JTable();
+		tablaParticipantes.setModel(tableModel);
 		tablaParticipantes.setSelectionBackground(new Color(51, 102, 255));
 		tablaParticipantes.setShowHorizontalLines(false);
 		tablaParticipantes.setFont(new Font("Constantia", Font.BOLD, 20));
 		tablaParticipantes.setRowHeight(40);
-		tablaParticipantes.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"Equipo 1", "eq01@gmail.com"},
-				{"Equipo 2", "eq02@gmail.com"},
-				{"Equipo 3", "eq03@gmail.com"},
-				{"Equipo 4", "eq04@gmail.com"},
-				{"Equipo 5", "eq05@gmail.com"},
-				{"Equipo 6", "eq06@gmail.com"},
-				{"Equipo 7", "eq07@gmail.com"},
-				{"Equipo 8", "eq08@gmail.com"},
-				{"Equipo 9", "eq09@gmail.com"},
-				{"Equipo 10", "eq10@gmail.com"},
-				{"Equipo 11", "eq11@gmail.com"},
-				{"Equipo 12", "eq12@gmail.com"},
-				{"Equipo 13", "eq01@gmail.com"},
-			},
-			new String[] {
-				"Nombre", "Correo Electronico"
-			}
-		));
+		
 		scrollPaneTabla.setViewportView(tablaParticipantes);
 		panelNombreCompetencia.setLayout(new BorderLayout(0, 0));
 		
 		
-//		TODO PARA HACER CLICK DERECHO Y ABRIR OPCIONES MODIFICAR-ELIMINAR 
-		tablaParticipantes.addMouseListener(new MouseAdapter() {
-		       @Override
-		       public void mouseReleased(MouseEvent e) {
-		           int r = tablaParticipantes.rowAtPoint(e.getPoint());
-		           if (r >= 0 && r < tablaParticipantes.getRowCount()) {
-		        	   tablaParticipantes.setRowSelectionInterval(r, r);
-		           } else {
-		        	   tablaParticipantes.clearSelection();
-		           }
-
-		           int rowindex = tablaParticipantes.getSelectedRow();
-		           if (rowindex < 0)
-		               return;
-		           if (e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
-		               JPopupMenu popup = new JPopupMenu();
-		               popup.show(e.getComponent(), e.getX(), e.getY());
-		           }
-		       }
-		});
+////		TODO PARA HACER CLICK DERECHO Y ABRIR OPCIONES MODIFICAR-ELIMINAR 
+//		tablaParticipantes.addMouseListener(new MouseAdapter() {
+//		       @Override
+//		       public void mouseReleased(MouseEvent e) {
+//		           int r = tablaParticipantes.rowAtPoint(e.getPoint());
+//		           if (r >= 0 && r < tablaParticipantes.getRowCount()) {
+//		        	   tablaParticipantes.setRowSelectionInterval(r, r);
+//		           } else {
+//		        	   tablaParticipantes.clearSelection();
+//		           }
+//
+//		           int rowindex = tablaParticipantes.getSelectedRow();
+//		           if (rowindex < 0)
+//		               return;
+//		           if (e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
+//		               JPopupMenu popup = new JPopupMenu();
+//		               popup.show(e.getComponent(), e.getX(), e.getY());
+//		           }
+//		       }
+//		});
 		
 		JLabel lblNombreCompetencia = new JLabel("Competencia");
-		if(competencia.getNombre()!=null) lblNombreCompetencia.setText(competencia.getNombre()); 
+		lblNombreCompetencia.setText(competencia.getNombre()); 
 		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 60));
 		panelNombreCompetencia.add(lblNombreCompetencia, BorderLayout.WEST);
 		setLayout(groupLayout);

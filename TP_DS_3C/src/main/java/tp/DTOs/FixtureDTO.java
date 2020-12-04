@@ -2,6 +2,7 @@ package tp.DTOs;
 
 import java.util.List;
 
+import tp.clases.Fecha;
 import tp.clases.ItemLugar;
 import tp.enums.Modalidad;
 import tp.enums.ModalidadDePuntuacion;

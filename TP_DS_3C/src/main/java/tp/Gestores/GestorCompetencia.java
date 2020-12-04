@@ -86,6 +86,10 @@ public class GestorCompetencia {
 		return CompetenciaDAO.getCompetenciaByName(nombre);
 		
 	}
+	public static Competencia getCompetenciaByID(Integer id) {
+		return CompetenciaDAO.getCompetenciaByID(id);
+		
+	}
 
 	public static List<CompetenciaDTO> listarCompetencias() {
 		return CompetenciaDAO.getAllCompetenciasDTO();
