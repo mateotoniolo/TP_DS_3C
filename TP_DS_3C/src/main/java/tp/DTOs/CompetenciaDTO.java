@@ -43,6 +43,26 @@ public class CompetenciaDTO {
 		this.id_usuario = id_usuario;
 	}
 	
+	public CompetenciaDTO( Integer id,String name, Modalidad modalidad, String reglamento, Integer cantSets, ModalidadDePuntuacion Puntuacion
+			,Double tantosXAusencia,Boolean empate,Double puntosXPresentarse, Double puntosXEmpate, Double puntosXGanado,
+			Integer id_deporte, List<ItemLugarDTO> Lugares,
+			Integer id_usuario) {
+		this.id_competencia = id;
+		this.nombre = name;
+		this.modalidad = modalidad;
+		this.reglamento = reglamento;
+		this.cantSets = cantSets;
+		this.puntuacion = Puntuacion;
+		this.tantosXAusencia = tantosXAusencia;
+		this.empate = empate;
+		this.puntosXPresentarse = puntosXPresentarse;
+		this.puntosXEmpate = puntosXEmpate;
+		this.puntosXGanado = puntosXGanado;
+		this.id_deporte = id_deporte;
+		this.Lugares = Lugares;
+		this.id_usuario = id_usuario;
+	}
+	
 	
 	public Integer getId_competencia() {
 		return id_competencia;

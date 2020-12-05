@@ -2,6 +2,7 @@ package tp.Gestores;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import tp.DAO.CompetenciaDAO;
 import tp.DAO.DeporteDAO;
@@ -10,6 +11,7 @@ import tp.DAO.UsuarioDAO;
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.DeporteDTO;
 import tp.DTOs.ItemLugarDTO;
+import tp.DTOs.ParticipanteDTO;
 import tp.clases.Competencia;
 import tp.clases.CompetenciaEliminacionDoble;
 import tp.clases.CompetenciaEliminacionSimple;
@@ -17,6 +19,7 @@ import tp.clases.CompetenciaLiga;
 import tp.clases.Deporte;
 import tp.clases.ItemLugar;
 import tp.clases.Lugar;
+import tp.clases.Participante;
 import tp.clases.Usuario;
 import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
@@ -29,7 +32,7 @@ public class GestorCompetencia {
 	
 	public Boolean crearCompetencia(CompetenciaDTO DTO) throws Exception {
 	if(!(GestorCompetencia.getCompetenciaByName(DTO.getNombre()) == null)) {
-		throw new Exception("Ya existe");
+		throw new Exception("Ya existe una competencia con ese nombre. Ingrese un nombre distinto");
 	}
 	Deporte deporte = DeporteDAO.getDeporteById(DTO.getId_deporte());
 	Usuario usuario = UsuarioDAO.getUsuarioById(DTO.getId_usuario());
@@ -94,6 +97,47 @@ public class GestorCompetencia {
 	public static List<CompetenciaDTO> listarCompetencias() {
 		return CompetenciaDAO.getAllCompetenciasDTO();
 	}
+
+	public static List<ParticipanteDTO> mostrarParticipantes(Integer id_competencia) {
+		List<ParticipanteDTO> participantesDTO = new ArrayList<>();
+		for (Participante p : CompetenciaDAO.getCompetenciaByID(id_competencia).getParticipantes()) {
+			participantesDTO.add(new ParticipanteDTO(p.getNombre(),p.getEmail()));
+		}
+		return participantesDTO;
+	}
+
+	public static void validar(Integer id_competencia) throws Exception {
+		Competencia competencia = CompetenciaDAO.getCompetenciaByID(id_competencia);
+		if(!(competencia.getEstado().equals(EstadoCompetencia.CREADA) || competencia.getEstado().equals(EstadoCompetencia.PLANIFICADA))) {
+			throw new Exception("La competencia no se encuentra en estado CREADA / Planificada. \n"+"No se puede agregar participantes.");
+		}
+	}
+
+	public static void crearParticipante(Integer id_competencia, ParticipanteDTO participanteDTO) throws Exception {
+		if(participanteDTO.getNombre().equals("") || participanteDTO.getEmail().equals("")) {
+			throw new Exception("El Nombre y el Email no pueden ser campos vacíos.") ;
+			}
+		Competencia competencia = GestorCompetencia.getCompetenciaByID(id_competencia);
+		Optional<Participante> participanteByName = competencia.getParticipantes().stream()
+																			.filter(p -> p.getNombre().equals(participanteDTO.getNombre())).findAny();
+		if(participanteByName.isPresent()) {
+			throw new Exception("Ya existe un participante con ese nombre. Reingrese un nombre distinto.") ;
+		}
+		Optional<Participante> participanteByEmail = competencia.getParticipantes().stream()
+																			.filter(p -> p.getEmail().equals(participanteDTO.getEmail())).findAny();
+		if(participanteByEmail.isPresent()) {
+			throw new Exception("Ya existe un participante con ese Email. Reingrese un Email distinto.") ;
+		}
+		
+		competencia.setEstado(EstadoCompetencia.CREADA.toString());
+		competencia.addParticipante(new Participante(participanteDTO.getNombre(), participanteDTO.getEmail()));
+			try{
+				CompetenciaDAO.update(competencia);
+			}catch(Exception e) {
+				throw new Exception("Lo sentimos, algo falló en el proceso. Inténtelo de nuevo.");
+			}
+	}
+	
 	
 	
 }

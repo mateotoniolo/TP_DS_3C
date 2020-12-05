@@ -147,4 +147,10 @@ public class CompetenciaDAO {
 		competencia = App.entity.find(Competencia.class, id);
 		return competencia;
 	}
+	public static void update(Competencia competencia) {
+		App.entity.getTransaction().begin();
+		App.entity.merge(competencia);
+		App.entity.getTransaction().commit();
+		
+	}
 }

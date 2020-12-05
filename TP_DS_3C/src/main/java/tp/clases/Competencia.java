@@ -100,18 +100,14 @@ public class Competencia {
 		return id_fixture;
 	}	
 	
-	public Integer getIdCompetencia() {
-		return id_competencia;
-	}
-	
 
 	public void setIdCompetencia(Integer id) {
 		this.id_competencia = id;
 	}
 
 
-	public String getEstado() {
-		return estado;
+	public EstadoCompetencia getEstado() {
+		return EstadoCompetencia.valueOf(estado);
 	}
 
 	public void setEstado(String creada) {
@@ -128,15 +124,6 @@ public class Competencia {
 		this.puntuacion = puntuacion;
 	}
 
-
-//	public List<Participante> getParticipantes() {
-//		return listaParticipantes;
-//	}
-//
-//
-//	public void setParticipantes(List<Participante> listaParticipantes) {
-//		this.listaParticipantes = listaParticipantes;
-//	}
 
 
 	public String getModalidad() {
@@ -227,10 +214,6 @@ public class Competencia {
 		this.puntuacion = puntuacion;
 	}
 
-	public Integer getFixture() {
-		return id_fixture;
-	}
-
 	public Integer getId_competencia() {
 		return id_competencia;
 	}
@@ -277,5 +260,8 @@ public class Competencia {
 
 	public void setParticipantes(List<Participante> participantes) {
 		Participantes = participantes;
+	}
+	public void addParticipante(Participante p) {
+		this.Participantes.add(p);
 	}
 }

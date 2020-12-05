@@ -1,12 +1,14 @@
 package tp.app;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.ImageIcon;
 
 import org.hibernate.mapping.Collection;
 
@@ -33,5 +35,10 @@ public static void main(String[] args) {
 			} 
 		});
 		
+		
+}
+static public ImageIcon emoji(String fileName, int width, int height) {
+	Image imagen = new ImageIcon(fileName).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
+	return new ImageIcon(imagen);
 }
 }

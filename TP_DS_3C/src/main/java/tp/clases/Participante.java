@@ -31,8 +31,8 @@ public final class Participante {
 		super();
 	}
 	
-	public Participante(Integer idParticipante, String email, String nombre) {
-		this.setIdParticipante(idParticipante);
+	public Participante( String email, String nombre) {
+	
 		this.setEmail(email);
 		this.setNombre(nombre);
 	}

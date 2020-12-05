@@ -15,6 +15,7 @@ import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.DeporteDTO;
 import tp.DTOs.ItemLugarDTO;
 import tp.Gestores.GestorCompetencia;
+import tp.app.App;
 import tp.clases.*;
 import tp.enums.*;
 import javax.swing.GroupLayout.Alignment;
@@ -760,10 +761,10 @@ public class PanelAltaCompetencia extends JPanel {
 								
 								gestorCompetencia.crearCompetencia(compDTO);
 
-								JOptionPane.showMessageDialog(null, "La Competencia se guardo con exito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,emoji("icon/correcto1.png", 32,32));
+								JOptionPane.showMessageDialog(null, "La Competencia se guardo con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
 								m.cambiarPanel(new PanelListarParticipantes(m,(JPanel)this,GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
 							}catch(Exception e) {
-								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,emoji("icon/alerta1.png", 32,32));
+								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 							}
 								
 						});
@@ -824,9 +825,6 @@ public class PanelAltaCompetencia extends JPanel {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
-	static public ImageIcon emoji(String fileName, int width, int height) {
-		Image imagen = new ImageIcon(fileName).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
-		return new ImageIcon(imagen);
-	}
+	
 }
 

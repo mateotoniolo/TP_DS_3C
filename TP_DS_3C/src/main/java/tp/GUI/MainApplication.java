@@ -78,4 +78,12 @@ public class MainApplication extends JFrame {
 	public JComponent getMenu() {
 		return getJMenuBar();
 	}
+
+	public JPanel getActual() {
+		return actual;
+	}
+
+	public void setActual(JPanel actual) {
+		this.actual = actual;
+	}
 }

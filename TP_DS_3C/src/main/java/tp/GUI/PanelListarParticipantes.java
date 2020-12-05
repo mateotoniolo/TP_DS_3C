@@ -11,6 +11,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.PopupMenu;
 import java.awt.event.MouseAdapter;
@@ -25,8 +27,10 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+import tp.DTOs.ItemLugarDTO;
 import tp.DTOs.ParticipanteDTO;
 import tp.Gestores.GestorCompetencia;
+import tp.app.App;
 import tp.clases.Competencia;
 import tp.clases.Participante;
 
@@ -36,12 +40,14 @@ import javax.swing.JSplitPane;
 
 public class PanelListarParticipantes extends JPanel {
 	private JTable tablaParticipantes;
-
+	ListarParticipantesTM tableModel ;
+	Integer id_competencia;
 	/**
 	 * Create the panel.
 	 */
 
 	public PanelListarParticipantes(MainApplication m, JPanel llamante, Integer id_competencia) {
+		this.id_competencia = id_competencia;
 		initialize(m, llamante, id_competencia);
 	}
 
@@ -114,16 +120,20 @@ public class PanelListarParticipantes extends JPanel {
 		});
 		
 		btnNuevoParticipante.addActionListener( a -> {
-			if(competencia.getEstado() != "CREADA" && competencia.getEstado()!="PLANIFICADA") {
-				JDialog dialogAlerta = new DialogAlerta(m, "No es posible agregar participantes a esta Competencia");
-			} else {
-				JDialog dialogAltaParticipantes = new DialogAltaParticipante(m, competencia);
+			try {
+				GestorCompetencia.validar(id_competencia);
+				JDialog dialogAltaParticipantes = new DialogAltaParticipante(m,this, id_competencia);
 				dialogAltaParticipantes.setVisible(true);
+			}catch(Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}
+			
+			
+			
 		});
-		ListarParticipantesTM tableModel  = new ListarParticipantesTM();
-		for(Participante p : competencia.getParticipantes()) {
-			tableModel.addItemTM(new ParticipanteDTO(p.getNombre(),p.getEmail()));
+		tableModel  = new ListarParticipantesTM();	
+		for(ParticipanteDTO p : GestorCompetencia.mostrarParticipantes(id_competencia)) {
+			tableModel.addItemTM(p);
 		}
 		tablaParticipantes = new JTable();
 		tablaParticipantes.setModel(tableModel);
@@ -136,26 +146,6 @@ public class PanelListarParticipantes extends JPanel {
 		panelNombreCompetencia.setLayout(new BorderLayout(0, 0));
 		
 		
-////		TODO PARA HACER CLICK DERECHO Y ABRIR OPCIONES MODIFICAR-ELIMINAR 
-//		tablaParticipantes.addMouseListener(new MouseAdapter() {
-//		       @Override
-//		       public void mouseReleased(MouseEvent e) {
-//		           int r = tablaParticipantes.rowAtPoint(e.getPoint());
-//		           if (r >= 0 && r < tablaParticipantes.getRowCount()) {
-//		        	   tablaParticipantes.setRowSelectionInterval(r, r);
-//		           } else {
-//		        	   tablaParticipantes.clearSelection();
-//		           }
-//
-//		           int rowindex = tablaParticipantes.getSelectedRow();
-//		           if (rowindex < 0)
-//		               return;
-//		           if (e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
-//		               JPopupMenu popup = new JPopupMenu();
-//		               popup.show(e.getComponent(), e.getX(), e.getY());
-//		           }
-//		       }
-//		});
 		
 		JLabel lblNombreCompetencia = new JLabel("Competencia");
 		lblNombreCompetencia.setText(competencia.getNombre()); 
@@ -163,5 +153,13 @@ public class PanelListarParticipantes extends JPanel {
 		panelNombreCompetencia.add(lblNombreCompetencia, BorderLayout.WEST);
 		setLayout(groupLayout);
 		
+		
+	}
+	public void actualizarTabla() { // este metodo agrega el item para la tabla 
+		tableModel.vaciarTabla();;
+		for(ParticipanteDTO p : GestorCompetencia.mostrarParticipantes(id_competencia)) {
+			tableModel.addItemTM(p);
+		}
+		this.tablaParticipantes.updateUI();
 	}
 }

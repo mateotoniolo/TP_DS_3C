@@ -13,6 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,6 +22,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import tp.DTOs.ParticipanteDTO;
+import tp.Gestores.GestorCompetencia;
+import tp.app.App;
 import tp.clases.Competencia;
 
 import javax.swing.JTextField;
@@ -43,8 +47,8 @@ public class DialogAltaParticipante extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogAltaParticipante(JFrame m, Competencia competencia) {
-		setTitle("MODIFICAR RESULTADO");
+	public DialogAltaParticipante(JFrame m,PanelListarParticipantes listaParticipantes, Integer id_competencia) {
+		setTitle("Agregar Participante");
 		setBounds(100, 100, 800, 400);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(102, 102, 102));
@@ -99,7 +103,7 @@ public class DialogAltaParticipante extends JDialog {
 				ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
 				if(ingresoNombre && ingresoCorreoElectronico) {
 					btnAgregar.setEnabled(true);
-					correoElectronico = txtCorreoElectronico.getText();
+					
 				} else {
 					btnAgregar.setEnabled(false);
 				}
@@ -110,7 +114,7 @@ public class DialogAltaParticipante extends JDialog {
 					ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
 					if(ingresoNombre && ingresoCorreoElectronico) {
 						btnAgregar.setEnabled(true);
-						correoElectronico = txtCorreoElectronico.getText();
+						
 					} else {
 						btnAgregar.setEnabled(false);
 					}
@@ -131,7 +135,7 @@ public class DialogAltaParticipante extends JDialog {
 				ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
 				if(ingresoNombre && ingresoCorreoElectronico) {
 					btnAgregar.setEnabled(true);
-					nombre = txtNombre.getText();
+					
 				} else {
 					btnAgregar.setEnabled(false);
 				}
@@ -142,7 +146,7 @@ public class DialogAltaParticipante extends JDialog {
 					ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
 					if(ingresoNombre && ingresoCorreoElectronico) {
 						btnAgregar.setEnabled(true);
-						nombre = txtNombre.getText();
+						
 					} else {
 						btnAgregar.setEnabled(false);
 					}
@@ -181,7 +185,7 @@ public class DialogAltaParticipante extends JDialog {
 		panelNombreEncuentro.setLayout(new BorderLayout(0, 0));
 		panelCeleste.setLayout(new BoxLayout(panelCeleste, BoxLayout.X_AXIS));
 		
-		JLabel lblNombreCompetencia = new JLabel("COMPETENCIA");
+		JLabel lblNombreCompetencia = new JLabel("NUEVO PARTICIPANTE");
 		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panelCeleste.add(lblNombreCompetencia);
 		contentPanel.setLayout(gl_contentPanel);
@@ -208,19 +212,17 @@ public class DialogAltaParticipante extends JDialog {
 				btnAgregar.setEnabled(false);
 				
 				btnAgregar.addActionListener( a -> {
-//					if(competencia.existeNombreParticipante(nombre)) {
-//						JDialog dialogAlerta = new DialogAlerta("El nombre del participante ya existe");
-//						dialogAlerta.setVisible(true);
-//					} else if(competencia.existeCorreoParticipante(correoElectronico)) {
-//						
-//					} else {
-//						competencia.addParticipante();
-						competencia.setEstado("CREADA");
-						JDialog dialogExito = new DialogExito(m, "Participante agregado con exito");
-						dispose();
-//					}
-					
-					
+						 nombre = txtCorreoElectronico.getText();
+						 correoElectronico = txtNombre.getText();
+						try {
+							GestorCompetencia.crearParticipante(id_competencia, new ParticipanteDTO(nombre,correoElectronico));
+							JOptionPane.showMessageDialog(null, "Nuevo participante agregado con éxito","Agregar Participante",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
+							listaParticipantes.actualizarTabla();
+							dispose();							
+						}catch(Exception e) {
+							JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+						}
+												
 				});
 			}
 		}
