@@ -212,8 +212,8 @@ public class DialogAltaParticipante extends JDialog {
 				btnAgregar.setEnabled(false);
 				
 				btnAgregar.addActionListener( a -> {
-						 nombre = txtCorreoElectronico.getText();
-						 correoElectronico = txtNombre.getText();
+						 correoElectronico = txtCorreoElectronico.getText();
+						 nombre = txtNombre.getText();
 						try {
 							GestorCompetencia.crearParticipante(id_competencia, new ParticipanteDTO(nombre,correoElectronico));
 							JOptionPane.showMessageDialog(null, "Nuevo participante agregado con éxito","Agregar Participante",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));

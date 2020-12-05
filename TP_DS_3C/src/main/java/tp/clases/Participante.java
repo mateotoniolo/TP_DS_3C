@@ -31,7 +31,7 @@ public final class Participante {
 		super();
 	}
 	
-	public Participante( String email, String nombre) {
+	public Participante( String nombre, String email) {
 	
 		this.setEmail(email);
 		this.setNombre(nombre);

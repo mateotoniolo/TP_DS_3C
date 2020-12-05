@@ -25,7 +25,12 @@ import tp.enums.ModalidadDePuntuacion;
 
 public class CompetenciaDAO {
 
-	
+	public static Boolean Save(Competencia comp) {
+		App.entity.getTransaction().begin();
+		App.entity.persist(comp);
+		App.entity.getTransaction().commit();
+		return true;
+	}
 	public Boolean Save(CompetenciaEliminacionDoble comp) {
 		App.entity.getTransaction().begin();
 		App.entity.persist(comp);

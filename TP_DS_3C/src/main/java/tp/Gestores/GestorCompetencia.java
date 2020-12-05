@@ -114,17 +114,19 @@ public class GestorCompetencia {
 	}
 
 	public static void crearParticipante(Integer id_competencia, ParticipanteDTO participanteDTO) throws Exception {
+		Competencia competencia = getCompetenciaByID(id_competencia);
+		
 		if(participanteDTO.getNombre().equals("") || participanteDTO.getEmail().equals("")) {
 			throw new Exception("El Nombre y el Email no pueden ser campos vacíos.") ;
 			}
-		Competencia competencia = GestorCompetencia.getCompetenciaByID(id_competencia);
-		Optional<Participante> participanteByName = competencia.getParticipantes().stream()
-																			.filter(p -> p.getNombre().equals(participanteDTO.getNombre())).findAny();
+		
+		Optional<Participante> participanteByName = competencia.getParticipantes().stream().filter(p -> p.getNombre().equals(participanteDTO.getNombre())).findAny();
+		
 		if(participanteByName.isPresent()) {
 			throw new Exception("Ya existe un participante con ese nombre. Reingrese un nombre distinto.") ;
 		}
-		Optional<Participante> participanteByEmail = competencia.getParticipantes().stream()
-																			.filter(p -> p.getEmail().equals(participanteDTO.getEmail())).findAny();
+		
+		Optional<Participante> participanteByEmail = competencia.getParticipantes().stream().filter(p -> p.getEmail().equals(participanteDTO.getEmail())).findAny();
 		if(participanteByEmail.isPresent()) {
 			throw new Exception("Ya existe un participante con ese Email. Reingrese un Email distinto.") ;
 		}
@@ -132,7 +134,7 @@ public class GestorCompetencia {
 		competencia.setEstado(EstadoCompetencia.CREADA.toString());
 		competencia.addParticipante(new Participante(participanteDTO.getNombre(), participanteDTO.getEmail()));
 			try{
-				CompetenciaDAO.update(competencia);
+				CompetenciaDAO.Save(competencia);
 			}catch(Exception e) {
 				throw new Exception("Lo sentimos, algo falló en el proceso. Inténtelo de nuevo.");
 			}
