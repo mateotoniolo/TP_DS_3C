@@ -729,7 +729,7 @@ public class PanelAltaCompetencia extends JPanel {
 										CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado \n ";
 									}
 									if(compDTO.getPuntosXPresentarse()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar puntos por partido perdido \n ";
+										CamposVacios=CamposVacios+"Debe ingresar puntos por presentarse \n ";
 									}
 								}
 								switch(compDTO.getPuntuacion()) {
@@ -740,7 +740,7 @@ public class PanelAltaCompetencia extends JPanel {
 									break;
 								default:
 									if(compDTO.getTantosXAusencia()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar puntos por ausencia \n ";
+										CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia \n ";
 									}
 								}
 								if(!CamposVacios.equals("")) {

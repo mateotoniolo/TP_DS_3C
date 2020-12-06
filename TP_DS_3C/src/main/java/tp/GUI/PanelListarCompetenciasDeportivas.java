@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
@@ -30,6 +31,7 @@ import javax.swing.DefaultComboBoxModel;
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.DeporteDTO;
 import tp.Gestores.GestorCompetencia;
+import tp.app.App;
 import tp.clases.Competencia;
 import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
@@ -261,10 +263,9 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		paneDetallesNuevaCompetencia.setLeftComponent(btnDetalles);
 		
 		btnDetalles.addActionListener( a -> {
-//			TODO distinguir competencia 
-//			tablaCompetencias.getSelectedRow());
-			
-//			m.cambiarPanel(new PanelVerCompetencia(m, new Competencia()));
+			String nombre = (String)this.tableModel.getValueAt(this.tablaCompetencias.getSelectedRow(), 0);
+			DialogVerCompetencia comp = new DialogVerCompetencia(m, GestorCompetencia.getCompetenciaByName(nombre).getId_competencia());
+			comp.setVisible(true);
 		});
 		
 		JButton btnNuevaCompetencia = new JButton("Nueva Competencia");
@@ -289,11 +290,15 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 				competenciaDTO.setEstado(EstadoCompetencia.valueOf(boxEstado.getSelectedItem().toString()));
 			}
 			competenciaDTO.setId_usuario(id_usuario);
+			try {
 			this.tableModel.vaciarTabla();
 			for(CompetenciaDTO c : GestorCompetencia.getCompetenciasByDTO(competenciaDTO)) {
 				this.tableModel.addItemTM(c);
 			}
 			this.tablaCompetencias.updateUI();
+			} catch(Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+			}
 		});
 		
 

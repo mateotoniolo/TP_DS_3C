@@ -42,16 +42,22 @@ public class PanelListarParticipantes extends JPanel {
 	private JTable tablaParticipantes;
 	ListarParticipantesTM tableModel ;
 	Integer id_competencia;
+	JPanel llamante;
 	/**
 	 * Create the panel.
 	 */
 
-	public PanelListarParticipantes(MainApplication m,PanelAltaCompetencia llamante,Integer id_competencia) {
+	public PanelListarParticipantes(MainApplication m,PanelListarCompetenciasDeportivas llamante,Integer id_competencia) {
 		this.id_competencia = id_competencia;
-		initialize(m,llamante,id_competencia);
+		this.llamante = llamante;
+		initialize(m,id_competencia);
 	}
 
-	private void initialize(MainApplication m,PanelAltaCompetencia llamante,Integer id_competencia ) {
+
+
+
+
+	private void initialize(MainApplication m,Integer id_competencia ) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -108,7 +114,7 @@ public class PanelListarParticipantes extends JPanel {
 					.addContainerGap())
 		);
 		
-		JButton btnNuevoParticipante = new JButton("Nuevo");
+		JButton btnNuevoParticipante = new JButton("Agregar nuevo");
 		splitPane.setRightComponent(btnNuevoParticipante);
 		btnNuevoParticipante.setBackground(new Color(51, 102, 255));
 		

@@ -42,8 +42,8 @@ public class ItemLugar {
 	}
 
 	// Getters y Setters
-	public String getLugar() {
-		return Lugar.getNombre();
+	public tp.clases.Lugar getLugar() {
+		return Lugar;
 	}
 
 	public void setLugar(Lugar lugar) {

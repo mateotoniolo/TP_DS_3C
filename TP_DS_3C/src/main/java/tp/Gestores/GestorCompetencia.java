@@ -141,27 +141,30 @@ public class GestorCompetencia {
 			}
 	}
 
-	public static List<CompetenciaDTO> getCompetenciasByDTO(CompetenciaDTO competenciaDTO) {
+	public static List<CompetenciaDTO> getCompetenciasByDTO(CompetenciaDTO competenciaDTO) throws Exception {
 		String query = "SELECT c FROM Competencia c WHERE id_usuario = '"+competenciaDTO.getId_usuario()+"'"; 
-		
+		Boolean flag = false;
 		if(!competenciaDTO.getNombre().equals("")) {
 				query = query+" AND nombre = '"+competenciaDTO.getNombre()+"'";
-			
+				flag = true;
 		}
 		if(!(competenciaDTO.getModalidad() == null)) {
 			
 				query = query+" AND modalidad = '"+competenciaDTO.getModalidad().toString()+"'";
-			
+				flag = true;
 		}
 		if(!(competenciaDTO.getId_deporte() == null)) {
 			
 				query = query+" AND id_deporte = '"+competenciaDTO.getId_deporte()+"'";
-			
+				flag = true;
 		}
 		if(!(competenciaDTO.getEstado() == null)) {
 			
 				query = query+" AND estado = '"+competenciaDTO.getEstado().toString()+"'";
-			
+				flag = true;
+		}
+		if(!flag) {
+			throw new Exception("Debe completar al menos un campo de búsqueda.");
 		}
 		return convertiraDTO(CompetenciaDAO.getCompetenciasByDTO(query));
 	}

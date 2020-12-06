@@ -47,6 +47,7 @@ public class CompetenciaDTO {
 		this.id_deporte = id_deporte;
 		this.Lugares = Lugares;
 		this.id_usuario = id_usuario;
+		this.estado = null;
 	}
 	
 	public CompetenciaDTO( Integer id,String name, Modalidad modalidad, String reglamento, Integer cantSets, ModalidadDePuntuacion Puntuacion
@@ -67,6 +68,7 @@ public class CompetenciaDTO {
 		this.id_deporte = id_deporte;
 		this.Lugares = Lugares;
 		this.id_usuario = id_usuario;
+		this.estado = null;
 	}
 	public CompetenciaDTO() {
 		this.nombre = null;

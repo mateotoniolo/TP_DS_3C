@@ -45,11 +45,8 @@ public class DialogVerCompetencia extends JDialog {
 	/**
 	 * Create the panel.
 	 */
-//	public PanelVerCompetencia(MainApplication m) {
-//		initialize(m);
-//	}
 	
-	// Correcci�n, entre interfaces solo podemos pasar parametros simples
+	// Correccion, entre interfaces solo podemos pasar parametros simples
 	public DialogVerCompetencia(MainApplication m, Integer id_competencia) {
 		initialize(m, id_competencia);
 	}
@@ -126,7 +123,7 @@ public class DialogVerCompetencia extends JDialog {
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			m.cambiarPanel(new PanelListarParticipantes(id_competencia));
+			m.cambiarPanel(new PanelListarParticipantes(m, new PanelListarCompetenciasDeportivas(m,new PanelHome(m)), id_competencia));
 		});
 		
 		JButton btnGenerarFixture = new JButton("Generar Fixture");
@@ -159,7 +156,7 @@ public class DialogVerCompetencia extends JDialog {
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			m.cambiarPanel(new PanelListarParticipantes(id_competencia));
+			m.cambiarPanel(new PanelListarParticipantes(m,new PanelListarCompetenciasDeportivas(m,new PanelHome(m)),id_competencia));
 		});
 		
 		btnGenerarFixture.addActionListener( a -> {
@@ -205,7 +202,7 @@ public class DialogVerCompetencia extends JDialog {
 		JLabel lblEstado = new JLabel("Estado: ...");
 		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		if(compPartDTO.getEstado() != null) {
-			lblEstado.setText("Estado: " + compPartDTO.getEstado());
+			lblEstado.setText("Estado: " + compPartDTO.getEstado().toString());
 		}
 		GroupLayout gl_panelL = new GroupLayout(panelL);
 		gl_panelL.setHorizontalGroup(

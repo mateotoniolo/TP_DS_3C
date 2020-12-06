@@ -4,6 +4,7 @@ import java.util.List;
 
 import tp.clases.Deporte;
 import tp.clases.Fecha;
+import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
 import tp.enums.ModalidadDePuntuacion;
 
@@ -34,8 +35,8 @@ public class CompetenciaPartidosDTO {
 		return competencia.getId_deporte();
 	}
 	
-	public String getEstado() {
-		return competencia.getEstado().toString();
+	public EstadoCompetencia getEstado() {
+		return competencia.getEstado();
 	}
 	
 	public Integer getId_fixture() {
