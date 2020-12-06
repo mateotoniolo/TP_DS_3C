@@ -114,7 +114,7 @@ public class PanelListarParticipantes extends JPanel {
 					.addContainerGap())
 		);
 		
-		JButton btnNuevoParticipante = new JButton("Agregar nuevo");
+		JButton btnNuevoParticipante = new JButton("Agregar");
 		splitPane.setRightComponent(btnNuevoParticipante);
 		btnNuevoParticipante.setBackground(new Color(51, 102, 255));
 		
