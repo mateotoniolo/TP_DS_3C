@@ -3,6 +3,7 @@ package tp.DTOs;
 import java.util.List;
 
 import tp.clases.Deporte;
+import tp.clases.Fecha;
 import tp.enums.Modalidad;
 import tp.enums.ModalidadDePuntuacion;
 
@@ -34,7 +35,7 @@ public class CompetenciaPartidosDTO {
 	}
 	
 	public String getEstado() {
-		return competencia.getEstado();
+		return competencia.getEstado().toString();
 	}
 	
 	public Integer getId_fixture() {
@@ -43,6 +44,11 @@ public class CompetenciaPartidosDTO {
 	
 	public List<Fecha> getListaFechas() {
 		return fixture.getListaFechas();
+	}
+
+
+	public boolean isCreated() {
+		return (fixture!=null);
 	}
 	
 }

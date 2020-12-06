@@ -98,7 +98,7 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		setBackground(new Color(102, 102, 102));
 		m.setTitle("ALTA COMPETENCIA");
-		setBounds(100, 50, 1360, 760);
+		setBounds(100, 50, 1366, 740);
 		
 		//JBox de deporte
 

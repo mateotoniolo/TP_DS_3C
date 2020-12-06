@@ -46,12 +46,12 @@ public class PanelListarParticipantes extends JPanel {
 	 * Create the panel.
 	 */
 
-	public PanelListarParticipantes(MainApplication m, JPanel llamante, Integer id_competencia) {
+	public PanelListarParticipantes(Integer id_competencia) {
 		this.id_competencia = id_competencia;
-		initialize(m, llamante, id_competencia);
+		initialize(id_competencia);
 	}
 
-	private void initialize(MainApplication m, JPanel llamante, Integer id_competencia ) {
+	private void initialize(Integer id_competencia ) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -67,7 +67,7 @@ public class PanelListarParticipantes extends JPanel {
 		
 		setBackground(new Color(102, 102, 102));
 		m.setTitle("PARTICIPANTES");
-		setBounds(100, 50, 1280, 720);
+		setBounds(100, 50, 1366, 740);
 		
 		JPanel panelNombreCompetencia = new JPanel();
 		panelNombreCompetencia.setBackground(new Color(153, 204, 255));

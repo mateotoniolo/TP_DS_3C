@@ -9,6 +9,7 @@ import tp.DAO.DeporteDAO;
 import tp.DAO.LugarDAO;
 import tp.DAO.UsuarioDAO;
 import tp.DTOs.CompetenciaDTO;
+import tp.DTOs.CompetenciaPartidosDTO;
 import tp.DTOs.DeporteDTO;
 import tp.DTOs.ItemLugarDTO;
 import tp.DTOs.ParticipanteDTO;
@@ -163,6 +164,11 @@ public class GestorCompetencia {
 			
 		}
 		CompetenciaDAO.getCompetenciasByDTO(query);
+	}
+
+	public CompetenciaPartidosDTO mostrarCompetencia(CompetenciaDTO compDTO) {
+		CompetenciaPartidosDTO compPartDTO = new CompetenciaPartidosDTO(compDTO, null);
+		return compPartDTO;
 	}
 	
 	

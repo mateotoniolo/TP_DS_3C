@@ -56,17 +56,6 @@ public class PanelHome extends JPanel {
 		txtDescripcion.setEditable(false);
 		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtDescripcion.setPreferredSize(new Dimension(7, 50));
-		txtDescripcion.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pretium "
-				+ "mauris vitae libero consequat elementum. Nam quis ante viverra, interdum eros eu, pellentesque "
-				+ "nisi. Phasellus et arcu ornare, volutpat sapien ac, ultricies lectus. Integer dignissim in "
-				+ "orci sagittis cursus. Donec finibus vel lorem in consectetur. Morbi nec est ex. Donec auctor "
-				+ "magna in tempor ullamcorper. Donec sagittis tortor eros, eget gravida nisl semper non. "
-				+ "Pellentesque lobortis neque dolor, eu elementum elit porta sit amet. Curabitur vehicula "
-				+ "malesuada justo, a accumsan leo egestas id. Aliquam at quam eget tortor iaculis scelerisque "
-				+ "sit amet quis lectus. Nullam purus ante, tristique a rutrum at, auctor vitae est. Nullam "
-				+ "tincidunt urna quis pharetra volutpat. Vivamus pharetra, massa at pulvinar sollicitudin, ligula "
-				+ "eros hendrerit nibh, id varius leo erat convallis odio. Mauris ultrices metus sodales arcu "
-				+ "varius malesuada.");
 		this.add(txtDescripcion, BorderLayout.SOUTH);
 		
 		JPanel panelUser = new JPanel();

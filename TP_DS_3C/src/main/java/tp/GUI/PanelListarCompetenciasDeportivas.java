@@ -67,7 +67,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		
 		setBackground(new Color(102, 102, 102));
 		m.setTitle("BUSCAR COMPETENCIA");
-		setBounds(100, 50, 1280, 720);
+		setBounds(100, 50, 1366, 740);
 		setLayout(new BorderLayout(0, 0));
 		
 		

@@ -71,6 +71,10 @@ public class CompetenciaDTO {
 	}
 	
 	
+	public CompetenciaDTO(Integer id_competencia) {
+		this.id_competencia = id_competencia;
+	}
+
 	public Integer getId_competencia() {
 		return id_competencia;
 	}
