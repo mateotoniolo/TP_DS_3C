@@ -32,9 +32,12 @@ import tp.DTOs.DeporteDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.clases.Competencia;
 import tp.enums.EstadoCompetencia;
+import tp.enums.Modalidad;
+
 import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
 import java.util.List;
+import java.util.Vector;
 
 import tp.enums.ModalidadDePuntuacion;
 
@@ -43,6 +46,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 	private Component btnConfirmar;
 	private JTable tablaCompetencias;
 	private JTextField textField;
+	private Integer id_usuario = 6;
 
 	public PanelListarCompetenciasDeportivas(MainApplication m, PanelHome panelHome) {
 		initialize(m);
@@ -96,12 +100,46 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		textField.setColumns(10);
 		
 		JComboBox boxModalidad = new JComboBox();
-		boxModalidad.setModel(new DefaultComboBoxModel(ModalidadDePuntuacion.values()));
+		boxModalidad.addItem("----Seleccionar----");
+		boxModalidad.addItem(Modalidad.ELIMINACION_DIRECTA.toString());
+		boxModalidad.addItem(Modalidad.ELIMINACION_DOBLE.toString());
+		boxModalidad.addItem(Modalidad.LIGA.toString());
 		boxModalidad.setPreferredSize(new Dimension(33, 30));
 		boxModalidad.setFont(UIManager.getFont("CheckBox.font"));
 		
-		JComboBox boxDeporte = new JComboBox();
-		boxDeporte.setModel(new DefaultComboBoxModel(new String[] {"---Seleccionar---"}));
+		
+		class Item
+	    {
+	        private int id;
+	        private String description;
+	 
+	        public Item(int id, String description)
+	        {
+	            this.id = id;
+	            this.description = description;
+	        }
+	 
+	        public int getId()
+	        {
+	            return id;
+	        }
+	 
+	        public String getDescription()
+	        {
+	            return description;
+	        }
+	 
+	        public String toString()
+	        {
+	            return description;
+	        }
+	    }
+		Vector model = new Vector();
+		model.addElement(new Item(-1,"----Seleccionar----"));
+		for(DeporteDTO d : GestorCompetencia.getDeportes()) {
+			model.addElement(new Item(d.getId_deporte(),d.getNombre()));
+		}
+		JComboBox boxDeporte = new JComboBox(model);
 		boxDeporte.setPreferredSize(new Dimension(33, 30));
 		boxDeporte.setFont(UIManager.getFont("CheckBox.font"));
 		
@@ -127,7 +165,11 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		paneBuscarSalir.setRightComponent(btnSalir);
 		
 		JComboBox boxEstado = new JComboBox();
-		boxEstado.setModel(new DefaultComboBoxModel(EstadoCompetencia.values()));
+		boxEstado.addItem("----Seleccionar----");
+		boxEstado.addItem(EstadoCompetencia.CREADA.toString());
+		boxEstado.addItem(EstadoCompetencia.EN_DISPUTA.toString());
+		boxEstado.addItem(EstadoCompetencia.FINALIZADA.toString());
+		boxEstado.addItem(EstadoCompetencia.PLANIFICADA.toString());
 		boxEstado.setPreferredSize(new Dimension(33, 30));
 		boxEstado.setFont(UIManager.getFont("CheckBox.font"));
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
@@ -187,26 +229,8 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		scrollTablaCompetencias.setBackground(new Color(255, 255, 255));
 		add(scrollTablaCompetencias, BorderLayout.CENTER);
 		
-//		List<CompetenciaDTO> competencias = GestorCompetencia.listarCompetencias();
-		Integer i=0;
-		Object[][] rows = null;
-//		for(CompetenciaDTO unaFila : competencias) {
-//			rows[i][0] = unaFila.getNombre();
-//			rows[i][0] = unaFila.getId_deporte();
-//			rows[i][0] = unaFila.getModalidad().toString();
-//			rows[i][0] = null/*unaFila.getEstado()*/;
-//			i++;
-//		}
 		
 		tablaCompetencias = new JTable();
-		tablaCompetencias.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-			},
-			new String[] {
-				"Nombre", "Deporte", "Modalidad", "Estado"
-			}
-		));
 		tablaCompetencias.setSelectionBackground(new Color(102, 51, 255));
 		tablaCompetencias.setGridColor(Color.WHITE);
 		scrollTablaCompetencias.setViewportView(tablaCompetencias);
@@ -250,7 +274,21 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		});
 		
 		
-		
+		btnBuscar.addActionListener(a -> {
+			CompetenciaDTO competenciaDTO = new CompetenciaDTO();
+			competenciaDTO.setNombre(this.textField.getText().toString());
+			if(((Item)boxDeporte.getSelectedItem()).getId() != -1) {
+				competenciaDTO.setId_deporte(((Item)boxDeporte.getSelectedItem()).getId());
+			}
+			if(!boxModalidad.getSelectedItem().toString().equals("----Seleccionar----")) {
+				competenciaDTO.setModalidad(Modalidad.valueOf(boxModalidad.getSelectedItem().toString()));
+			}
+			if(!boxEstado.getSelectedItem().toString().equals("----Seleccionar----")) {
+				competenciaDTO.setEstado(EstadoCompetencia.valueOf(boxEstado.getSelectedItem().toString()));
+			}
+			competenciaDTO.setId_usuario(id_usuario);
+			GestorCompetencia.getCompetenciasByDTO(competenciaDTO);
+		});
 		
 
 	}

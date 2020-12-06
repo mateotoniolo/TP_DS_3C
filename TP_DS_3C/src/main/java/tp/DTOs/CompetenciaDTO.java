@@ -3,6 +3,7 @@ package tp.DTOs;
 import java.util.List;
 
 import tp.clases.ItemLugar;
+import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
 import tp.enums.ModalidadDePuntuacion;
 
@@ -22,7 +23,7 @@ public class CompetenciaDTO {
 	Integer id_deporte;
 	List<ItemLugarDTO> Lugares;
 	Integer id_usuario;
-	
+	EstadoCompetencia estado;
 	
 	public CompetenciaDTO( String name, Modalidad modalidad, String reglamento, Integer cantSets, ModalidadDePuntuacion Puntuacion
 			,Double tantosXAusencia,Boolean empate,Double puntosXPresentarse, Double puntosXEmpate, Double puntosXGanado,
@@ -61,6 +62,12 @@ public class CompetenciaDTO {
 		this.id_deporte = id_deporte;
 		this.Lugares = Lugares;
 		this.id_usuario = id_usuario;
+	}
+	public CompetenciaDTO() {
+		this.nombre = null;
+		this.modalidad = null;
+		this.id_deporte = null;
+		this.estado = null;
 	}
 	
 	
@@ -147,6 +154,14 @@ public class CompetenciaDTO {
 	}
 	public void setId_usuario(Integer id_usuario) {
 		this.id_usuario = id_usuario;
+	}
+
+	public EstadoCompetencia getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoCompetencia estado) {
+		this.estado = estado;
 	}
 	
 }

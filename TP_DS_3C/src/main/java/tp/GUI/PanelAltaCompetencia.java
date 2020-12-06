@@ -27,7 +27,6 @@ public class PanelAltaCompetencia extends JPanel {
 	
 
 	//Aqui se definen los atributos de la competencia
-	private String deporteCompetencia;
 	private Integer id_deporte;
 	private String nombreCompetencia;
 	private tp.enums.Modalidad modalidadCompetencia;
@@ -41,7 +40,7 @@ public class PanelAltaCompetencia extends JPanel {
 	private Double puntosPresentarse = null;
 	private Double puntosEmpate = null;
 	private Integer id_usuario = 6;
-	private Competencia competencia;
+
 	
 	//DAOs
 	private CompetenciaDAO competenciaDao = new CompetenciaDAO();
@@ -61,7 +60,6 @@ public class PanelAltaCompetencia extends JPanel {
 	private JTextField txtPuntosEmpate;
 	private JTextField txtPuntosPresentarse;
 	private JComboBox<Modalidad> boxModalidad;
-	private JComboBox<String> boxDeporte;
 	private JComboBox<String> boxDeporte_1;
 	private JRadioButton rdbtnSets;
 	private JRadioButton rdbtnPuntuacion;
@@ -101,8 +99,8 @@ public class PanelAltaCompetencia extends JPanel {
 		setBackground(new Color(102, 102, 102));
 		m.setTitle("ALTA COMPETENCIA");
 		setBounds(100, 50, 1360, 760);
+		
 		//JBox de deporte
-		boxDeporte = new JComboBox<String>();
 
 		class Item
 	    {
@@ -791,10 +789,6 @@ public class PanelAltaCompetencia extends JPanel {
 
 	public String getDeporteCompetencia() {
 		return this.boxDeporte_1.getSelectedItem().toString();
-	}
-
-	public void setDeporteCompetencia(String deporteCompetencia) {
-		this.deporteCompetencia = deporteCompetencia;
 	}
 
 	public Integer getId_deporte() {

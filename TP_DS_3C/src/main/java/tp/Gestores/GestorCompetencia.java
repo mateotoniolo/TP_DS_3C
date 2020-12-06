@@ -139,6 +139,31 @@ public class GestorCompetencia {
 				throw new Exception("Lo sentimos, algo falló en el proceso. Inténtelo de nuevo.");
 			}
 	}
+
+	public static void getCompetenciasByDTO(CompetenciaDTO competenciaDTO) {
+		String query = "SELECT c FROM Competencia c WHERE id_usuario = '"+competenciaDTO.getId_usuario()+"'"; 
+		
+		if(!competenciaDTO.getNombre().equals("")) {
+				query = query+" AND nombre = '"+competenciaDTO.getNombre()+"'";
+			
+		}
+		if(!(competenciaDTO.getModalidad() == null)) {
+			
+				query = query+" AND modalidad = '"+competenciaDTO.getModalidad().ordinal()+"'";
+			
+		}
+		if(!(competenciaDTO.getId_deporte() == null)) {
+			
+				query = query+" AND id_deporte = '"+competenciaDTO.getId_deporte()+"'";
+			
+		}
+		if(!(competenciaDTO.getEstado() == null)) {
+			
+				query = query+" AND estado = '"+competenciaDTO.getEstado().toString()+"'";
+			
+		}
+		CompetenciaDAO.getCompetenciasByDTO(query);
+	}
 	
 	
 	

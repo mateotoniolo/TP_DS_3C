@@ -158,4 +158,9 @@ public class CompetenciaDAO {
 		App.entity.getTransaction().commit();
 		
 	}
+	public static List<Competencia> getCompetenciasByDTO(String Query) {
+		Query query=App.entity.createQuery(Query);
+		List<Competencia> competencias = (List<Competencia>)query.getResultList();
+		return competencias;
+	}
 }
