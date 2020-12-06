@@ -46,6 +46,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 	private Component btnConfirmar;
 	private JTable tablaCompetencias;
 	private JTextField textField;
+	private ListarCompetenciasTM tableModel;
 	private Integer id_usuario = 6;
 
 	public PanelListarCompetenciasDeportivas(MainApplication m, PanelHome panelHome) {
@@ -229,8 +230,9 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		scrollTablaCompetencias.setBackground(new Color(255, 255, 255));
 		add(scrollTablaCompetencias, BorderLayout.CENTER);
 		
+		tableModel = new ListarCompetenciasTM();
 		
-		tablaCompetencias = new JTable();
+		tablaCompetencias = new JTable(tableModel);
 		tablaCompetencias.setSelectionBackground(new Color(102, 51, 255));
 		tablaCompetencias.setGridColor(Color.WHITE);
 		scrollTablaCompetencias.setViewportView(tablaCompetencias);
@@ -287,7 +289,11 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 				competenciaDTO.setEstado(EstadoCompetencia.valueOf(boxEstado.getSelectedItem().toString()));
 			}
 			competenciaDTO.setId_usuario(id_usuario);
-			GestorCompetencia.getCompetenciasByDTO(competenciaDTO);
+			this.tableModel.vaciarTabla();
+			for(CompetenciaDTO c : GestorCompetencia.getCompetenciasByDTO(competenciaDTO)) {
+				this.tableModel.addItemTM(c);
+			}
+			this.tablaCompetencias.updateUI();
 		});
 		
 

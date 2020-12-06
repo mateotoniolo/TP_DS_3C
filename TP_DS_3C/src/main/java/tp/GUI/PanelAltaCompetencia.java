@@ -760,7 +760,7 @@ public class PanelAltaCompetencia extends JPanel {
 								gestorCompetencia.crearCompetencia(compDTO);
 
 								JOptionPane.showMessageDialog(null, "La Competencia se guardo con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
-								m.cambiarPanel(new PanelListarParticipantes(m,(JPanel)this,GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
+								m.cambiarPanel(new PanelListarParticipantes(m,this,GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
 							}catch(Exception e) {
 								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 							}

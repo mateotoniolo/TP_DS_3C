@@ -141,7 +141,7 @@ public class GestorCompetencia {
 			}
 	}
 
-	public static void getCompetenciasByDTO(CompetenciaDTO competenciaDTO) {
+	public static List<CompetenciaDTO> getCompetenciasByDTO(CompetenciaDTO competenciaDTO) {
 		String query = "SELECT c FROM Competencia c WHERE id_usuario = '"+competenciaDTO.getId_usuario()+"'"; 
 		
 		if(!competenciaDTO.getNombre().equals("")) {
@@ -150,7 +150,7 @@ public class GestorCompetencia {
 		}
 		if(!(competenciaDTO.getModalidad() == null)) {
 			
-				query = query+" AND modalidad = '"+competenciaDTO.getModalidad().ordinal()+"'";
+				query = query+" AND modalidad = '"+competenciaDTO.getModalidad().toString()+"'";
 			
 		}
 		if(!(competenciaDTO.getId_deporte() == null)) {
@@ -163,12 +163,35 @@ public class GestorCompetencia {
 				query = query+" AND estado = '"+competenciaDTO.getEstado().toString()+"'";
 			
 		}
-		CompetenciaDAO.getCompetenciasByDTO(query);
+		return convertiraDTO(CompetenciaDAO.getCompetenciasByDTO(query));
+	}
+
+	private static List<CompetenciaDTO> convertiraDTO(List<Competencia> competenciasByDTO) {
+		List<CompetenciaDTO> competenciasDTO = new ArrayList<>();
+		for(Competencia comp : competenciasByDTO) {
+			CompetenciaDTO c = new CompetenciaDTO();
+			c.setNombre(comp.getNombre());
+			c.setId_competencia(comp.getId_competencia());
+			c.setModalidad(Modalidad.valueOf(comp.getModalidad()));
+			c.setId_deporte(comp.getDeporte().getIdDeporte());
+			c.setEstado(comp.getEstado());
+			for(Participante p: comp.getParticipantes()) {
+				c.addParticipante(new ParticipanteDTO(p.getNombre(),p.getEmail()));
+			}
+			c.setId_fixture(comp.getFixtureID());
+			competenciasDTO.add(c);
+		}
+		return competenciasDTO;
 	}
 
 	public CompetenciaPartidosDTO mostrarCompetencia(CompetenciaDTO compDTO) {
 		CompetenciaPartidosDTO compPartDTO = new CompetenciaPartidosDTO(compDTO, null);
 		return compPartDTO;
+	}
+
+	public static Deporte getDeporteByID(Integer id_deporte) {
+		return CompetenciaDAO.getDeporteByID(id_deporte);
+		
 	}
 	
 	

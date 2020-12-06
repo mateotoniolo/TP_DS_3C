@@ -1,7 +1,10 @@
 package tp.DTOs;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import tp.Gestores.GestorCompetencia;
+import tp.clases.Deporte;
 import tp.clases.ItemLugar;
 import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
@@ -24,6 +27,8 @@ public class CompetenciaDTO {
 	List<ItemLugarDTO> Lugares;
 	Integer id_usuario;
 	EstadoCompetencia estado;
+	Integer id_fixture;
+	List<ParticipanteDTO> participantes = new ArrayList<>();
 	
 	public CompetenciaDTO( String name, Modalidad modalidad, String reglamento, Integer cantSets, ModalidadDePuntuacion Puntuacion
 			,Double tantosXAusencia,Boolean empate,Double puntosXPresentarse, Double puntosXEmpate, Double puntosXGanado,
@@ -166,6 +171,30 @@ public class CompetenciaDTO {
 
 	public void setEstado(EstadoCompetencia estado) {
 		this.estado = estado;
+	}
+
+	public Deporte getDeporte() {
+		
+		return GestorCompetencia.getDeporteByID(this.id_deporte);
+	}
+
+	public List<ParticipanteDTO> getParticipantes() {
+		return participantes;
+	}
+
+	public void setParticipantes(List<ParticipanteDTO> participantes) {
+		this.participantes = participantes;
+	}
+	public void addParticipante(ParticipanteDTO dto) {
+		this.participantes.add(dto);
+	}
+
+	public Integer getId_fixture() {
+		return id_fixture;
+	}
+
+	public void setId_fixture(Integer id_fixture) {
+		this.id_fixture = id_fixture;
 	}
 	
 }

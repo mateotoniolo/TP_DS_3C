@@ -163,4 +163,8 @@ public class CompetenciaDAO {
 		List<Competencia> competencias = (List<Competencia>)query.getResultList();
 		return competencias;
 	}
+	public static Deporte getDeporteByID(Integer id_deporte) {
+		Deporte deporte = App.entity.find(Deporte.class, id_deporte);
+		return deporte;
+	}
 }
