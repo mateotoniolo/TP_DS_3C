@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Vector;
 
 import tp.enums.ModalidadDePuntuacion;
+import javax.swing.ImageIcon;
 
 public class PanelListarCompetenciasDeportivas extends JPanel {
 
@@ -52,10 +53,10 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 	private Integer id_usuario = 6;
 
 	public PanelListarCompetenciasDeportivas(MainApplication m, PanelHome panelHome) {
-		initialize(m);
+		initialize(m, panelHome);
 	}
 
-	private void initialize(MainApplication m) {
+	private void initialize(MainApplication m, PanelHome panelHome) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -75,27 +76,53 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		
 		
 		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(10, 230));
+		panel.setPreferredSize(new Dimension(10, 285));
 		panel.setBackground(new Color(102, 102, 102));
 		add(panel, BorderLayout.NORTH);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(new Color(153, 204, 255));
+		
+		JPanel panelCompetencias = new JPanel();
+		panelCompetencias.setBackground(new Color(153, 204, 255));
+		
+		JPanel panelNegro = new JPanel();
+		panelNegro.setBackground(new Color(0, 0, 0));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 1268, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
+						.addComponent(panelNegro, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
+						.addComponent(panelCompetencias, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(7, Short.MAX_VALUE))
+					.addGap(10)
+					.addComponent(panelCompetencias, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelNegro, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 168, Short.MAX_VALUE)
+					.addGap(10))
 		);
+		panelCompetencias.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblCompetencias = new JLabel("COMPETENCIAS");
+		lblCompetencias.setFont(new Font("Tahoma", Font.BOLD, 25));
+		panelCompetencias.add(lblCompetencias, BorderLayout.WEST);
+		
+		JButton btnHome = new JButton("");
+		btnHome.setIcon(new ImageIcon(PanelListarCompetenciasDeportivas.class.getResource("/img/home.png")));
+		panelCompetencias.add(btnHome, BorderLayout.EAST);
+		
+		btnHome.addActionListener( a -> {
+			m.cambiarPanel(panelHome);
+		});
 		
 		textField = new JTextField();
 		textField.setPreferredSize(new Dimension(13, 30));
@@ -158,15 +185,6 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		JLabel lblModalidad = new JLabel("Modalidad");
 		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		JSplitPane paneBuscarSalir = new JSplitPane();
-		paneBuscarSalir.setDividerSize(0);
-		
-		JButton btnBuscar = new JButton("Buscar");
-		paneBuscarSalir.setLeftComponent(btnBuscar);
-		
-		JButton btnSalir = new JButton("Salir");
-		paneBuscarSalir.setRightComponent(btnSalir);
-		
 		JComboBox boxEstado = new JComboBox();
 		boxEstado.addItem("----Seleccionar----");
 		boxEstado.addItem(EstadoCompetencia.CREADA.toString());
@@ -175,32 +193,58 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		boxEstado.addItem(EstadoCompetencia.PLANIFICADA.toString());
 		boxEstado.setPreferredSize(new Dimension(33, 30));
 		boxEstado.setFont(UIManager.getFont("CheckBox.font"));
+		
+		JButton btnBuscar = new JButton("Buscar");
+		
+		
+		btnBuscar.addActionListener(a -> {
+			CompetenciaDTO competenciaDTO = new CompetenciaDTO();
+			competenciaDTO.setNombre(this.textField.getText().toString());
+			if(((Item)boxDeporte.getSelectedItem()).getId() != -1) {
+				competenciaDTO.setId_deporte(((Item)boxDeporte.getSelectedItem()).getId());
+			}
+			if(!boxModalidad.getSelectedItem().toString().equals("----Seleccionar----")) {
+				competenciaDTO.setModalidad(Modalidad.valueOf(boxModalidad.getSelectedItem().toString()));
+			}
+			if(!boxEstado.getSelectedItem().toString().equals("----Seleccionar----")) {
+				competenciaDTO.setEstado(EstadoCompetencia.valueOf(boxEstado.getSelectedItem().toString()));
+			}
+			competenciaDTO.setId_usuario(id_usuario);
+			try {
+			this.tableModel.vaciarTabla();
+			for(CompetenciaDTO c : GestorCompetencia.getCompetenciasByDTO(competenciaDTO)) {
+				this.tableModel.addItemTM(c);
+			}
+			this.tablaCompetencias.updateUI();
+			} catch(Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+			}
+		});
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
 			gl_panel_4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_4.createSequentialGroup()
 					.addGap(198)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(lblModalidad, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 458, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(boxModalidad, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addComponent(lblDeporte, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-							.addGap(411)
-							.addComponent(lblEstado, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addComponent(boxDeporte, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(boxEstado, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addGap(739)
-							.addComponent(paneBuscarSalir)))
-					.addContainerGap(201, Short.MAX_VALUE))
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnBuscar)
+						.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_panel_4.createSequentialGroup()
+								.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(lblModalidad, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGroup(gl_panel_4.createSequentialGroup()
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 458, GroupLayout.PREFERRED_SIZE)
+								.addGap(12)
+								.addComponent(boxModalidad, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panel_4.createSequentialGroup()
+								.addGroup(gl_panel_4.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(lblDeporte, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(boxDeporte, 0, 467, Short.MAX_VALUE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_panel_4.createParallelGroup(Alignment.TRAILING)
+									.addComponent(boxEstado, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblEstado, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)))))
+					.addContainerGap(277, Short.MAX_VALUE))
 		);
 		gl_panel_4.setVerticalGroup(
 			gl_panel_4.createParallelGroup(Alignment.TRAILING)
@@ -209,7 +253,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblModalidad, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
-					.addGap(6)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(boxModalidad, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
@@ -217,12 +261,12 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblDeporte, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEstado, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
-					.addGap(6)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
 						.addComponent(boxDeporte, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(boxEstado, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(paneBuscarSalir, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(8)
+					.addComponent(btnBuscar)
 					.addContainerGap())
 		);
 		panel_4.setLayout(gl_panel_4);
@@ -273,32 +317,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		paneDetallesNuevaCompetencia.setRightComponent(btnNuevaCompetencia);
 		
 		btnNuevaCompetencia.addActionListener( a -> {
-			m.cambiarPanel(new PanelAltaCompetencia(m));
-		});
-		
-		
-		btnBuscar.addActionListener(a -> {
-			CompetenciaDTO competenciaDTO = new CompetenciaDTO();
-			competenciaDTO.setNombre(this.textField.getText().toString());
-			if(((Item)boxDeporte.getSelectedItem()).getId() != -1) {
-				competenciaDTO.setId_deporte(((Item)boxDeporte.getSelectedItem()).getId());
-			}
-			if(!boxModalidad.getSelectedItem().toString().equals("----Seleccionar----")) {
-				competenciaDTO.setModalidad(Modalidad.valueOf(boxModalidad.getSelectedItem().toString()));
-			}
-			if(!boxEstado.getSelectedItem().toString().equals("----Seleccionar----")) {
-				competenciaDTO.setEstado(EstadoCompetencia.valueOf(boxEstado.getSelectedItem().toString()));
-			}
-			competenciaDTO.setId_usuario(id_usuario);
-			try {
-			this.tableModel.vaciarTabla();
-			for(CompetenciaDTO c : GestorCompetencia.getCompetenciasByDTO(competenciaDTO)) {
-				this.tableModel.addItemTM(c);
-			}
-			this.tablaCompetencias.updateUI();
-			} catch(Exception e) {
-				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-			}
+			m.cambiarPanel(new PanelAltaCompetencia(m, this));
 		});
 		
 

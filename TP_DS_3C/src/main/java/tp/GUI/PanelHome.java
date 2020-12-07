@@ -14,6 +14,9 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class PanelHome extends JPanel {
 
@@ -51,36 +54,34 @@ public class PanelHome extends JPanel {
 		lblNewLabel_1.setIcon(new ImageIcon(MainApplication.class.getResource("/img/cup.png")));
 		panel.add(lblNewLabel_1, BorderLayout.EAST);
 		
-		
-		JTextPane txtDescripcion = new JTextPane();
-		txtDescripcion.setEditable(false);
-		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtDescripcion.setPreferredSize(new Dimension(7, 50));
-		this.add(txtDescripcion, BorderLayout.SOUTH);
-		
 		JPanel panelUser = new JPanel();
-		panelUser.setPreferredSize(new Dimension(200, 10));
+		panelUser.setBackground(new Color(102, 102, 102));
+		panelUser.setPreferredSize(new Dimension(200, 500));
 		this.add(panelUser, BorderLayout.EAST);
 		
-		JTextPane txtpnUsuario = new JTextPane();
-		txtpnUsuario.setEditable(false);
-		txtpnUsuario.setFont(new Font("Dialog", Font.ITALIC, 16));
-		txtpnUsuario.setText("Usuario: ...\r\nCorreoElectronico: ...\r\n");
-		panelUser.setLayout(new BorderLayout(0, 0));
-		panelUser.add(txtpnUsuario, BorderLayout.CENTER);
-		
-		JButton btnModificarParticipante = new JButton("Modificar");
-		btnModificarParticipante.setBackground(new Color(102, 102, 255));
-		btnModificarParticipante.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		panelUser.add(btnModificarParticipante, BorderLayout.SOUTH);
-		
-		JButton btnCerrarSesion = new JButton("Cerrar Sesi\u00F3n");
-		btnCerrarSesion.setForeground(new Color(0, 0, 0));
-		btnCerrarSesion.setBackground(new Color(255, 102, 102));
-		btnCerrarSesion.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		panelUser.add(btnCerrarSesion, BorderLayout.NORTH);
+		JButton btnIniciarSesion = new JButton("Iniciar Sesión");
+		btnIniciarSesion.setForeground(new Color(0, 0, 0));
+		btnIniciarSesion.setBackground(new Color(255, 102, 102));
+		btnIniciarSesion.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		GroupLayout gl_panelUser = new GroupLayout(panelUser);
+		gl_panelUser.setHorizontalGroup(
+			gl_panelUser.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelUser.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnIniciarSesion, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(117, Short.MAX_VALUE))
+		);
+		gl_panelUser.setVerticalGroup(
+			gl_panelUser.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panelUser.createSequentialGroup()
+					.addContainerGap(442, Short.MAX_VALUE)
+					.addComponent(btnIniciarSesion)
+					.addContainerGap())
+		);
+		panelUser.setLayout(gl_panelUser);
 		
 		JPanel panelLugaresCompetenciasImagen = new JPanel();
+		panelLugaresCompetenciasImagen.setBackground(Color.WHITE);
 		this.add(panelLugaresCompetenciasImagen, BorderLayout.CENTER);
 		panelLugaresCompetenciasImagen.setLayout(new BorderLayout(0, 0));
 		
@@ -106,17 +107,64 @@ public class PanelHome extends JPanel {
 		splitPane.setLeftComponent(btnCompetencias);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(204, 204, 204));
+		panel_1.setBackground(Color.WHITE);
 		panelLugaresCompetenciasImagen.add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(null);
+		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBackground(Color.WHITE);
 		lblNewLabel.setIcon(new ImageIcon(MainApplication.class.getResource("/img/sports.png")));
-		lblNewLabel.setBounds(32, 6, 1026, 361);
 		panel_1.add(lblNewLabel);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		panel_1.add(panel_2, BorderLayout.WEST);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
+		panel_1.add(panel_3, BorderLayout.EAST);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setPreferredSize(new Dimension(100, 80));
+		panel_4.setBackground(Color.BLACK);
+		add(panel_4, BorderLayout.SOUTH);
+		
+		JLabel lblGrupo = new JLabel("Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C");
+		lblGrupo.setFont(new Font("SansSerif", Font.ITALIC, 16));
+		lblGrupo.setForeground(Color.WHITE);
+		lblGrupo.setBackground(Color.WHITE);
+		
+		JLabel lblGrupo_1 = new JLabel("Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C");
+		lblGrupo_1.setForeground(new Color(153, 204, 255));
+		lblGrupo_1.setFont(new Font("SansSerif", Font.ITALIC, 16));
+		lblGrupo_1.setBackground(Color.WHITE);
+		
+		JLabel lblGrupo_1_1 = new JLabel("Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C - Grupo 3C");
+		lblGrupo_1_1.setForeground(Color.WHITE);
+		lblGrupo_1_1.setFont(new Font("SansSerif", Font.ITALIC, 16));
+		lblGrupo_1_1.setBackground(Color.WHITE);
+		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
+		gl_panel_4.setHorizontalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addGap(25)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblGrupo, GroupLayout.DEFAULT_SIZE, 1364, Short.MAX_VALUE)
+						.addComponent(lblGrupo_1_1, GroupLayout.PREFERRED_SIZE, 1364, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblGrupo_1, GroupLayout.PREFERRED_SIZE, 1364, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		gl_panel_4.setVerticalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addGap(1)
+					.addComponent(lblGrupo_1_1)
+					.addGap(1)
+					.addComponent(lblGrupo_1, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+					.addGap(1)
+					.addComponent(lblGrupo, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		panel_4.setLayout(gl_panel_4);
 	}
-	
-	
-	
-
 }
