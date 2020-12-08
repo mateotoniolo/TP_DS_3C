@@ -37,6 +37,7 @@ import tp.clases.Participante;
 import javax.swing.JToggleButton;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.ImageIcon;
 
 public class PanelListarParticipantes extends JPanel {
 	private JTable tablaParticipantes;
@@ -47,7 +48,7 @@ public class PanelListarParticipantes extends JPanel {
 	 * Create the panel.
 	 */
 
-	public PanelListarParticipantes(MainApplication m,PanelListarCompetenciasDeportivas llamante,Integer id_competencia) {
+	public PanelListarParticipantes(MainApplication m, JPanel llamante, Integer id_competencia) {
 		this.id_competencia = id_competencia;
 		this.llamante = llamante;
 		initialize(m,id_competencia);
@@ -105,9 +106,9 @@ public class PanelListarParticipantes extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panelNombreEncuentro, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
-						.addComponent(panelNombreCompetencia, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
-						.addComponent(scrollPaneTabla, GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
+						.addComponent(panelNombreEncuentro, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
+						.addComponent(panelNombreCompetencia, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
+						.addComponent(scrollPaneTabla, GroupLayout.DEFAULT_SIZE, 1352, Short.MAX_VALUE)
 						.addComponent(splitPane, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
@@ -115,14 +116,14 @@ public class PanelListarParticipantes extends JPanel {
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panelNombreCompetencia, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panelNombreCompetencia, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panelNombreEncuentro, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panelNombreEncuentro, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPaneTabla, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
-					.addGap(18)
+					.addComponent(scrollPaneTabla, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addGap(18))
 		);
 		
 		JButton btnNuevoParticipante = new JButton("Agregar");
@@ -166,9 +167,17 @@ public class PanelListarParticipantes extends JPanel {
 		
 		JLabel lblNombreCompetencia = new JLabel("Competencia");
 		lblNombreCompetencia.setText(competencia.getNombre()); 
-		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 60));
+		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panelNombreCompetencia.add(lblNombreCompetencia, BorderLayout.WEST);
+		
+		JButton btnHome = new JButton("");
+		btnHome.setIcon(new ImageIcon(PanelListarParticipantes.class.getResource("/img/home.png")));
+		panelNombreCompetencia.add(btnHome, BorderLayout.EAST);
 		setLayout(groupLayout);
+		
+		btnHome.addActionListener( a -> {
+			m.cambiarPanel(llamante);
+		});
 		
 		
 	}

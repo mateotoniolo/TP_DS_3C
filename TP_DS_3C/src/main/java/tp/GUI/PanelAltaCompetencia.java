@@ -79,11 +79,11 @@ public class PanelAltaCompetencia extends JPanel {
 	//Define el Table model
 	AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
 
-	public PanelAltaCompetencia(MainApplication m) {
-		initialize(m);
+	public PanelAltaCompetencia(MainApplication m, JPanel llamante) {
+		initialize(m, llamante);
 	}
 
-	private void initialize(MainApplication m) {
+	private void initialize(MainApplication m, JPanel llamante) {
 		frame = m;
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -152,20 +152,6 @@ public class PanelAltaCompetencia extends JPanel {
 		tableLugares.getColumnModel().getColumn(1).setResizable(false);
 		tableLugares.getColumnModel().getColumn(1).setPreferredWidth(150);
 		scrollPane.setViewportView(tableLugares);
-		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setDividerSize(0);
-		
-		btnModificarLugar = new JButton("Modificar Lugar");
-		btnModificarLugar.setEnabled(false);
-		splitPane.setLeftComponent(btnModificarLugar);
-		
-		JButton btnAgregarLugar = new JButton("Agregar Lugar");
-		splitPane.setRightComponent(btnAgregarLugar);
-		
-		btnAgregarLugar.addActionListener( a -> {
-			DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
-		});
 		
 		JLabel lblNombre = new JLabel("Nombre *");
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -438,6 +424,20 @@ public class PanelAltaCompetencia extends JPanel {
 		JTextArea txtReglamento = new JTextArea();
 		txtReglamento.setMaximumSize(new Dimension(100, 100));
 		scrollPane_1.setViewportView(txtReglamento);
+		
+		JButton btnEliminarLugar = new JButton("Eliminar Lugar");
+		btnEliminarLugar.setPreferredSize(new Dimension(100, 28));
+		
+		JButton btnAgregarLugar = new JButton("Agregar Lugar");
+		btnAgregarLugar.setPreferredSize(new Dimension(100, 28));
+		
+		btnAgregarLugar.addActionListener( a -> {
+			DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
+		});
+		
+		btnModificarLugar = new JButton("Modificar Lugar");
+		btnModificarLugar.setPreferredSize(new Dimension(100, 28));
+		btnModificarLugar.setEnabled(false);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -457,13 +457,13 @@ public class PanelAltaCompetencia extends JPanel {
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(lblPuntosPresentarse, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(lblDeporte, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+											.addComponent(lblDeporte, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(lblModalidad, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+											.addComponent(lblModalidad, GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
 											.addGap(36))
-										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(txtNombre, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+											.addComponent(txtNombre, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addGroup(gl_panel.createSequentialGroup()
 												.addComponent(boxDeporte_1, GroupLayout.PREFERRED_SIZE, 244, GroupLayout.PREFERRED_SIZE)
 												.addPreferredGap(ComponentPlacement.RELATED)
 												.addComponent(boxModalidad, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE))))
@@ -502,8 +502,13 @@ public class PanelAltaCompetencia extends JPanel {
 							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 757, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, 232, GroupLayout.PREFERRED_SIZE)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 456, GroupLayout.PREFERRED_SIZE))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 456, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(btnAgregarLugar, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+							.addGap(3)
+							.addComponent(btnModificarLugar, GroupLayout.PREFERRED_SIZE, 100, Short.MAX_VALUE)
+							.addGap(3)
+							.addComponent(btnEliminarLugar, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
@@ -555,8 +560,11 @@ public class PanelAltaCompetencia extends JPanel {
 									.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 									.addGap(12)
 									.addComponent(lblReglamento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
+							.addGap(1)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnAgregarLugar, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnModificarLugar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnEliminarLugar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addGap(54))
 		);
 		panel.setLayout(gl_panel);
@@ -595,7 +603,15 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblNuevaCompetencia = new JLabel("Nueva Competencia");
 		lblNuevaCompetencia.setFont(new Font("Tahoma", Font.BOLD, 35));
 		panel_1.add(lblNuevaCompetencia, BorderLayout.WEST);
+		
+		JButton btnHome = new JButton("");
+		btnHome.setIcon(new ImageIcon(PanelAltaCompetencia.class.getResource("/img/home.png")));
+		panel_1.add(btnHome, BorderLayout.EAST);
 		panelUp.setLayout(gl_panelUp);
+		
+		btnHome.addActionListener( a -> {
+			m.cambiarPanel(new PanelHome(m));
+		});
 		
 		JPanel panelDown = new JPanel();
 		panelDown.setPreferredSize(new Dimension(10, 50));
@@ -614,12 +630,12 @@ public class PanelAltaCompetencia extends JPanel {
 						JSplitPane splitCancelarConfirmar = new JSplitPane();
 						splitCancelarConfirmar.setDividerSize(0);
 						
-						JButton btnCancelar = new JButton("Cancelar");
-						btnCancelar.addActionListener( a -> {
-							m.cambiarPanel(new PanelHome(m));
+						JButton btnAtras = new JButton("Atras");
+						btnAtras.addActionListener( a -> {
+							m.cambiarPanel(llamante);
 						});
 						splitCancelarConfirmar.setRightComponent(btnConfirmar);
-						splitCancelarConfirmar.setLeftComponent(btnCancelar);
+						splitCancelarConfirmar.setLeftComponent(btnAtras);
 						GroupLayout gl_panelDown = new GroupLayout(panelDown);
 						gl_panelDown.setHorizontalGroup(
 							gl_panelDown.createParallelGroup(Alignment.LEADING)
@@ -760,7 +776,7 @@ public class PanelAltaCompetencia extends JPanel {
 								gestorCompetencia.crearCompetencia(compDTO);
 
 								JOptionPane.showMessageDialog(null, "La Competencia se guardo con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
-								m.cambiarPanel(new PanelListarParticipantes(m,this,GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
+								m.cambiarPanel(new PanelListarParticipantes(m, this, GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
 							}catch(Exception e) {
 								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 							}
@@ -819,6 +835,5 @@ public class PanelAltaCompetencia extends JPanel {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
-	
 }
 
