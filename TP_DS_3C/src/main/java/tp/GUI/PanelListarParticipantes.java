@@ -57,6 +57,17 @@ public class PanelListarParticipantes extends JPanel {
 
 
 
+	public PanelListarParticipantes(MainApplication m, PanelAltaCompetencia llamante,
+			Integer id_competencia) {
+		this.id_competencia = id_competencia;
+		this.llamante = llamante;
+		initialize(m,id_competencia);
+	}
+
+
+
+
+
 	private void initialize(MainApplication m,Integer id_competencia ) {
 		
 		try {
