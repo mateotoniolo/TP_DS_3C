@@ -84,7 +84,7 @@ public class PanelListarParticipantes extends JPanel {
 		Competencia competencia = GestorCompetencia.getCompetenciaByID(id_competencia);
 		
 		setBackground(new Color(102, 102, 102));
-		m.setTitle("PARTICIPANTES");
+//		m.setTitle("PARTICIPANTES");
 		setBounds(100, 50, 1366, 740);
 		
 		JPanel panelNombreCompetencia = new JPanel();

@@ -70,7 +70,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		}
 		
 		setBackground(new Color(102, 102, 102));
-		m.setTitle("BUSCAR COMPETENCIA");
+//		m.setTitle("BUSCAR COMPETENCIA");
 		setBounds(100, 50, 1366, 740);
 		setLayout(new BorderLayout(0, 0));
 		
@@ -307,9 +307,13 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		paneDetallesNuevaCompetencia.setLeftComponent(btnDetalles);
 		
 		btnDetalles.addActionListener( a -> {
+			try {
 			String nombre = (String)this.tableModel.getValueAt(this.tablaCompetencias.getSelectedRow(), 0);
 			DialogVerCompetencia comp = new DialogVerCompetencia(m, GestorCompetencia.getCompetenciaByName(nombre).getId_competencia());
 			comp.setVisible(true);
+			} catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Debe seleccionar una competencia.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+			}
 		});
 		
 		JButton btnNuevaCompetencia = new JButton("Nueva Competencia");

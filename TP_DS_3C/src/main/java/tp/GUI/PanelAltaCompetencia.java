@@ -97,7 +97,7 @@ public class PanelAltaCompetencia extends JPanel {
 		}
 		
 		setBackground(new Color(102, 102, 102));
-		m.setTitle("ALTA COMPETENCIA");
+//		m.setTitle("ALTA COMPETENCIA");
 		setBounds(100, 50, 1366, 740);
 		
 		//JBox de deporte
@@ -184,7 +184,7 @@ public class PanelAltaCompetencia extends JPanel {
 		       boxDeporte_1.addActionListener( a -> {
 		       	this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vac�a la tabla
 		       	this.tableLugares.updateUI();
-		       	btnModificarLugar.setEnabled(false);
+		       	
 		       	id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
 
 		       });
@@ -426,7 +426,20 @@ public class PanelAltaCompetencia extends JPanel {
 		scrollPane_1.setViewportView(txtReglamento);
 		
 		JButton btnEliminarLugar = new JButton("Eliminar Lugar");
-		btnEliminarLugar.setPreferredSize(new Dimension(100, 28));
+		btnEliminarLugar.setPreferredSize(new Dimension(80, 28));
+		btnEliminarLugar.addActionListener(a -> {
+			try {
+			ItemLugarDTO p = this.tableModel.getData()
+	                .stream()
+	                .filter(item -> item.getCodigo() == this.tableModel.getValueAt(this.tableLugares.getSelectedRow(), 0))
+	                .findFirst()
+	                .get();
+			this.tableModel.remove(p);
+			this.tableLugares.updateUI();
+			} catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Debe seleccionar un lugar a eliminar.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+			}
+		});
 		
 		JButton btnAgregarLugar = new JButton("Agregar Lugar");
 		btnAgregarLugar.setPreferredSize(new Dimension(100, 28));
@@ -437,7 +450,6 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		btnModificarLugar = new JButton("Modificar Lugar");
 		btnModificarLugar.setPreferredSize(new Dimension(100, 28));
-		btnModificarLugar.setEnabled(false);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)

@@ -64,11 +64,11 @@ public class DialogVerCompetencia extends JDialog {
 			e.printStackTrace();
 		}
 		
-		compDTO = new CompetenciaDTO(id_competencia);
+		compDTO = GestorCompetencia.getCompetenciaDTObyID(id_competencia);
 		compPartDTO = gestorCompetencia.mostrarCompetencia(compDTO);
 		
 		setBackground(new Color(102, 102, 102));
-		m.setTitle("");
+//		m.setTitle("Ver Detalles Competencia");
 		setBounds(100, 50, 1000, 657);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -190,7 +190,7 @@ public class DialogVerCompetencia extends JDialog {
 		JLabel lblDeporte = new JLabel("Deporte: ...");
 		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		if(compPartDTO.getDeporte() != null) {
-			lblDeporte.setText("Deporte: " + compPartDTO.getDeporte());
+			lblDeporte.setText("Deporte: " + compPartDTO.getDeporte().getNombre());
 		}
 		
 		JLabel lblPunto2 = new JLabel("");
@@ -252,7 +252,7 @@ public class DialogVerCompetencia extends JDialog {
 					.addGap(56))
 		);
 		panelL.setLayout(gl_panelL);
-		if(compPartDTO.getNombre()!=null) lblNombreCompetencia.setText(compPartDTO.getNombre());
+		
 		
 		JPanel panelR = new JPanel();
 		panelR.setBackground(Color.WHITE);
@@ -292,6 +292,7 @@ public class DialogVerCompetencia extends JDialog {
 		panelNombreCompetencia.setLayout(new BorderLayout(0, 0));
 		
 		lblNombreCompetencia = new JLabel("COMPETENCIA");
+		if(compPartDTO.getNombre()!=null) lblNombreCompetencia.setText(compPartDTO.getNombre());
 		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panelNombreCompetencia.add(lblNombreCompetencia, BorderLayout.WEST);
 		

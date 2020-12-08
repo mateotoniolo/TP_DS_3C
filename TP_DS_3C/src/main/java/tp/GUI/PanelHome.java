@@ -32,6 +32,7 @@ public class PanelHome extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		m.setTitle("TORNEOS Y COMPETENCIAS");
 		
 		this.setLayout(new BorderLayout(0, 0));
 		this.setLayout(new BorderLayout(0, 0));

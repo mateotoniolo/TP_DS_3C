@@ -186,15 +186,38 @@ public class GestorCompetencia {
 		}
 		return competenciasDTO;
 	}
+	
+	private static CompetenciaDTO convertiraDTO(Competencia comp) {
+		
+		
+			CompetenciaDTO c = new CompetenciaDTO();
+			c.setNombre(comp.getNombre());
+			c.setId_competencia(comp.getId_competencia());
+			c.setModalidad(Modalidad.valueOf(comp.getModalidad()));
+			c.setId_deporte(comp.getDeporte().getIdDeporte());
+			c.setEstado(comp.getEstado());
+			for(Participante p: comp.getParticipantes()) {
+				c.addParticipante(new ParticipanteDTO(p.getNombre(),p.getEmail()));
+			}
+			c.setId_fixture(comp.getFixtureID());
+			
+		
+		return c;
+	}
 
 	public CompetenciaPartidosDTO mostrarCompetencia(CompetenciaDTO compDTO) {
 		CompetenciaPartidosDTO compPartDTO = new CompetenciaPartidosDTO(compDTO, null);
 		return compPartDTO;
 	}
 
+	public static CompetenciaDTO getCompetenciaDTObyID(Integer id_competencia) {
+		Competencia comp = CompetenciaDAO.getCompetenciaByID(id_competencia);
+		return convertiraDTO(comp);
+	}
+
 	public static Deporte getDeporteByID(Integer id_deporte) {
-		return CompetenciaDAO.getDeporteByID(id_deporte);
 		
+		return CompetenciaDAO.getDeporteByID(id_deporte);
 	}
 	
 	

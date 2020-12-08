@@ -2,6 +2,7 @@ package tp.DTOs;
 
 import java.util.List;
 
+import tp.Gestores.GestorCompetencia;
 import tp.clases.Deporte;
 import tp.clases.Fecha;
 import tp.enums.EstadoCompetencia;
@@ -31,8 +32,8 @@ public class CompetenciaPartidosDTO {
 		return competencia.getModalidad();
 	}
 	
-	public Integer getDeporte() {
-		return competencia.getId_deporte();
+	public Deporte getDeporte() {
+		return GestorCompetencia.getDeporteByID(competencia.getId_deporte());
 	}
 	
 	public EstadoCompetencia getEstado() {

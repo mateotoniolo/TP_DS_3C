@@ -80,4 +80,9 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 	public void setData(List<ItemLugarDTO> data) {
 		this.data = data;
 	}
+
+	public void remove(ItemLugarDTO p) {
+		this.data.remove(p);
+		
+	}
 }
