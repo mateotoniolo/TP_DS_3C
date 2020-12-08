@@ -1,4 +1,3 @@
-
 package tp.GUI;
 
 import javax.swing.*;
@@ -6,6 +5,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
 import java.util.*;
 
@@ -98,7 +98,8 @@ public class PanelAltaCompetencia extends JPanel {
 		}
 		
 		setBackground(new Color(102, 102, 102));
-//		m.setTitle("ALTA COMPETENCIA");
+		m.setTitle("ALTA COMPETENCIA");
+		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		setBounds(100, 50, 1366, 740);
 		
 		//JBox de deporte
@@ -833,6 +834,54 @@ public class PanelAltaCompetencia extends JPanel {
 		panelR.setBackground(new Color(102, 102, 102));
 		panelR.setPreferredSize(new Dimension(6, 10));
 		add(panelR, BorderLayout.EAST);
+		
+		
+		
+		//TAB ORDEN
+		ArrayList<Component> order = new ArrayList<Component>();
+		
+		setFocusCycleRoot(true);
+		txtNombre.setFocusCycleRoot(true);
+		boxDeporte_1.setFocusCycleRoot(true);
+		boxModalidad.setFocusCycleRoot(true);
+		txtPuntosPartidoGanado.setFocusCycleRoot(true);
+		txtPuntosPresentarse.setFocusCycleRoot(true);
+		rdbtnEmpate.setFocusCycleRoot(true);
+		txtPuntosEmpate.setFocusCycleRoot(true);
+		rdbtnSets.setFocusCycleRoot(true);
+		rdbtnPuntuacion.setFocusCycleRoot(true);
+		rdbtnPuntuacionFinal.setFocusCycleRoot(true);
+		txtCantidadSets.setFocusCycleRoot(true);
+		txtTantosAusencia.setFocusCycleRoot(true);
+		btnAgregarLugar.setFocusCycleRoot(true);
+		btnModificarLugar.setFocusCycleRoot(true);
+		btnEliminarLugar.setFocusCycleRoot(true);
+		btnAtras.setFocusCycleRoot(true);
+		btnConfirmar.setFocusCycleRoot(true);
+		btnHome.setFocusCycleRoot(true);
+		
+		
+		order.add(txtNombre);
+		order.add(boxDeporte_1);
+		order.add(boxModalidad);
+		order.add(txtPuntosPartidoGanado);
+		order.add(txtPuntosPresentarse);
+		order.add(rdbtnEmpate);
+		order.add(txtPuntosEmpate);
+		order.add(rdbtnSets);
+		order.add(rdbtnPuntuacion);
+		order.add(rdbtnPuntuacionFinal);
+		order.add(txtCantidadSets);
+		order.add(txtTantosAusencia);
+		order.add(btnAgregarLugar);
+		order.add(btnModificarLugar);
+		order.add(btnEliminarLugar);
+		order.add(btnAtras);
+		order.add(btnConfirmar);
+		order.add(btnHome);
+		
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, txtNombre));
+		
 		
 	}
 	

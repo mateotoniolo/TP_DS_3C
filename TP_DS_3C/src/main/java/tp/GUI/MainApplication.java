@@ -38,6 +38,7 @@ public class MainApplication extends JFrame {
 		this.revalidate();
 		this.repaint();
 		this.setSize(d);
+		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 	}
 
 	private void initialize() {

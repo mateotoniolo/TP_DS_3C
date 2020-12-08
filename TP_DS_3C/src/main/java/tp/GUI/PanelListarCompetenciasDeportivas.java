@@ -16,6 +16,7 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -38,6 +39,8 @@ import tp.enums.Modalidad;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
+import java.awt.Frame;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -48,15 +51,15 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 
 	private Component btnConfirmar;
 	private JTable tablaCompetencias;
-	private JTextField textField;
+	private JTextField txtNombre;
 	private ListarCompetenciasTM tableModel;
 	private Integer id_usuario = 6;
 
-	public PanelListarCompetenciasDeportivas(MainApplication m, PanelHome panelHome) {
-		initialize(m, panelHome);
+	public PanelListarCompetenciasDeportivas(MainApplication m, JPanel panelHome, JPanel llamante) {
+		initialize(m, panelHome, llamante);
 	}
 
-	private void initialize(MainApplication m, PanelHome panelHome) {
+	private void initialize(MainApplication m, JPanel panelHome, JPanel llamante) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -70,7 +73,8 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		}
 		
 		setBackground(new Color(102, 102, 102));
-//		m.setTitle("BUSCAR COMPETENCIA");
+		m.setTitle("BUSCAR COMPETENCIA");
+		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		setBounds(100, 50, 1366, 740);
 		setLayout(new BorderLayout(0, 0));
 		
@@ -124,10 +128,10 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 			m.cambiarPanel(panelHome);
 		});
 		
-		textField = new JTextField();
-		textField.setPreferredSize(new Dimension(13, 30));
-		textField.setFont(UIManager.getFont("TextArea.font"));
-		textField.setColumns(10);
+		txtNombre = new JTextField();
+		txtNombre.setPreferredSize(new Dimension(13, 30));
+		txtNombre.setFont(UIManager.getFont("TextArea.font"));
+		txtNombre.setColumns(10);
 		
 		JComboBox boxModalidad = new JComboBox();
 		boxModalidad.addItem("----Seleccionar----");
@@ -199,7 +203,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		
 		btnBuscar.addActionListener(a -> {
 			CompetenciaDTO competenciaDTO = new CompetenciaDTO();
-			competenciaDTO.setNombre(this.textField.getText().toString());
+			competenciaDTO.setNombre(this.txtNombre.getText().toString());
 			if(((Item)boxDeporte.getSelectedItem()).getId() != -1) {
 				competenciaDTO.setId_deporte(((Item)boxDeporte.getSelectedItem()).getId());
 			}
@@ -233,7 +237,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(lblModalidad, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addGroup(gl_panel_4.createSequentialGroup()
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 458, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 458, GroupLayout.PREFERRED_SIZE)
 								.addGap(12)
 								.addComponent(boxModalidad, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
 							.addGroup(gl_panel_4.createSequentialGroup()
@@ -255,7 +259,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 						.addComponent(lblModalidad, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(boxModalidad, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 					.addGap(19)
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
@@ -298,15 +302,16 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		panel_3.setBackground(new Color(102, 102, 102));
 		panel_3.setPreferredSize(new Dimension(10, 50));
 		add(panel_3, BorderLayout.SOUTH);
-		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JSplitPane paneDetallesNuevaCompetencia = new JSplitPane();
-		paneDetallesNuevaCompetencia.setDividerSize(0);
-		panel_3.add(paneDetallesNuevaCompetencia);
+
+		JButton btnNuevaCompetencia = new JButton("Nueva Competencia");
+		btnNuevaCompetencia.setBackground(new Color(51, 102, 255));
+		
+		btnNuevaCompetencia.addActionListener( a -> {
+			m.cambiarPanel(new PanelAltaCompetencia(m, this));
+		});
 		
 		JButton btnDetalles = new JButton("Detalles");
-		paneDetallesNuevaCompetencia.setLeftComponent(btnDetalles);
-		
 		btnDetalles.addActionListener( a -> {
 			try {
 			String nombre = (String)this.tableModel.getValueAt(this.tablaCompetencias.getSelectedRow(), 0);
@@ -317,14 +322,61 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 			}
 		});
 		
-		JButton btnNuevaCompetencia = new JButton("Nueva Competencia");
-		btnNuevaCompetencia.setBackground(new Color(51, 102, 255));
-		paneDetallesNuevaCompetencia.setRightComponent(btnNuevaCompetencia);
-		
-		btnNuevaCompetencia.addActionListener( a -> {
-			m.cambiarPanel(new PanelAltaCompetencia(m, this));
+		JButton btnAtras = new JButton("Atras");
+		btnAtras.addActionListener( a -> {
+			m.cambiarPanel(llamante);
 		});
 		
-
+		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
+		gl_panel_3.setHorizontalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
+					.addContainerGap(862, Short.MAX_VALUE)
+					.addComponent(btnAtras, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnDetalles)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNuevaCompetencia)
+					.addGap(202))
+		);
+		gl_panel_3.setVerticalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addGap(5)
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnNuevaCompetencia)
+						.addComponent(btnDetalles)
+						.addComponent(btnAtras))
+					.addGap(17))
+		);
+		panel_3.setLayout(gl_panel_3);
+		
+		//TAB ORDEN
+		List<Component> order = new ArrayList<Component>();
+				
+		setFocusCycleRoot(true);
+		txtNombre.setFocusCycleRoot(true);
+		boxModalidad.setFocusCycleRoot(true);
+		boxDeporte.setFocusCycleRoot(true);
+		boxEstado.setFocusCycleRoot(true);
+		btnBuscar.setFocusCycleRoot(true);
+		btnAtras.setFocusCycleRoot(true);
+		btnDetalles.setFocusCycleRoot(true);
+		btnNuevaCompetencia.setFocusCycleRoot(true);
+		btnHome.setFocusCycleRoot(true);
+				
+		order.add(txtNombre);
+		order.add(boxModalidad);
+		order.add(boxDeporte);
+		order.add(boxEstado);
+		order.add(btnBuscar);
+		order.add(btnAtras);
+		order.add(btnDetalles);
+		order.add(btnNuevaCompetencia);		
+		order.add(btnHome);	
+					    	    
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, btnNuevaCompetencia));
+		
+		
 	}
 }

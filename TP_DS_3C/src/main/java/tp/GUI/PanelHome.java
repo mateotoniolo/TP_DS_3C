@@ -2,8 +2,12 @@ package tp.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,6 +38,7 @@ public class PanelHome extends JPanel {
 			e.printStackTrace();
 		}
 		m.setTitle("TORNEOS Y COMPETENCIAS");
+		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		
 		this.setLayout(new BorderLayout(0, 0));
 		this.setLayout(new BorderLayout(0, 0));
@@ -61,23 +66,26 @@ public class PanelHome extends JPanel {
 		panelUser.setPreferredSize(new Dimension(200, 500));
 		this.add(panelUser, BorderLayout.EAST);
 		
-		JButton btnIniciarSesion = new JButton("Iniciar Sesión");
-		btnIniciarSesion.setForeground(new Color(0, 0, 0));
-		btnIniciarSesion.setBackground(new Color(255, 102, 102));
-		btnIniciarSesion.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JButton btnCerrarSesion = new JButton("Cerrar Sesión");
+		btnCerrarSesion.setForeground(new Color(0, 0, 0));
+		btnCerrarSesion.setBackground(new Color(255, 102, 102));
+		btnCerrarSesion.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnCerrarSesion.addActionListener( a -> {
+			m.dispose();
+		});
 		GroupLayout gl_panelUser = new GroupLayout(panelUser);
 		gl_panelUser.setHorizontalGroup(
 			gl_panelUser.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelUser.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(btnIniciarSesion, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnCerrarSesion, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(117, Short.MAX_VALUE))
 		);
 		gl_panelUser.setVerticalGroup(
 			gl_panelUser.createParallelGroup(Alignment.LEADING)
 				.addGroup(Alignment.TRAILING, gl_panelUser.createSequentialGroup()
 					.addContainerGap(442, Short.MAX_VALUE)
-					.addComponent(btnIniciarSesion)
+					.addComponent(btnCerrarSesion)
 					.addContainerGap())
 		);
 		panelUser.setLayout(gl_panelUser);
@@ -103,7 +111,7 @@ public class PanelHome extends JPanel {
 		btnCompetencias.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		btnCompetencias.setForeground(new Color(255, 255, 255));
 		btnCompetencias.addActionListener( a -> {
-			m.cambiarPanel(new PanelListarCompetenciasDeportivas(m, this));
+			m.cambiarPanel(new PanelListarCompetenciasDeportivas(m, this, this));
 		});
 		btnCompetencias.setBackground(new Color(51, 51, 51));
 		splitPane.setLeftComponent(btnCompetencias);
@@ -168,5 +176,22 @@ public class PanelHome extends JPanel {
 					.addContainerGap())
 		);
 		panel_4.setLayout(gl_panel_4);
+	
+	
+	
+	//TAB ORDEN
+	List<Component> order = new ArrayList<Component>();
+			
+	this.setFocusCycleRoot(true);
+	btnCompetencias.setFocusCycleRoot(true);
+	btnLugares.setFocusCycleRoot(true);
+	btnCerrarSesion.setFocusCycleRoot(true);
+		    
+	order.add(btnCompetencias);
+	order.add(btnLugares);
+	order.add(btnCerrarSesion);
+		    
+	this.setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, btnCerrarSesion));
+	
 	}
 }

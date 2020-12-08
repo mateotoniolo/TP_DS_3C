@@ -2,6 +2,7 @@ package tp.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -14,9 +15,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.PopupMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -85,6 +89,7 @@ public class PanelListarParticipantes extends JPanel {
 		
 		setBackground(new Color(102, 102, 102));
 //		m.setTitle("PARTICIPANTES");
+		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		setBounds(100, 50, 1366, 740);
 		
 		JPanel panelNombreCompetencia = new JPanel();
@@ -179,6 +184,22 @@ public class PanelListarParticipantes extends JPanel {
 		btnHome.addActionListener( a -> {
 			m.cambiarPanel(new PanelHome(m));
 		});
+		
+		
+		
+		//TAB ORDEN
+		List<Component> order = new ArrayList<Component>();
+				
+		setFocusCycleRoot(true);
+		btnAtras.setFocusCycleRoot(true);
+		btnNuevoParticipante.setFocusCycleRoot(true);
+		btnHome.setFocusCycleRoot(true);
+			    
+		order.add(btnAtras);
+		order.add(btnNuevoParticipante);
+		order.add(btnHome);
+			    
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, btnNuevoParticipante));
 		
 		
 	}
