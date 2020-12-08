@@ -121,21 +121,29 @@ public class DialogModificarLugar extends JDialog {
 				JButton btnConfirmar = new JButton("Confirmar");
 				btnConfirmar.setBackground(new Color(102, 102, 255));
 				btnConfirmar.addActionListener(a -> {
-					disponibilidad = Integer.parseInt(textField.getText());
-					if(disponibilidad == 0) {
-						JOptionPane.showMessageDialog(null, "La disponibilidad debe ser una cantidad entera mayor a 0(cero).","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-					}else {
-					Lugar place = GestorUsuario.getLugarByNombre(this.boxLugar.getSelectedItem().toString());
-					ItemLugarDTO item = new ItemLugarDTO(place.getId(),place.getNombre(), disponibilidad);
-					p.tableModel.remove(itemDTO);
-					try {
-					p.addItemTM(item);
-					this.dispose();
-					} catch(Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-					}
+					try{
+						try{					
+							disponibilidad = Integer.parseInt(textField.getText());
+						}catch(Exception e) {
+							throw new Exception("La disponibilidad debe ser una cantidad entera.");
+						}
+						if(disponibilidad == 0) {
+							throw new Exception("La disponibilidad debe ser una cantidad entera mayor a 0(cero).");
+						}else {
+							Lugar place = GestorUsuario.getLugarByNombre(this.boxLugar.getSelectedItem().toString());
+							ItemLugarDTO item = new ItemLugarDTO(place.getId(),place.getNombre(), disponibilidad);
 					
-					//Crea el item con los datos ingresados
+						try {
+							p.tableModel.remove(itemDTO);
+							p.addItemTM(item);
+							this.dispose();
+						} catch(Exception e) {
+							JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+						}
+					//Modifica el item con los datos ingresados
+						}
+					}catch(Exception e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 					}
 				});
 				
