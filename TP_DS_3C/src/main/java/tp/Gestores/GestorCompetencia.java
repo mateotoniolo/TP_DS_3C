@@ -184,7 +184,7 @@ public class GestorCompetencia {
 			for(Participante p: comp.getParticipantes()) {
 				c.addParticipante(new ParticipanteDTO(p.getNombre(),p.getEmail()));
 			}
-			c.setId_fixture(comp.getFixtureID());
+			c.setId_fixture(comp.getFixture().getId_fixture());
 			competenciasDTO.add(c);
 		}
 		return competenciasDTO;
@@ -202,7 +202,7 @@ public class GestorCompetencia {
 			for(Participante p: comp.getParticipantes()) {
 				c.addParticipante(new ParticipanteDTO(p.getNombre(),p.getEmail()));
 			}
-			c.setId_fixture(comp.getFixtureID());
+			c.setId_fixture(comp.getFixture().getId_fixture());
 			
 		
 		return c;
@@ -223,6 +223,19 @@ public class GestorCompetencia {
 		return CompetenciaDAO.getDeporteByID(id_deporte);
 	}
 	
-	
+	public static void generarFixture(CompetenciaDTO DTO) throws Exception{
+		Competencia competencia=CompetenciaDAO.getCompetenciaByID(DTO.getId_competencia());
+		if(competencia.getEstado()==EstadoCompetencia.EN_DISPUTA||competencia.getEstado()==EstadoCompetencia.FINALIZADA) {
+			throw new Exception("La competencia ya esta en dispùta o finalizo.");
+		}
+		if(competencia.getParticipantes().size()<2) {
+			throw new Exception("La competencia tiene menos de 2 participantes.");
+		}
+		GestorFixture.generarFixture(competencia);
+			if(competencia.getEstado()==EstadoCompetencia.CREADA) {
+				competencia.setEstado(EstadoCompetencia.PLANIFICADA.toString());
+			}
+		CompetenciaDAO.Save(competencia);
+		}
 	
 }

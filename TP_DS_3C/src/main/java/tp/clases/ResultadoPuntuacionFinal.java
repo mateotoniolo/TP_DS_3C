@@ -1,8 +1,19 @@
 package tp.clases;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@Entity
+@PrimaryKeyJoinColumn(referencedColumnName="id_resultado")
+@Table(name="Resultado_Puntuacion_Final")
 public class ResultadoPuntuacionFinal extends Resultado {
+	@Column
 	private Boolean ganaA;
+	@Column
 	private Boolean ganaB;
+	@Column
 	private Boolean empate;
 	
 	// constructor sin params

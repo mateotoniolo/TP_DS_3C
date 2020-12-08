@@ -1,8 +1,17 @@
 package tp.clases;
 
-public class ResultadoPuntuacion extends Resultado {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
+@Entity
+@PrimaryKeyJoinColumn(referencedColumnName="id_resultado")
+@Table(name="Resultado_Puntuacion")
+public class ResultadoPuntuacion extends Resultado {
+	@Column
 	private Integer tantosA;
+	@Column
 	private Integer tantosB;
 	
 	// constructor sin params

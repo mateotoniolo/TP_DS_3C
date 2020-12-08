@@ -2,9 +2,20 @@ package tp.clases;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+@Entity
+@PrimaryKeyJoinColumn(referencedColumnName="id_resultado")
+@Table(name="Resultado_Sets")
 public class ResultadoSets extends Resultado {
+	@Column
 	private Integer setsA;
+	@Column
 	private Integer setsB;
+	@Transient
 	private List<Set> listaSets;
 	
 	// constructor sin params

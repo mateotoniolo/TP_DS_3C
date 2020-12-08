@@ -38,8 +38,9 @@ public class Competencia {
 	private String nombre;
 	@Column
 	private String modalidad;
-	@Column
-	private Integer id_fixture;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_fixture",referencedColumnName = "id_fixture")
+	private Fixture fixture;
 	@Column
 	private String reglamento;
 	@Column
@@ -72,7 +73,7 @@ public class Competencia {
 		
 	// constructor
 	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, 
-			Integer fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, 
+			Fixture fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, 
 			Double tantosXAusencia, Usuario usuario, Deporte deporte) {
 		//this.setIdCompetencia(id);
 		this.setNombre(nombre);
@@ -92,12 +93,12 @@ public class Competencia {
 	
 	// Getters y Setters	
 
-	public void setFixture(Integer fixture) {
-		this.id_fixture = fixture;
+	public void setFixture(Fixture fixture) {
+		this.fixture = fixture;
 	}
 	
-	public Integer getFixtureID(){
-		return id_fixture;
+	public Fixture getFixture(){
+		return fixture;
 	}	
 	
 
@@ -220,14 +221,6 @@ public class Competencia {
 
 	public void setId_competencia(Integer id_competencia) {
 		this.id_competencia = id_competencia;
-	}
-
-	public Integer getId_fixture() {
-		return id_fixture;
-	}
-
-	public void setId_fixture(Integer id_fixture) {
-		this.id_fixture = id_fixture;
 	}
 
 	public Integer getCant_sets() {

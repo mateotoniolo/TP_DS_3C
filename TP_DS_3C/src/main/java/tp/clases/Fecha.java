@@ -2,10 +2,24 @@ package tp.clases;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+@Entity
+@Table(name="Fecha")
 public class Fecha {
+	@Id
+	private Integer id_fecha;
+	@Column
 	private Integer numero;
+	@Column
 	private Boolean rondaPerdedores;
+	@Column
 	private Boolean rondaGanadores;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Partido> listaPartidos;
 	
 	// constructor sin params
@@ -22,6 +36,11 @@ public class Fecha {
 		// this.addPartido(Partido obj)
 	}
 
+
+	public Fecha(int contFechas, List<Partido> partidos) {
+		this.numero = contFechas;
+		this.listaPartidos = partidos;
+	}
 
 	// Getters y Setters
 	public Integer getNumero() {

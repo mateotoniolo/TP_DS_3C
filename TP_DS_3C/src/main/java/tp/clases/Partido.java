@@ -1,14 +1,32 @@
 package tp.clases;
 
-public class Partido {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="Partido")
+public class Partido {
+	@Id
+	private Integer id_partido;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_Local",referencedColumnName = "id_participante")
 	private Participante participanteA;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_visitante",referencedColumnName = "id_participante")
 	private Participante participanteB;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_lugar",referencedColumnName = "codigo")
 	private Lugar lugarDeRealizacion;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_resultado",referencedColumnName = "id_resultado")
 	private Resultado resultado;
 	
-	// falta Partido eliminacionGanador
-	// falta Partido eliminacionPerdedor
+	
 	
 	// constructores
 	// constructor sin params
@@ -27,6 +45,12 @@ public class Partido {
 		this.setParticipanteB(pB);
 		this.setLugarDeRealizacion(lugarDeRealizacion);
 		this.setResultado(resultado);
+	}
+
+	public Partido(Participante A, Participante B, Lugar lugar) {
+		this.participanteA = A;
+		this.participanteB = B;
+		this.lugarDeRealizacion = lugar;
 	}
 
 	public Participante getParticipanteA() {
