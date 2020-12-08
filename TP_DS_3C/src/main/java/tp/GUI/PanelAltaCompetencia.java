@@ -450,6 +450,20 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		btnModificarLugar = new JButton("Modificar Lugar");
 		btnModificarLugar.setPreferredSize(new Dimension(100, 28));
+		btnModificarLugar.addActionListener(a -> {
+			try {
+				ItemLugarDTO p = this.tableModel.getData()
+		                .stream()
+		                .filter(item -> item.getCodigo() == this.tableModel.getValueAt(this.tableLugares.getSelectedRow(), 0))
+		                .findFirst()
+		                .get();
+				DialogModificarLugar modificar = new DialogModificarLugar(this, p);
+				
+				this.tableLugares.updateUI();
+				} catch(Exception e) {
+					JOptionPane.showMessageDialog(null, "Debe seleccionar un lugar a modificar.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+				}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -835,8 +849,13 @@ public class PanelAltaCompetencia extends JPanel {
 		this.id_usuario = id_usuario;
 	}
 	
-	public void addItemTM(ItemLugarDTO item) { // este metodo agrega el item para la tabla 
-		this.tableModel.addItemTM(item);
+	public void addItemTM(ItemLugarDTO item) throws Exception { // este metodo agrega el item para la tabla 
+		
+		try{
+			this.tableModel.addItemTM(item);
+		}catch(Exception e) {
+			throw e;
+		}
 		this.tableLugares.updateUI();
 	}
 

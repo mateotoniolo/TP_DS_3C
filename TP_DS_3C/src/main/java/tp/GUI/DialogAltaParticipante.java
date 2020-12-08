@@ -94,65 +94,13 @@ public class DialogAltaParticipante extends JDialog {
 		txtCorreoElectronico.setPreferredSize(new Dimension(7, 30));
 		txtCorreoElectronico.setColumns(10);
 		
-		txtCorreoElectronico.addKeyListener(new java.awt.event.KeyAdapter() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				
-				ingresoNombre = (txtNombre.getText() != "");
-				ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
-				if(ingresoNombre && ingresoCorreoElectronico) {
-					btnAgregar.setEnabled(true);
-					
-				} else {
-					btnAgregar.setEnabled(false);
-				}
-				
-				int code=e.getKeyCode();
-				if(code==KeyEvent.VK_BACK_SPACE) {
-					ingresoNombre = (txtNombre.getText() != "");
-					ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
-					if(ingresoNombre && ingresoCorreoElectronico) {
-						btnAgregar.setEnabled(true);
-						
-					} else {
-						btnAgregar.setEnabled(false);
-					}
-				}
-			}
-		});
+		
 		
 		txtNombre = new JTextField();
 		txtNombre.setPreferredSize(new Dimension(7, 30));
 		txtNombre.setColumns(10);
 
-		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				
-				ingresoNombre = (txtNombre.getText() != "");
-				ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
-				if(ingresoNombre && ingresoCorreoElectronico) {
-					btnAgregar.setEnabled(true);
-					
-				} else {
-					btnAgregar.setEnabled(false);
-				}
-				
-				int code=e.getKeyCode();
-				if(code==KeyEvent.VK_BACK_SPACE) {
-					ingresoNombre = (txtNombre.getText() != "");
-					ingresoCorreoElectronico = (txtCorreoElectronico.getText() != "");
-					if(ingresoNombre && ingresoCorreoElectronico) {
-						btnAgregar.setEnabled(true);
-						
-					} else {
-						btnAgregar.setEnabled(false);
-					}
-				}
-			}
-		});
+		
 		
 		GroupLayout gl_panelBlanco = new GroupLayout(panelBlanco);
 		gl_panelBlanco.setHorizontalGroup(
@@ -209,7 +157,7 @@ public class DialogAltaParticipante extends JDialog {
 				btnAgregar.setBackground(new Color(51, 102, 255));
 				btnAgregar.setActionCommand("Cancel");
 				buttonPane.add(btnAgregar);
-				btnAgregar.setEnabled(false);
+				btnAgregar.setEnabled(true);
 				
 				btnAgregar.addActionListener( a -> {
 						 correoElectronico = txtCorreoElectronico.getText();

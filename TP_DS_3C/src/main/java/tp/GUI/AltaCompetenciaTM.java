@@ -2,6 +2,7 @@ package tp.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -24,8 +25,13 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 		
 	}
 	
-	public void addItemTM(ItemLugarDTO item) {
+	public void addItemTM(ItemLugarDTO item) throws Exception {
+		Optional<ItemLugarDTO> opcional = this.data.stream().filter(e->e.getCodigo() == item.getCodigo()).findAny();
+		if(opcional.isPresent()) {
+			throw new Exception("El Lugar que intenta agregar ya se encuentra asociado a la competencia.");
+		}else {
 		this.data.add(item);
+		}
 	}
 	
 	

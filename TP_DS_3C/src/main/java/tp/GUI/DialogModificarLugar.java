@@ -31,12 +31,13 @@ import tp.clases.Lugar;
 import java.awt.Color;
 import javax.swing.JTextField;
 
-public class DialogAltaLugar extends JDialog {
+public class DialogModificarLugar extends JDialog {
 
 	public final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	JComboBox<String> boxLugar = new JComboBox<String>();
 	List<ItemLugarDTO> lugares = new ArrayList<ItemLugarDTO>();
+	ItemLugarDTO itemDTO ;
 	
 	private Integer disponibilidad = null;
 	
@@ -54,10 +55,11 @@ public class DialogAltaLugar extends JDialog {
 	}
 
 
-	public DialogAltaLugar(PanelAltaCompetencia p) {
+	public DialogModificarLugar(PanelAltaCompetencia p, ItemLugarDTO itemDTO) {
 		try {
 			this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			this.setVisible(true);
+			this.itemDTO = itemDTO;
 			new Thread (new iniciar(p), "inicializar").start();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,7 +67,7 @@ public class DialogAltaLugar extends JDialog {
 	}
 		
 	public void initialize(PanelAltaCompetencia p) {
-		setTitle("Nuevo Lugar");
+		setTitle("Modificar Lugar");
 		getContentPane().setBackground(new Color(153, 204, 255));
 		setBounds(550, 350, 450, 162);
 		getContentPane().setLayout(null);
@@ -125,9 +127,10 @@ public class DialogAltaLugar extends JDialog {
 					}else {
 					Lugar place = GestorUsuario.getLugarByNombre(this.boxLugar.getSelectedItem().toString());
 					ItemLugarDTO item = new ItemLugarDTO(place.getId(),place.getNombre(), disponibilidad);
-					try{
-						p.addItemTM(item);
-						this.dispose();
+					p.tableModel.remove(itemDTO);
+					try {
+					p.addItemTM(item);
+					this.dispose();
 					} catch(Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 					}
