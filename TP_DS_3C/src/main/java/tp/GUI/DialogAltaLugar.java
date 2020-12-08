@@ -65,7 +65,7 @@ public class DialogAltaLugar extends JDialog {
 	}
 		
 	public void initialize(PanelAltaCompetencia p) {
-		setTitle("Nuevo Lugar");
+		setTitle("Agregar Lugar");
 		getContentPane().setBackground(new Color(153, 204, 255));
 		setBounds(550, 350, 450, 162);
 		getContentPane().setLayout(null);

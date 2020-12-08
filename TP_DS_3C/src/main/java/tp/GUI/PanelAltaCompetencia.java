@@ -15,6 +15,7 @@ import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.DeporteDTO;
 import tp.DTOs.ItemLugarDTO;
 import tp.Gestores.GestorCompetencia;
+import tp.Gestores.GestorUsuario;
 import tp.app.App;
 import tp.clases.*;
 import tp.enums.*;
@@ -152,6 +153,7 @@ public class PanelAltaCompetencia extends JPanel {
 		tableLugares.getColumnModel().getColumn(1).setResizable(false);
 		tableLugares.getColumnModel().getColumn(1).setPreferredWidth(150);
 		scrollPane.setViewportView(tableLugares);
+		tableLugares.setAutoCreateRowSorter(true);
 		
 		JLabel lblNombre = new JLabel("Nombre *");
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -313,7 +315,7 @@ public class PanelAltaCompetencia extends JPanel {
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.BLACK);
 		
-		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n");
+		JLabel lblFormaPuntuacion = new JLabel("Forma de Puntuaci\u00F3n *");
 		lblFormaPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		rdbtnSets = new JRadioButton("Sets");
@@ -445,7 +447,16 @@ public class PanelAltaCompetencia extends JPanel {
 		btnAgregarLugar.setPreferredSize(new Dimension(100, 28));
 		
 		btnAgregarLugar.addActionListener( a -> {
-			DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
+			id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
+			if(id_deporte == -1) {
+				JOptionPane.showMessageDialog(null, "No hay Deporte seleccionado. Debe seleccionar un Deporte para agregar un Lugar.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+			}else {
+				if(GestorUsuario.getLugaresDisponibles(id_usuario, ((Item)this.boxDeporte_1.getSelectedItem()).getId()).isEmpty()) {
+					JOptionPane.showMessageDialog(null, "No existe Lugar que acepte el Deporte seleccionado.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+				}else {
+				DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
+				}
+			}
 		});
 		
 		btnModificarLugar = new JButton("Modificar Lugar");
@@ -730,6 +741,7 @@ public class PanelAltaCompetencia extends JPanel {
 								break;
 							case "Eliminacion Doble": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DOBLE;
 								break;
+							default:modalidadCompetencia = null;
 							}
 							//Set de Modalidad de Puntuacion
 							if(rdbtnSets.isSelected()) {
@@ -758,31 +770,34 @@ public class PanelAltaCompetencia extends JPanel {
 								//confirmar si esta bien, los que tienen signos de pregunta no se si tienen un default 
 								String CamposVacios="";
 								if(compDTO.getNombre().isEmpty()) {
-									CamposVacios=CamposVacios+"La competencia debe tener un nombre \n";
+									CamposVacios=CamposVacios+"La competencia debe tener un nombre. \n";
 								}
 								if(compDTO.getLugares().isEmpty()) {
-									CamposVacios=CamposVacios+"La competencia debe tener al menos un lugar de realización \n ";
+									CamposVacios=CamposVacios+"La competencia debe tener al menos un lugar de realización. \n";
+								}
+								if(compDTO.getModalidad() == null) {
+									CamposVacios=CamposVacios+"Debe indicar una Modalidad de competencia. \n";
 								}
 								if(compDTO.getModalidad()==tp.enums.Modalidad.LIGA) {
 									if(compDTO.getEmpate()&&compDTO.getPuntosXEmpate()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar puntos por empate \n ";
+										CamposVacios=CamposVacios+"Debe ingresar puntos por empate. \n";
 									}
 									if(compDTO.getPuntosXGanado()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado \n ";
+										CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado. \n";
 									}
 									if(compDTO.getPuntosXPresentarse()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar puntos por presentarse \n ";
+										CamposVacios=CamposVacios+"Debe ingresar puntos por presentarse. \n";
 									}
 								}
 								switch(compDTO.getPuntuacion()) {
 								case SETS:
 									if(compDTO.getCantSets()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar una cantidad válida de sets \n ";
+										CamposVacios=CamposVacios+"Debe ingresar una cantidad válida de sets. \n";
 									}
 									break;
 								default:
 									if(compDTO.getTantosXAusencia()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia \n ";
+										CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia. \n";
 									}
 								}
 								if(!CamposVacios.equals("")) {

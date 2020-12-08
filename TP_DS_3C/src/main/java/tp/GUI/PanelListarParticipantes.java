@@ -161,6 +161,7 @@ public class PanelListarParticipantes extends JPanel {
 		tablaParticipantes.setRowHeight(40);
 		
 		scrollPaneTabla.setViewportView(tablaParticipantes);
+		tablaParticipantes.setAutoCreateRowSorter(true);
 		panelNombreCompetencia.setLayout(new BorderLayout(0, 0));
 		
 		
@@ -176,13 +177,13 @@ public class PanelListarParticipantes extends JPanel {
 		setLayout(groupLayout);
 		
 		btnHome.addActionListener( a -> {
-			m.cambiarPanel(llamante);
+			m.cambiarPanel(new PanelHome(m));
 		});
 		
 		
 	}
 	public void actualizarTabla() { // este metodo agrega el item para la tabla 
-		tableModel.vaciarTabla();;
+		tableModel.vaciarTabla();
 		for(ParticipanteDTO p : GestorCompetencia.mostrarParticipantes(id_competencia)) {
 			tableModel.addItemTM(p);
 		}

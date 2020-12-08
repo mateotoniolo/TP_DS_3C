@@ -1,6 +1,6 @@
 package tp.DTOs;
 
-public class DeporteDTO {
+public class DeporteDTO implements Comparable<DeporteDTO> {
 	
 	Integer id_deporte;
 	String nombre;
@@ -24,5 +24,10 @@ public class DeporteDTO {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	@Override
+	public int compareTo(DeporteDTO o) {
+		return this.nombre.compareTo(o.nombre);
 	}
 }

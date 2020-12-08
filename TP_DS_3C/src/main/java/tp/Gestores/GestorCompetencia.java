@@ -1,6 +1,8 @@
 package tp.Gestores;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,8 +84,9 @@ public class GestorCompetencia {
 		}
 	
 	public static List<DeporteDTO> getDeportes(){
-		
-		return DeporteDAO.getDeportesDTO();
+		List<DeporteDTO> lista = DeporteDAO.getDeportesDTO();
+		Collections.sort(lista);
+		return lista;
 		
 	}
 	public static Competencia getCompetenciaByName(String nombre) {

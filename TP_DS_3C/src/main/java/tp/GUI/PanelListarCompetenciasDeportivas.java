@@ -282,6 +282,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		tablaCompetencias.setSelectionBackground(new Color(102, 51, 255));
 		tablaCompetencias.setGridColor(Color.WHITE);
 		scrollTablaCompetencias.setViewportView(tablaCompetencias);
+		tablaCompetencias.setAutoCreateRowSorter(true);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setPreferredSize(new Dimension(200, 10));
