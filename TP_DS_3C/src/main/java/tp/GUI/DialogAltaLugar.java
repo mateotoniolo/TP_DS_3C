@@ -29,12 +29,14 @@ import tp.clases.ItemLugar;
 import tp.clases.Lugar;
 
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JTextField;
 
 public class DialogAltaLugar extends JDialog {
 
 	public final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextField txtDisponibilidad;
 	JComboBox<String> boxLugar = new JComboBox<String>();
 	List<ItemLugarDTO> lugares = new ArrayList<ItemLugarDTO>();
 	
@@ -75,23 +77,7 @@ public class DialogAltaLugar extends JDialog {
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(233, 34, 195, 28);
-		textField.setBorder(new LineBorder(Color.BLACK, 2));
-		contentPanel.add(textField);
 		
-		textField.addKeyListener(new java.awt.event.KeyAdapter() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				Character c = e.getKeyChar();
-				if(!c.isDigit(c)) {
-					try{
-						textField.setText(textField.getText().substring(0, textField.getText().length()-1));
-					}catch(Exception ex) {};
-				} 
-			} 
-		});
 		
 		
 		JLabel lblLugar = new JLabel("Disponibilidad *");
@@ -110,6 +96,26 @@ public class DialogAltaLugar extends JDialog {
 		lblDisponibilidad.setBounds(6, 16, 47, 17);
 		contentPanel.add(lblDisponibilidad);
 		lblDisponibilidad.setFont(new Font("Tahoma", Font.PLAIN, 14));	
+		
+		txtDisponibilidad = new JTextField();
+		txtDisponibilidad.setBounds(233, 34, 195, 28);
+		contentPanel.add(txtDisponibilidad);
+		
+		//ignora el ingreso de caracteres no numericos
+		txtDisponibilidad.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Character c = e.getKeyChar();
+				if(!Character.isDigit(c)) {
+					txtDisponibilidad.setText(reparse(txtDisponibilidad.getText()));
+				}
+				
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_BACK_SPACE) {
+					txtDisponibilidad.setText(txtDisponibilidad.getText());
+				}
+			}
+		});
 						
 				JSplitPane splitCancelarConfirmar = new JSplitPane();
 				splitCancelarConfirmar.setBounds(248, 87, 180, 30);
@@ -117,11 +123,11 @@ public class DialogAltaLugar extends JDialog {
 				splitCancelarConfirmar.setDividerSize(0);
 				
 				JButton btnConfirmar = new JButton("Confirmar");
-				btnConfirmar.setBackground(new Color(102, 102, 255));
+				btnConfirmar.setBackground(new Color(51, 102, 255));
 				btnConfirmar.addActionListener(a -> {
 					try{
 						try{	
-							disponibilidad = Integer.parseInt(textField.getText());
+							disponibilidad = Integer.parseInt(txtDisponibilidad.getText());
 						}catch(Exception e) {
 							throw new Exception("La disponibilidad debe ser una cantidad entera.");
 						}
@@ -158,12 +164,33 @@ public class DialogAltaLugar extends JDialog {
 			buttonPane.setBounds(0, 0, 0, 0);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
-		
 			
 			
+			//TAB ORDEN
+			List<Component> order = new ArrayList<Component>();
+			
+			setFocusCycleRoot(true);
+			boxLugar.setFocusCycleRoot(true);
+		    txtDisponibilidad.setFocusCycleRoot(true);
+		    btnCancelar.setFocusCycleRoot(true);
+		    btnConfirmar.setFocusCycleRoot(true);
+		    
+		    order.add(boxLugar);
+		    order.add(txtDisponibilidad);
+		    order.add(btnCancelar);
+		    order.add(btnConfirmar);
+		    
+	        setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, boxLugar));
+				
 	}
 	
 	
-		
+	public String reparse(String str) {
+		String aux="";
+		for(int i=0; i<str.length(); i++) {
+			if(Character.isDigit(str.charAt(i))) aux+=str.charAt(i);
+		}
+		return aux;
+	} 
 	
 }
