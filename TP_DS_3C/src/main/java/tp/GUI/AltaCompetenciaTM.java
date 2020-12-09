@@ -19,7 +19,7 @@ public class AltaCompetenciaTM extends AbstractTableModel{
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<ItemLugarDTO> data = new ArrayList<ItemLugarDTO>();
-	private String[] columnNames = {"Codigo","Lugar","Disponibilidad"};
+	private String[] columnNames = {"Código","Lugar","Disponibilidad"};
 	
 	public AltaCompetenciaTM() {
 		

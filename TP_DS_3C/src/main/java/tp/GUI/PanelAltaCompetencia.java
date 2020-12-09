@@ -337,7 +337,7 @@ public class PanelAltaCompetencia extends JPanel {
 			}
 		});
 		
-		rdbtnPuntuacion = new JRadioButton("Puntuacion");
+		rdbtnPuntuacion = new JRadioButton("Puntuaci\u00F3n");
 		rdbtnPuntuacion.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnPuntuacion.setSelected(true);
 		
@@ -352,7 +352,7 @@ public class PanelAltaCompetencia extends JPanel {
 			}
 		});
 		
-		rdbtnPuntuacionFinal = new JRadioButton("Puntuacion Final");
+		rdbtnPuntuacionFinal = new JRadioButton("Puntuaci\u00F3n Final");
 		rdbtnPuntuacionFinal.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
 		rdbtnPuntuacionFinal.addActionListener( a -> {
@@ -668,7 +668,7 @@ public class PanelAltaCompetencia extends JPanel {
 						JSplitPane splitCancelarConfirmar = new JSplitPane();
 						splitCancelarConfirmar.setDividerSize(0);
 						
-						JButton btnAtras = new JButton("Atras");
+						JButton btnAtras = new JButton("Atrás");
 						btnAtras.addActionListener( a -> {
 							m.cambiarPanel(llamante);
 						});

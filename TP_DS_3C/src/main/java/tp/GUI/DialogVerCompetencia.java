@@ -36,7 +36,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 public class DialogVerCompetencia extends JDialog {
-	private JTable table = new JTable();
+	private JTable table ;
 	private JPanel panelBotonesR;
 	private JLabel lblNombreCompetencia; 
 	private VerCompetenciaTM tableModel = new VerCompetenciaTM();
@@ -167,10 +167,11 @@ public class DialogVerCompetencia extends JDialog {
 		btnGenerarFixture.addActionListener( a -> {
 			try {
 				GestorCompetencia.generarFixture(compDTO);
-	//			actualizarTabla(id_competencia);
+				
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}
+			actualizarTabla(id_competencia);
 		});
 		
 		btnModificar.addActionListener( a -> {
@@ -306,11 +307,20 @@ public class DialogVerCompetencia extends JDialog {
 		lblNombreCompetencia.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panelNombreCompetencia.add(lblNombreCompetencia, BorderLayout.WEST);
 		
-		JLabel lblProximosEncuentros = new JLabel("Proximos Encuentros");
+		JLabel lblProximosEncuentros = new JLabel("Pr\u00F3ximos Encuentros");
 		lblProximosEncuentros.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		table = new JTable();
+		table.setModel(tableModel);
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(200);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		scrollPane.setViewportView(table);
 		GroupLayout gl_panelR = new GroupLayout(panelR);
 		gl_panelR.setHorizontalGroup(
 			gl_panelR.createParallelGroup(Alignment.TRAILING)
@@ -333,12 +343,12 @@ public class DialogVerCompetencia extends JDialog {
 		panelR.setLayout(gl_panelR);
 		panelUp.setLayout(gl_panelUp);
 		
-//		this.table.setModel(tableModel);
-//		if(compDTO.getId_fixture() != null) {
-//			for(PartidoDTO p : GestorFixture.getProximosEncuentros(compDTO.getId_fixture())) {
-//				this.tableModel.addItemTM(p);
-//			}
-//		}
+
+		if(compDTO.getId_fixture() != null) {
+			for(PartidoDTO p : GestorFixture.getProximosEncuentros(compDTO.getId_fixture())) {
+				this.tableModel.addItemTM(p);
+			}
+		}
 	}
 	public void actualizarTabla(Integer id_competencia) {
 		this.tableModel.removeAll();

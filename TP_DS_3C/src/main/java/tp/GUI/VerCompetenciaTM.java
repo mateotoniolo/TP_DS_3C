@@ -51,11 +51,11 @@ public class VerCompetenciaTM extends AbstractTableModel{
 		PartidoDTO temp = data.get(rowIndex);
 		switch(columnIndex) {
 		case 0:
-			return temp.getVisistante();
+			return temp.getVisistante().getNombre();
 		case 1:
 			return "vs.";
 		case 2: 
-			return temp.getLocal();
+			return temp.getLocal().getNombre();
 		}
 		return null;
 	}
@@ -90,6 +90,7 @@ public class VerCompetenciaTM extends AbstractTableModel{
 
 	public void removeAll() {
 		this.data = null;
+		this.data = new ArrayList<>();
 		
 	}
 }
