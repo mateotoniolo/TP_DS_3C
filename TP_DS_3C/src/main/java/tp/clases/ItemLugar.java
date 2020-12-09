@@ -29,12 +29,11 @@ public class ItemLugar {
 	
 	
 	
-	// constructor sin params
+
 	public ItemLugar() {
 		super();
 	}
 	
-	// constructor
 	public ItemLugar( Competencia competencia,Lugar lugar, Integer disponibilidad) {
 		this.setCompetencia(competencia);
 		this.Lugar = lugar;

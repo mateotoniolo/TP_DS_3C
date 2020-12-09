@@ -11,21 +11,17 @@ import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-
 import java.awt.GridLayout;
-import javax.swing.border.CompoundBorder;
-
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.CompetenciaPartidosDTO;
 import tp.DTOs.PartidoDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.Gestores.GestorFixture;
 import tp.app.App;
-import tp.clases.Competencia;
-import tp.clases.Partido;
+import tp.enums.EstadoCompetencia;
+import tp.enums.Modalidad;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -40,11 +36,10 @@ public class DialogVerCompetencia extends JDialog {
 	private JPanel panelBotonesR;
 	private JLabel lblNombreCompetencia; 
 	private VerCompetenciaTM tableModel = new VerCompetenciaTM();
-	
-	//Gestores
+	private PanelListarCompetenciasDeportivas llamante;
+
 	private GestorCompetencia gestorCompetencia = new GestorCompetencia();
 		
-	//DTO
 	private CompetenciaDTO compDTO;
 	private CompetenciaPartidosDTO compPartDTO;
 		
@@ -52,8 +47,9 @@ public class DialogVerCompetencia extends JDialog {
 	 * Create the panel.
 	 */
 	
-	// Correccion, entre interfaces solo podemos pasar parametros simples
-	public DialogVerCompetencia(MainApplication m, Integer id_competencia) {
+
+	public DialogVerCompetencia(MainApplication m,PanelListarCompetenciasDeportivas p, Integer id_competencia) {
+		llamante = p;
 		initialize(m, id_competencia);
 	}
 
@@ -128,7 +124,7 @@ public class DialogVerCompetencia extends JDialog {
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			m.cambiarPanel(new PanelListarParticipantes(m, new PanelListarCompetenciasDeportivas(m,new PanelHome(m)), id_competencia));
+			m.cambiarPanel(new PanelListarParticipantes(m, llamante, id_competencia));
 		});
 		
 		JButton btnGenerarFixture = new JButton("Generar Fixture");
@@ -140,7 +136,12 @@ public class DialogVerCompetencia extends JDialog {
 		btnModificar.setBackground(new Color(51, 102, 255));
 		btnModificar.setForeground(new Color(0, 0, 0));
 		
-		// Si el fixture no est� creado, se bloquea el bot�n
+		JLabel lblEstado = new JLabel("Estado: ...");
+		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		if(compPartDTO.getEstado() != null) {
+			lblEstado.setText("Estado: " + compPartDTO.getEstado().toString());
+		}
+		// Si el fixture no esta creado, se bloquea el boton
 		if(!compPartDTO.isCreated()) {
 			btnModificar.setEnabled(false);
 		}
@@ -148,7 +149,7 @@ public class DialogVerCompetencia extends JDialog {
 		
 		// Logica de botones
 		btnVerTablaDePosiciones.addActionListener( a -> {
-			//m.cambiarPanel(new PanelTablaDePosiciones(m, id_competencia));
+			
 		});
 		
 		btnFixture.addActionListener( a -> {
@@ -156,26 +157,36 @@ public class DialogVerCompetencia extends JDialog {
 		});
 		
 		btnEliminar.addActionListener( a -> {
-			//m.cambiarPanel(new PanelEliminarCompetencia(m, id_competencia));
+			
 		});
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			m.cambiarPanel(new PanelListarParticipantes(m,new PanelListarCompetenciasDeportivas(m,new PanelHome(m)),id_competencia));
+			m.cambiarPanel(new PanelListarParticipantes(m,llamante,id_competencia));
 		});
 		
 		btnGenerarFixture.addActionListener( a -> {
-			try {
-				GestorCompetencia.generarFixture(compDTO);
-				
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+			if(compDTO.getModalidad() != Modalidad.LIGA) {
+				JOptionPane.showMessageDialog(null, "Solo se crea el fixture de competencias con modalidad Liga.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+			}else {
+				try {
+					GestorCompetencia.generarFixture(compDTO);
+					
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+				}
+				try {
+				actualizarTabla(id_competencia);
+				lblEstado.setText("Estado: " + EstadoCompetencia.PLANIFICADA.toString());
+				llamante.actualizar();
+				}catch(Exception e) {
+					JOptionPane.showMessageDialog(null, "Hubo un errror al actualizar la tabla. Intente nuevamente.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+				}
 			}
-			actualizarTabla(id_competencia);
 		});
 		
 		btnModificar.addActionListener( a -> {
-			//m.cambiarPanel(new PanelVerFixture(m, id_competencia));
+			
 		});
 		
 		panelBotonesL.add(btnModificar);
@@ -210,11 +221,7 @@ public class DialogVerCompetencia extends JDialog {
 		JLabel lblPunto3 = new JLabel("");
 		lblPunto3.setIcon(new ImageIcon(DialogVerCompetencia.class.getResource("/img/marca.png")));
 		
-		JLabel lblEstado = new JLabel("Estado: ...");
-		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		if(compPartDTO.getEstado() != null) {
-			lblEstado.setText("Estado: " + compPartDTO.getEstado().toString());
-		}
+		
 		GroupLayout gl_panelL = new GroupLayout(panelL);
 		gl_panelL.setHorizontalGroup(
 			gl_panelL.createParallelGroup(Alignment.LEADING)
@@ -343,7 +350,7 @@ public class DialogVerCompetencia extends JDialog {
 		panelR.setLayout(gl_panelR);
 		panelUp.setLayout(gl_panelUp);
 		
-
+		//Carga la tabla de proximos partidos
 		if(compDTO.getId_fixture() != null) {
 			for(PartidoDTO p : GestorFixture.getProximosEncuentros(compDTO.getId_fixture())) {
 				this.tableModel.addItemTM(p);

@@ -26,7 +26,7 @@ public class Fecha {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Partido> listaPartidos;
 	
-	// constructor sin params
+
 	public Fecha() {
 		super();
 		this.numero = null;
@@ -35,7 +35,7 @@ public class Fecha {
 		this.listaPartidos = new ArrayList<>();
 	}
 	
-	// constructor
+
 	public Fecha(Integer numero, Boolean rPerdedores, Boolean rGanadores) {
 		this.setNumero(numero);
 		this.setRondaPerdedores(rPerdedores);

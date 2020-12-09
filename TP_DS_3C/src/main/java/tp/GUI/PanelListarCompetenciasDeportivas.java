@@ -9,47 +9,30 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import javax.swing.JProgressBar;
-import javax.swing.JSeparator;
-import javax.swing.JSplitPane;
-import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.DeporteDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.app.App;
-import tp.clases.Competencia;
 import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
-
-import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
-import tp.enums.ModalidadDePuntuacion;
 import javax.swing.ImageIcon;
 
 public class PanelListarCompetenciasDeportivas extends JPanel {
 
-	private Component btnConfirmar;
 	private JTable tablaCompetencias;
 	private JTextField txtNombre;
 	private ListarCompetenciasTM tableModel;
@@ -73,7 +56,6 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		}
 		
 		setBackground(new Color(102, 102, 102));
-		m.setTitle("BUSCAR COMPETENCIA");
 		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		setBounds(100, 50, 1366, 740);
 		setLayout(new BorderLayout(0, 0));
@@ -133,7 +115,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		txtNombre.setFont(UIManager.getFont("TextArea.font"));
 		txtNombre.setColumns(10);
 		
-		JComboBox boxModalidad = new JComboBox();
+		JComboBox<String> boxModalidad = new JComboBox();
 		boxModalidad.addItem("----Seleccionar----");
 		boxModalidad.addItem(Modalidad.ELIMINACION_DIRECTA.toString());
 		boxModalidad.addItem(Modalidad.ELIMINACION_DOBLE.toString());
@@ -189,7 +171,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		JLabel lblModalidad = new JLabel("Modalidad");
 		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		JComboBox boxEstado = new JComboBox();
+		JComboBox<String> boxEstado = new JComboBox();
 		boxEstado.addItem("----Seleccionar----");
 		boxEstado.addItem(EstadoCompetencia.CREADA.toString());
 		boxEstado.addItem(EstadoCompetencia.EN_DISPUTA.toString());
@@ -315,7 +297,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		btnDetalles.addActionListener( a -> {
 			try {
 			String nombre = (String)this.tableModel.getValueAt(this.tablaCompetencias.getSelectedRow(), 0);
-			DialogVerCompetencia comp = new DialogVerCompetencia(m, GestorCompetencia.getCompetenciaByName(nombre).getId_competencia());
+			DialogVerCompetencia comp = new DialogVerCompetencia(m,this, GestorCompetencia.getCompetenciaByName(nombre).getId_competencia());
 			comp.setVisible(true);
 			} catch(Exception e) {
 				JOptionPane.showMessageDialog(null, "Debe seleccionar una competencia.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
@@ -378,5 +360,10 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, btnNuevaCompetencia));
 		
 		
+	
+		
+	}
+	public void actualizar() {
+		this.tablaCompetencias.updateUI();
 	}
 }

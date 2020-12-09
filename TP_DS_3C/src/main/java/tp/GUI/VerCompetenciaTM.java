@@ -2,14 +2,10 @@ package tp.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import javax.swing.table.AbstractTableModel;
 
-import tp.DTOs.ItemLugarDTO;
 import tp.DTOs.PartidoDTO;
-import tp.clases.ItemLugar;
-import tp.clases.Lugar;
+
 
 
 

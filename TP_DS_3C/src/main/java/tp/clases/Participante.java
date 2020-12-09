@@ -26,7 +26,7 @@ public final class Participante {
 	@Transient
 	private List<AuditoriaModificacionParticipante> historialCambios;
 
-	// constructor sin params
+
 	public Participante() {
 		super();
 	}

@@ -2,7 +2,7 @@ package tp.clases;
 
 public class EstadisticasEquipoPuntuacionFinal extends EstadisticaTabla {
 
-	// constructor sin params
+
 	public EstadisticasEquipoPuntuacionFinal() {
 		super();
 	}

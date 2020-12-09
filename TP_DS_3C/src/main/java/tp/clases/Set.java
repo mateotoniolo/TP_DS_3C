@@ -4,7 +4,7 @@ public class Set {
 	private Integer tantosA;
 	private Integer tantosB;
 	
-	// constructor sin params
+
 	public Set() {
 		super();
 	}

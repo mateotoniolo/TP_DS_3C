@@ -17,7 +17,7 @@ public class Deporte {
 	@Column
 	private String nombre;
 	
-	// constructor sin params
+
 	public Deporte() {
 		super();
 	}

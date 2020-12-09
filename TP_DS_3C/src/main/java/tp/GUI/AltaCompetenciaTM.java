@@ -7,8 +7,6 @@ import java.util.Optional;
 import javax.swing.table.AbstractTableModel;
 
 import tp.DTOs.ItemLugarDTO;
-import tp.clases.ItemLugar;
-import tp.clases.Lugar;
 
 
 

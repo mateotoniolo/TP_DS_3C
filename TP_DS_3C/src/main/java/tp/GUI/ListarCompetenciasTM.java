@@ -6,9 +6,6 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import tp.DTOs.CompetenciaDTO;
-import tp.DTOs.ItemLugarDTO;
-import tp.clases.ItemLugar;
-import tp.clases.Lugar;
 
 
 

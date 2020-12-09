@@ -5,7 +5,7 @@ public class EstadisticasEquipoPuntuacion extends EstadisticaTabla {
 	private Integer tantosEnContra;
 	private Integer diferencia;
 	
-	// constructor sin params
+
 	public EstadisticasEquipoPuntuacion() {
 		super();
 	}

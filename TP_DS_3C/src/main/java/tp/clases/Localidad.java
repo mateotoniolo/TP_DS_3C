@@ -6,7 +6,7 @@ public class Localidad {
 	private String nombre;
 	private Provincia provincia;
 	
-	// constructor sin params
+
 	public Localidad() {
 		super();
 	}

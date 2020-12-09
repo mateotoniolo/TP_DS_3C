@@ -28,7 +28,7 @@ public class CompetenciaLiga extends Competencia {
 	@Transient
 	private List<EstadisticaTabla> estadisticas;
 	
-	// constructor sin params
+
 	public CompetenciaLiga() {
 		super();
 	}

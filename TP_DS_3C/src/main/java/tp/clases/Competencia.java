@@ -64,14 +64,12 @@ public class Competencia {
 	@Transient
 	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
 
-	
-	
-	// constructor sin params
+
 	public Competencia() {
 		super();
 	}
 		
-	// constructor
+
 	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, 
 			Fixture fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, 
 			Double tantosXAusencia, Usuario usuario, Deporte deporte) {
@@ -220,14 +218,6 @@ public class Competencia {
 
 	public void setId_competencia(Integer id_competencia) {
 		this.id_competencia = id_competencia;
-	}
-
-	public Integer getCant_sets() {
-		return cant_sets;
-	}
-
-	public void setCant_sets(Integer cant_sets) {
-		this.cant_sets = cant_sets;
 	}
 
 	public Deporte getDeporte() {

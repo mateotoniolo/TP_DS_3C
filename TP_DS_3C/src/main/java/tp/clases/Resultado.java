@@ -27,7 +27,7 @@ public class Resultado {
 	private List<AuditoriaModificacionResultado> historialCambios;
 	
 	
-	// constructor sin params
+
 	public Resultado() {
 		super();
 	}

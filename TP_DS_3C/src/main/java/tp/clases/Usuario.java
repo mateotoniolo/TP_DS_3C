@@ -43,7 +43,7 @@ public class Usuario {
 	@Transient
 	private List<AuditoriaIngresoUsuario> historialIngresos;
 
-	// constructor sin params
+	
 	public Usuario() {
 		super();
 	}

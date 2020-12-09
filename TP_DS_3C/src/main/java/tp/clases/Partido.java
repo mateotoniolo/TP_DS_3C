@@ -31,13 +31,12 @@ public class Partido {
 	
 	
 	
-	// constructores
-	// constructor sin params
+
 	public Partido() {
 		super();
 	}
 	
-	// lugar y resultado no definido
+
 	public Partido(Participante pA, Participante pB) {
 		this.setParticipanteA(pA);
 		this.setParticipanteB(pB);

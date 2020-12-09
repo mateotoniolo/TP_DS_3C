@@ -18,7 +18,7 @@ public class ResultadoSets extends Resultado {
 	@Transient
 	private List<Set> listaSets;
 	
-	// constructor sin params
+
 	public ResultadoSets() {
 		super();
 	}

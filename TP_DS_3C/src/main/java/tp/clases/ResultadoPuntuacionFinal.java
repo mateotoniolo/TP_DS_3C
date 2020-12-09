@@ -16,7 +16,7 @@ public class ResultadoPuntuacionFinal extends Resultado {
 	@Column
 	private Boolean empate;
 	
-	// constructor sin params
+
 	public ResultadoPuntuacionFinal() {
 		super();
 	}

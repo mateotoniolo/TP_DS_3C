@@ -4,7 +4,7 @@ public class Pais {
 	private Integer id_Pais;
 	private String nombre;
 	
-	// constructor sin params
+
 	public Pais() {
 		super();
 	}

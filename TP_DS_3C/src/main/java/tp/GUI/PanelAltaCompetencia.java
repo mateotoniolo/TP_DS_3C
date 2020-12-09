@@ -2,22 +2,15 @@ package tp.GUI;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.*;
 import java.util.*;
-
-
-import tp.DAO.*;
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.DeporteDTO;
 import tp.DTOs.ItemLugarDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.Gestores.GestorUsuario;
 import tp.app.App;
-import tp.clases.*;
 import tp.enums.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -25,14 +18,11 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class PanelAltaCompetencia extends JPanel {
 	
-	
 
-	//Aqui se definen los atributos de la competencia
 	private Integer id_deporte;
 	private String nombreCompetencia;
 	private tp.enums.Modalidad modalidadCompetencia;
 	private String reglamentoCompetencia;
-	private EstadoCompetencia estadoCompetencia;
 	private Integer cantSets = null;
 	private ModalidadDePuntuacion puntuacion;
 	private Double tantosXAusencia;
@@ -41,11 +31,6 @@ public class PanelAltaCompetencia extends JPanel {
 	private Double puntosPresentarse = null;
 	private Double puntosEmpate = null;
 	private Integer id_usuario = 6;
-
-	
-	//DAOs
-	private CompetenciaDAO competenciaDao = new CompetenciaDAO();
-	private DeporteDAO deporteDao = new DeporteDAO();
 	
 	//Gestores
 	private GestorCompetencia gestorCompetencia = new GestorCompetencia();
@@ -69,12 +54,6 @@ public class PanelAltaCompetencia extends JPanel {
 	private JButton btnConfirmar; 
 	private JButton btnModificarLugar;
 	private JTable tableLugares;
-	private boolean ingresoNombre = false;
-	private boolean ingresoDeporte = false;
-	private boolean ingresoModalidad = false;
-	private boolean ingresoCantidadSets = false;
-	private boolean ingresoTantosXAusencia = false;
-	private boolean ingresoPuntosEmpate = false;
 	private JFrame frame;
 
 	//Define el Table model
@@ -102,7 +81,7 @@ public class PanelAltaCompetencia extends JPanel {
 		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		setBounds(100, 50, 1366, 740);
 		
-		//JBox de deporte
+		//Modelo del box deporte
 
 		class Item
 	    {
@@ -159,7 +138,7 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblNombre = new JLabel("Nombre *");
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		//Campo de texto de nombre
+		
 		txtNombre = new JTextField();
 		txtNombre.setMinimumSize(new Dimension(15, 28));
 		txtNombre.setPreferredSize(new Dimension(15, 30));
@@ -181,15 +160,12 @@ public class PanelAltaCompetencia extends JPanel {
 		JLabel lblDeporte = new JLabel("Deporte *");
 		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		
-		       boxDeporte_1= new JComboBox( model );
-		       boxDeporte_1.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
-		       boxDeporte_1.addActionListener( a -> {
-		       	this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vac�a la tabla
-		       	this.tableLugares.updateUI();
-		       	
-		       	id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
-
+		boxDeporte_1= new JComboBox( model );
+		boxDeporte_1.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
+		boxDeporte_1.addActionListener( a -> {
+		this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vac�a la tabla
+		this.tableLugares.updateUI();
+		id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
 		       });
 		
 		
@@ -368,8 +344,9 @@ public class PanelAltaCompetencia extends JPanel {
 		});
 		
 				
-				JLabel lblCantidadSets = new JLabel("Cantidad de Sets ");
-				lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		JLabel lblCantidadSets = new JLabel("Cantidad de Sets ");
+		lblCantidadSets.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				
 		//Indica cantidad de sets
 		txtCantidadSets = new JTextField();
 		txtCantidadSets.setColumns(10);
@@ -395,12 +372,12 @@ public class PanelAltaCompetencia extends JPanel {
 		lblCantidadTantos.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 				
-				txtTantosAusencia = new JTextField();
-				txtTantosAusencia.setEnabled(false);
-				txtTantosAusencia.setColumns(10);
+		txtTantosAusencia = new JTextField();
+		txtTantosAusencia.setEnabled(false);
+		txtTantosAusencia.setColumns(10);
 				
-				//ignora el ingreso de caracteres no numericos
-				txtTantosAusencia.addKeyListener(new java.awt.event.KeyAdapter() {
+		//ignora el ingreso de caracteres no numericos
+		txtTantosAusencia.addKeyListener(new java.awt.event.KeyAdapter() {
 					@Override
 					public void keyReleased(KeyEvent e) {
 						Character c = e.getKeyChar();
@@ -417,7 +394,7 @@ public class PanelAltaCompetencia extends JPanel {
 				});
 		
 				
-				JSeparator separator_1 = new JSeparator();
+		JSeparator separator_1 = new JSeparator();
 		
 		JLabel lblReglamento = new JLabel("Reglamento");
 		lblReglamento.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -455,7 +432,7 @@ public class PanelAltaCompetencia extends JPanel {
 				if(GestorUsuario.getLugaresDisponibles(id_usuario, ((Item)this.boxDeporte_1.getSelectedItem()).getId()).isEmpty()) {
 					JOptionPane.showMessageDialog(null, "No existe Lugar que acepte el Deporte seleccionado.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 				}else {
-				DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
+					DialogAltaLugar dialogAltaLugar = new DialogAltaLugar(this);
 				}
 			}
 		});
@@ -661,20 +638,16 @@ public class PanelAltaCompetencia extends JPanel {
 		btnConfirmar.setEnabled(true);
 		btnConfirmar.setBackground(new Color(51, 102, 255));
 						
+		JSplitPane splitCancelarConfirmar = new JSplitPane();
+		splitCancelarConfirmar.setDividerSize(0);
 						
-//		JSplitPane splitLugar = new JSplitPane();
-//		JOptionPane.showMessageDialog(null, msg);
-						
-						JSplitPane splitCancelarConfirmar = new JSplitPane();
-						splitCancelarConfirmar.setDividerSize(0);
-						
-						JButton btnAtras = new JButton("Atrás");
-						btnAtras.addActionListener( a -> {
-							m.cambiarPanel(llamante);
-						});
-						splitCancelarConfirmar.setRightComponent(btnConfirmar);
-						splitCancelarConfirmar.setLeftComponent(btnAtras);
-						GroupLayout gl_panelDown = new GroupLayout(panelDown);
+		JButton btnAtras = new JButton("Atrás");
+		btnAtras.addActionListener( a -> {
+			m.cambiarPanel(llamante);
+		});
+		splitCancelarConfirmar.setRightComponent(btnConfirmar);
+		splitCancelarConfirmar.setLeftComponent(btnAtras);
+		GroupLayout gl_panelDown = new GroupLayout(panelDown);
 						gl_panelDown.setHorizontalGroup(
 							gl_panelDown.createParallelGroup(Alignment.LEADING)
 								.addGroup(Alignment.TRAILING, gl_panelDown.createSequentialGroup()
@@ -692,138 +665,133 @@ public class PanelAltaCompetencia extends JPanel {
 						panelDown.setLayout(gl_panelDown);
 						
 						
-						//Al confirmar, se asignan todos los valores ingresados
-						btnConfirmar.addActionListener( a -> {
-							nombreCompetencia = txtNombre.getText();
-							
-							try {
-								cantSets = Integer.parseInt(txtCantidadSets.getText());
-							}
-							catch(Exception e) {
-								cantSets = null;
-							}
-							try {
-							tantosXAusencia = Double.parseDouble(txtTantosAusencia.getText());
-							}
-							catch(Exception e) {
-								tantosXAusencia = null;
-							}
-							try {
-							puntosPartidoGanado = Double.parseDouble(txtPuntosPartidoGanado.getText());
-							}
-							catch(Exception e) {
-								puntosPartidoGanado = null;
-							}
-							try {
-							puntosEmpate = Double.parseDouble(txtPuntosEmpate.getText());
-							} 
-							catch(Exception e) {
-								puntosEmpate = null;
-							}
-							try {
-							puntosPresentarse = Double.parseDouble(txtPuntosPresentarse.getText());
-							}
-							catch(Exception e) {
-								puntosPresentarse = null;
-							}
-							if(this.rdbtnEmpate.isSelected()) {
-								this.empate =true;
-								try {
-								this.puntosEmpate = Double.parseDouble(this.txtPuntosEmpate.getText());
-								}catch(Exception ex) {};
-							}
-							reglamentoCompetencia = txtReglamento.getText();
-							
-							//Set de modalidad de competencia
-							switch((String)boxModalidad.getSelectedItem()) {
-							case "Liga": modalidadCompetencia = tp.enums.Modalidad.LIGA;
-								break;
-							case "Eliminacion Simple": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DIRECTA;
-								break;
-							case "Eliminacion Doble": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DOBLE;
-								break;
-							default:modalidadCompetencia = null;
-							}
-							//Set de Modalidad de Puntuacion
-							if(rdbtnSets.isSelected()) {
-								this.puntuacion = ModalidadDePuntuacion.SETS;
-							}else if(rdbtnPuntuacion.isSelected()) {
-								this.puntuacion = ModalidadDePuntuacion.PUNTUACION;
-								this.cantSets = 0;
-							}else if(rdbtnPuntuacionFinal.isSelected()) {
-								this.puntuacion = ModalidadDePuntuacion.PUNTUACION_FINAL;
-								this.cantSets = 0;
-							}
-							//Set de idDeporte
-							id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
-							
-							//Asigna valores de DTO
-							//-----------------------------------------------------------------------------------------------------------------------------------------------------------
-							compDTO = new CompetenciaDTO(this.nombreCompetencia,this.modalidadCompetencia, this.reglamentoCompetencia,
-									this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
-									this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
+		//Al confirmar, se asignan todos los valores ingresados
+		btnConfirmar.addActionListener( a -> {
+			nombreCompetencia = txtNombre.getText();
+			
+			try {
+				cantSets = Integer.parseInt(txtCantidadSets.getText());
+			}
+			catch(Exception e) {
+				cantSets = null;
+			}
+			try {
+			tantosXAusencia = Double.parseDouble(txtTantosAusencia.getText());
+			}
+			catch(Exception e) {
+				tantosXAusencia = null;
+			}
+			try {
+			puntosPartidoGanado = Double.parseDouble(txtPuntosPartidoGanado.getText());
+			}
+			catch(Exception e) {
+				puntosPartidoGanado = null;
+			}
+			try {
+			puntosEmpate = Double.parseDouble(txtPuntosEmpate.getText());
+			} 
+			catch(Exception e) {
+				puntosEmpate = null;
+			}
+			try {
+			puntosPresentarse = Double.parseDouble(txtPuntosPresentarse.getText());
+			}
+			catch(Exception e) {
+				puntosPresentarse = null;
+			}
+			if(this.rdbtnEmpate.isSelected()) {
+				this.empate =true;
+				try {
+				this.puntosEmpate = Double.parseDouble(this.txtPuntosEmpate.getText());
+				}catch(Exception ex) {};
+			}
+			reglamentoCompetencia = txtReglamento.getText();
+			
+			//Set de modalidad de competencia
+			switch((String)boxModalidad.getSelectedItem()) {
+			case "Liga": modalidadCompetencia = tp.enums.Modalidad.LIGA;
+				break;
+			case "Eliminacion Simple": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DIRECTA;
+				break;
+			case "Eliminacion Doble": modalidadCompetencia = tp.enums.Modalidad.ELIMINACION_DOBLE;
+				break;
+			default:modalidadCompetencia = null;
+			}
+			//Set de Modalidad de Puntuacion
+			if(rdbtnSets.isSelected()) {
+				this.puntuacion = ModalidadDePuntuacion.SETS;
+			}else if(rdbtnPuntuacion.isSelected()) {
+				this.puntuacion = ModalidadDePuntuacion.PUNTUACION;
+				this.cantSets = 0;
+			}else if(rdbtnPuntuacionFinal.isSelected()) {
+				this.puntuacion = ModalidadDePuntuacion.PUNTUACION_FINAL;
+				this.cantSets = 0;
+			}
+			//Set de idDeporte
+			id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
+			
+			//Asigna valores de DTO
+			//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+			compDTO = new CompetenciaDTO(this.nombreCompetencia,this.modalidadCompetencia, this.reglamentoCompetencia,
+					this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
+					this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
 
-							try {
-								//TODO validacion de que los campos no estan completos, con mensaje especificando cada campo.
-								//nombre competencia, deporte(?), lugares, modalidad(?), forma puntuacion(?)
-								//liga: puntos ganar, empate(?), puntos empate(*), puntos presentarse
-								//sets: cant max de sets, puntuacion: tantos por ausencia
-								//confirmar si esta bien, los que tienen signos de pregunta no se si tienen un default 
-								String CamposVacios="";
-								if(compDTO.getNombre().isEmpty()) {
-									CamposVacios=CamposVacios+"La competencia debe tener un nombre. \n";
-								}
-								if(compDTO.getLugares().isEmpty()) {
-									CamposVacios=CamposVacios+"La competencia debe tener al menos un lugar de realización. \n";
-								}
-								if(compDTO.getModalidad() == null) {
-									CamposVacios=CamposVacios+"Debe indicar una Modalidad de competencia. \n";
-								}
-								if(compDTO.getModalidad()==tp.enums.Modalidad.LIGA) {
-									if(compDTO.getEmpate()&&compDTO.getPuntosXEmpate()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar puntos por empate. \n";
-									}
-									if(compDTO.getPuntosXGanado()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado. \n";
-									}
-									if(compDTO.getPuntosXPresentarse()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar puntos por presentarse. \n";
-									}
-								}
-								switch(compDTO.getPuntuacion()) {
-								case SETS:
-									if(compDTO.getCantSets()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar una cantidad válida de sets. \n";
-									}
-									break;
-								default:
-									if(compDTO.getTantosXAusencia()==null) {
-										CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia. \n";
-									}
-								}
-								if(!CamposVacios.equals("")) {
-									throw new Exception("Campos incompletos: \n"+CamposVacios);
-								}
-								if(compDTO.getPuntuacion()==ModalidadDePuntuacion.SETS &&
-										(compDTO.getCantSets()%2!=1||compDTO.getCantSets()>10)) {
-									throw new Exception("La cantidad de sets no es impar o es mayor a 10.");
-								}
-								if(compDTO.getEmpate()&&(compDTO.getPuntosXEmpate()>compDTO.getPuntosXGanado())) {
-									throw new Exception("Los puntos por empate son mayores a los puntos por ganar.");
-								}
-								if((compDTO.getPuntuacion() == ModalidadDePuntuacion.SETS) && (compDTO.getPuntosXPresentarse() >= compDTO.getPuntosXGanado())) {
-									throw new Exception("Los puntos por presentarse son mayores a los puntos por ganar.");
-								}
-								
-								gestorCompetencia.crearCompetencia(compDTO);
+			try {
+				String CamposVacios="";
+				if(compDTO.getNombre().isEmpty()) {
+					CamposVacios=CamposVacios+"La competencia debe tener un nombre. \n";
+				}
+				if(compDTO.getLugares().isEmpty()) {
+					CamposVacios=CamposVacios+"La competencia debe tener al menos un lugar de realización. \n";
+				}
+				if(compDTO.getModalidad() == null) {
+					CamposVacios=CamposVacios+"Debe indicar una Modalidad de competencia. \n";
+				}
+				if(compDTO.getModalidad()==tp.enums.Modalidad.LIGA) {
+					if(compDTO.getEmpate()&&compDTO.getPuntosXEmpate()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar puntos por empate. \n";
+					}
+					if(compDTO.getPuntosXGanado()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado. \n";
+					}
+					if(compDTO.getPuntosXPresentarse()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar puntos por presentarse. \n";
+					}
+				}
+				switch(compDTO.getPuntuacion()) {
+				case SETS:
+					if(compDTO.getCantSets()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar una cantidad válida de sets. \n";
+					}
+					break;
+				default:
+					if(compDTO.getTantosXAusencia()==null) {
+						CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia. \n";
+					}
+				}
+				if(!CamposVacios.equals("")) {
+					throw new Exception("Campos incompletos: \n"+CamposVacios);
+				}
+				if(compDTO.getPuntuacion()==ModalidadDePuntuacion.SETS &&
+						(compDTO.getCantSets()%2!=1||compDTO.getCantSets()>10)) {
+					throw new Exception("La cantidad de sets no es impar o es mayor a 10.");
+				}
+				if(compDTO.getEmpate()&&(compDTO.getPuntosXEmpate()>compDTO.getPuntosXGanado())) {
+					throw new Exception("Los puntos por empate son mayores a los puntos por ganar.");
+				}
+				if((compDTO.getPuntuacion() == ModalidadDePuntuacion.SETS) && (compDTO.getPuntosXPresentarse() >= compDTO.getPuntosXGanado())) {
+					throw new Exception("Los puntos por presentarse son mayores a los puntos por ganar.");
+				}
+				
+				gestorCompetencia.crearCompetencia(compDTO);
 
-								JOptionPane.showMessageDialog(null, "La Competencia se guardo con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
-								m.cambiarPanel(new PanelListarParticipantes(m, this, GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
-							}catch(Exception e) {
-								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-							}
-								
-						});
+				JOptionPane.showMessageDialog(null, "La Competencia se guardo con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
+				m.cambiarPanel(new PanelListarParticipantes(m, this, GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
+			}catch(Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+			}
+				
+		});
 		
 		JPanel panelL = new JPanel();
 		panelL.setPreferredSize(new Dimension(6, 10));

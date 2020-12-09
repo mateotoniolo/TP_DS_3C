@@ -5,11 +5,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import tp.DTOs.ItemLugarDTO;
+
 import tp.DTOs.ParticipanteDTO;
-import tp.Gestores.GestorCompetencia;
-import tp.clases.ItemLugar;
-import tp.clases.Lugar;
 
 
 

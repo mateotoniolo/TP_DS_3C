@@ -1,15 +1,11 @@
 package tp.GUI;
 
-import java.awt.BorderLayout;
+
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -18,19 +14,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import tp.DAO.DeporteDAO;
-import tp.DAO.LugarDAO;
 import tp.DTOs.ItemLugarDTO;
 import tp.Gestores.GestorUsuario;
 import tp.app.App;
-import tp.clases.ItemLugar;
 import tp.clases.Lugar;
-
 import java.awt.Color;
 import java.awt.Component;
-
 import javax.swing.JTextField;
 
 public class DialogAltaLugar extends JDialog {
@@ -87,8 +76,8 @@ public class DialogAltaLugar extends JDialog {
 		
 		boxLugar.setBounds(6, 35, 215, 26);
 		for (String lugar: GestorUsuario.getLugaresDisponibles(p.getId_usuario(),p.getId_deporte())){
-			boxLugar.addItem(lugar);
-		}
+				boxLugar.addItem(lugar);
+			}
 		contentPanel.add(boxLugar);
 		
 		

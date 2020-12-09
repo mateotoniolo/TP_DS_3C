@@ -5,41 +5,26 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.PopupMenu;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.table.DefaultTableModel;
-
-import tp.DTOs.ItemLugarDTO;
 import tp.DTOs.ParticipanteDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.app.App;
 import tp.clases.Competencia;
-import tp.clases.Participante;
-
-import javax.swing.JToggleButton;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.ImageIcon;
 
@@ -48,6 +33,7 @@ public class PanelListarParticipantes extends JPanel {
 	ListarParticipantesTM tableModel ;
 	Integer id_competencia;
 	JPanel llamante;
+	boolean PanelAlta = false;
 	/**
 	 * Create the panel.
 	 */
@@ -66,6 +52,7 @@ public class PanelListarParticipantes extends JPanel {
 			Integer id_competencia) {
 		this.id_competencia = id_competencia;
 		this.llamante = llamante;
+		this.PanelAlta = true;
 		initialize(m,id_competencia);
 	}
 
@@ -88,7 +75,6 @@ public class PanelListarParticipantes extends JPanel {
 		Competencia competencia = GestorCompetencia.getCompetenciaByID(id_competencia);
 		
 		setBackground(new Color(102, 102, 102));
-//		m.setTitle("PARTICIPANTES");
 		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		setBounds(100, 50, 1366, 740);
 		
@@ -135,10 +121,13 @@ public class PanelListarParticipantes extends JPanel {
 		splitPane.setRightComponent(btnNuevoParticipante);
 		btnNuevoParticipante.setBackground(new Color(51, 102, 255));
 		
-		JButton btnAtras = new JButton("Atras");
+		JButton btnAtras = new JButton("Atrás");
 		splitPane.setLeftComponent(btnAtras);
 		
 		btnAtras.addActionListener( a -> {
+			if(!PanelAlta) {
+				((PanelListarCompetenciasDeportivas)llamante).actualizar();
+			}
 			m.cambiarPanel(llamante);
 		});
 		

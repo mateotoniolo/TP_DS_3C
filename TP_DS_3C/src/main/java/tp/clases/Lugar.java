@@ -20,7 +20,7 @@ public class Lugar {
 	@Column
 	private Integer id_usuario;
 	
-	// constructor sin params
+
 	public Lugar() {
 		super();
 	}

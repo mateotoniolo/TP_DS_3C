@@ -98,9 +98,9 @@ public class GestorCompetencia {
 		
 	}
 
-	public static List<CompetenciaDTO> listarCompetencias() {
-		return CompetenciaDAO.getAllCompetenciasDTO();
-	}
+//	public static List<CompetenciaDTO> listarCompetencias() {
+//		return CompetenciaDAO.getAllCompetenciasDTO();
+//	}
 
 	public static List<ParticipanteDTO> mostrarParticipantes(Integer id_competencia) {
 		List<ParticipanteDTO> participantesDTO = new ArrayList<>();

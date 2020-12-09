@@ -17,7 +17,6 @@ import tp.enums.ModalidadDePuntuacion;
 @Table(name="Competencia_Eliminacion_Directa")
 public class CompetenciaEliminacionSimple extends Competencia {
 
-	// constructor sin params
 	public CompetenciaEliminacionSimple() {
 		super();
 	}

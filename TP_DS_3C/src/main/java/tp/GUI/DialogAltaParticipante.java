@@ -4,29 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
-
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
 import tp.DTOs.ParticipanteDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.app.App;
-import tp.clases.Competencia;
-
 import javax.swing.JTextField;
 import java.awt.Dimension;
 
@@ -37,9 +28,6 @@ public class DialogAltaParticipante extends JDialog {
 	private JTextField txtNombre;
 	private JButton btnAgregar;
 	private JButton btnCancelar;
-	
-	private Boolean ingresoNombre = false;
-	private Boolean ingresoCorreoElectronico = false;
 	
 	private String nombre;
 	private String correoElectronico;
@@ -94,13 +82,9 @@ public class DialogAltaParticipante extends JDialog {
 		txtCorreoElectronico.setPreferredSize(new Dimension(7, 30));
 		txtCorreoElectronico.setColumns(10);
 		
-		
-		
 		txtNombre = new JTextField();
 		txtNombre.setPreferredSize(new Dimension(7, 30));
-		txtNombre.setColumns(10);
-
-		
+		txtNombre.setColumns(10);	
 		
 		GroupLayout gl_panelBlanco = new GroupLayout(panelBlanco);
 		gl_panelBlanco.setHorizontalGroup(

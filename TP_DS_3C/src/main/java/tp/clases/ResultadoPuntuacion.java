@@ -14,7 +14,7 @@ public class ResultadoPuntuacion extends Resultado {
 	@Column
 	private Integer tantosB;
 	
-	// constructor sin params
+
 	public ResultadoPuntuacion() {
 		super();
 	}
