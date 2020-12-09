@@ -45,7 +45,7 @@ public class GestorCompetencia {
 			 competencia = new CompetenciaLiga(DTO.getNombre(),DTO.getModalidad(),null,
 					 null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA, DTO.getPuntuacion(),
 					 DTO.getTantosXAusencia(),usuario,deporte,
-					 null, DTO.getEmpate());
+					 null, DTO.getEmpate(),DTO.getPuntosXPresentarse(),DTO.getPuntosXGanado(),DTO.getPuntosXEmpate());
 			 for(ItemLugarDTO dto : DTO.getLugares()) {
 					Lugar lugar = LugarDAO.getLugarByCodigo(dto.getCodigo());
 					ItemLugar item = new ItemLugar(competencia,lugar,dto.getDisponibilidad());

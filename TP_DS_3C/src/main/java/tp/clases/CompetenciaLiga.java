@@ -20,11 +20,11 @@ public class CompetenciaLiga extends Competencia {
 	@Column
 	private Boolean empate;
 	@Column
-	private Integer puntos_por_presentarse;
+	private Double puntos_por_presentarse;
 	@Column
-	private Integer puntos_por_ganar;
+	private Double puntos_por_ganar;
 	@Column
-	private Integer puntos_por_empate;
+	private Double puntos_por_empate;
 	@Transient
 	private List<EstadisticaTabla> estadisticas;
 	
@@ -36,7 +36,7 @@ public class CompetenciaLiga extends Competencia {
 	public CompetenciaLiga( String nombre, Modalidad modalidad,
 			List<Participante> listaParticipantes, Fixture fixture, Integer cantSets, String reglamento, EstadoCompetencia estado,
 			ModalidadDePuntuacion modalidadDePuntuacion, Double tantosXAusencia, Usuario usuario,
-			Deporte id_deporte, List<EstadisticaTabla> estadisticas, Boolean empate) {
+			Deporte id_deporte, List<EstadisticaTabla> estadisticas, Boolean empate,Double puntos_por_presentarse, Double puntos_por_ganar,Double puntos_por_empate) {
 		super( nombre, modalidad, listaParticipantes, fixture, cantSets, reglamento, estado , modalidadDePuntuacion, tantosXAusencia,
 				usuario, id_deporte);
 		
@@ -60,32 +60,32 @@ public class CompetenciaLiga extends Competencia {
 	}
 
 
-	public Integer getPuntosXPresentarse() {
+	public Double getPuntosXPresentarse() {
 		return puntos_por_presentarse;
 	}
 
 
-	public void setPuntosXPresentarse(Integer puntosXPresentarse) {
+	public void setPuntosXPresentarse(Double puntosXPresentarse) {
 		this.puntos_por_presentarse = puntosXPresentarse;
 	}
 
 
-	public Integer getPuntosXEmpate() {
+	public Double getPuntosXEmpate() {
 		return puntos_por_empate;
 	}
 
 
-	public void setPuntosXEmpate(Integer puntosXEmpate) {
+	public void setPuntosXEmpate(Double puntosXEmpate) {
 		this.puntos_por_empate = puntosXEmpate;
 	}
 
 
-	public Integer getPuntosXGanado() {
+	public Double getPuntosXGanado() {
 		return puntos_por_ganar;
 	}
 
 
-	public void setPuntosXGanado(Integer puntosXGanado) {
+	public void setPuntosXGanado(Double puntosXGanado) {
 		this.puntos_por_ganar = puntosXGanado;
 	}
 
