@@ -9,10 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.ImageIcon;
-
 import org.hibernate.mapping.Collection;
-
-import tp.DAO.DataBase;
 import tp.GUI.MainApplication;
 import tp.clases.Competencia;
 import tp.clases.Deporte;
