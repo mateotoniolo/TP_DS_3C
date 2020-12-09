@@ -20,9 +20,12 @@ import javax.swing.border.CompoundBorder;
 
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.CompetenciaPartidosDTO;
+import tp.DTOs.PartidoDTO;
 import tp.Gestores.GestorCompetencia;
+import tp.Gestores.GestorFixture;
 import tp.app.App;
 import tp.clases.Competencia;
+import tp.clases.Partido;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,10 +36,10 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 public class DialogVerCompetencia extends JDialog {
-	private JTable table;
+	private JTable table = new JTable();
 	private JPanel panelBotonesR;
 	private JLabel lblNombreCompetencia; 
-
+	private VerCompetenciaTM tableModel = new VerCompetenciaTM();
 	
 	//Gestores
 	private GestorCompetencia gestorCompetencia = new GestorCompetencia();
@@ -71,7 +74,6 @@ public class DialogVerCompetencia extends JDialog {
 		compPartDTO = gestorCompetencia.mostrarCompetencia(compDTO);
 		
 		setBackground(new Color(102, 102, 102));
-//		m.setTitle("Ver Detalles Competencia");
 		setBounds(100, 50, 1000, 657);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -165,9 +167,9 @@ public class DialogVerCompetencia extends JDialog {
 		btnGenerarFixture.addActionListener( a -> {
 			try {
 				GestorCompetencia.generarFixture(compDTO);
+				actualizarTabla(id_competencia);
 			} catch (Exception e) {
-//				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}
 		});
 		
@@ -331,6 +333,18 @@ public class DialogVerCompetencia extends JDialog {
 		panelR.setLayout(gl_panelR);
 		panelUp.setLayout(gl_panelUp);
 		
-		
+		this.table.setModel(tableModel);
+		if(compDTO.getId_fixture() != null) {
+			for(PartidoDTO p : GestorFixture.getProximosEncuentros(compDTO.getId_fixture())) {
+				this.tableModel.addItemTM(p);
+			}
+		}
+	}
+	public void actualizarTabla(Integer id_competencia) {
+		this.tableModel.removeAll();
+		for(PartidoDTO p : GestorFixture.getProximosEncuentros(GestorCompetencia.getCompetenciaByID(id_competencia).getFixture().getId_fixture())) {
+			this.tableModel.addItemTM(p);
+		}
+		this.table.updateUI();
 	}
 }

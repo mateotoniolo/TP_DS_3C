@@ -6,6 +6,7 @@ import java.util.List;
 import tp.DAO.FixtureDAO;
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.FixtureDTO;
+import tp.DTOs.PartidoDTO;
 import tp.clases.Competencia;
 import tp.clases.Fecha;
 import tp.clases.Fixture;
@@ -139,4 +140,18 @@ public static Fixture generarFixture(Competencia competencia) {
     	else
     		return calcularLigaNumEquiposImpar(participantes);
     }
+	public static List<PartidoDTO> getProximosEncuentros(Integer id_fixture) {
+		Fixture fixture = FixtureDAO.getFixtureById(id_fixture);
+		List<Partido> partidos = new ArrayList<>();
+		List<PartidoDTO> retorno = new ArrayList<>();
+		for(Fecha f : fixture.getListaFechas()) {
+			partidos.addAll(f.getListaPartidos());
+		}
+		for(Partido p : partidos) {
+			if(p.getResultado() == null) {
+				retorno.add(new PartidoDTO(p.getParticipanteA(),p.getParticipanteB()));
+			}
+		}
+		return retorno;
+	}
 }

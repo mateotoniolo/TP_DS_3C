@@ -313,13 +313,13 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		
 		JButton btnDetalles = new JButton("Detalles");
 		btnDetalles.addActionListener( a -> {
-			try {
+//			try {
 			String nombre = (String)this.tableModel.getValueAt(this.tablaCompetencias.getSelectedRow(), 0);
 			DialogVerCompetencia comp = new DialogVerCompetencia(m, GestorCompetencia.getCompetenciaByName(nombre).getId_competencia());
 			comp.setVisible(true);
-			} catch(Exception e) {
-				JOptionPane.showMessageDialog(null, "Debe seleccionar una competencia.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-			}
+//			} catch(Exception e) {
+//				JOptionPane.showMessageDialog(null, "Debe seleccionar una competencia.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+//			}
 		});
 		
 		JButton btnAtras = new JButton("Atras");
