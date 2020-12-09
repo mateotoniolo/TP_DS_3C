@@ -167,7 +167,7 @@ public class DialogVerCompetencia extends JDialog {
 		btnGenerarFixture.addActionListener( a -> {
 			try {
 				GestorCompetencia.generarFixture(compDTO);
-				actualizarTabla(id_competencia);
+	//			actualizarTabla(id_competencia);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}
@@ -333,12 +333,12 @@ public class DialogVerCompetencia extends JDialog {
 		panelR.setLayout(gl_panelR);
 		panelUp.setLayout(gl_panelUp);
 		
-		this.table.setModel(tableModel);
-		if(compDTO.getId_fixture() != null) {
-			for(PartidoDTO p : GestorFixture.getProximosEncuentros(compDTO.getId_fixture())) {
-				this.tableModel.addItemTM(p);
-			}
-		}
+//		this.table.setModel(tableModel);
+//		if(compDTO.getId_fixture() != null) {
+//			for(PartidoDTO p : GestorFixture.getProximosEncuentros(compDTO.getId_fixture())) {
+//				this.tableModel.addItemTM(p);
+//			}
+//		}
 	}
 	public void actualizarTabla(Integer id_competencia) {
 		this.tableModel.removeAll();
