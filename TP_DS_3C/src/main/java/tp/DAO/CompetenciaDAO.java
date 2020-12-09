@@ -59,42 +59,7 @@ public class CompetenciaDAO {
 	}
 	
 	
-	
-	public static Integer getIDbyNombre(String nombre) {
-		Connection con = DataBase.getConexion();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		Integer id_Competencia = null;
-		try {
-			pstm = con.prepareStatement(
-					"SELECT id_competencia FROM dsi20203c.Competencia WHERE nombre = ?");
-			pstm.setString(1, nombre);
-			rs = pstm.executeQuery();
-			while(rs.next()) {
-			id_Competencia = rs.getInt(1);}
-		}catch(Exception e) {
-			System.out.println(e.getMessage());	
-		}
-		finally {
-			DataBase.cerrarRs(rs);
-			DataBase.cerrarPstm(pstm);
-			DataBase.cerrarConexion(con);
-		}
-		return id_Competencia;
-	}
-	
-//	public static List<CompetenciaDTO> getAllCompetenciasDTO() {
-//		List<Competencia> listaCompetencias= new ArrayList<>();
-//		List<CompetenciaDTO> listaCompetenciasDTO= new ArrayList<>();
-////		Query query=App.entity.createQuery("SELECT p FROM Competencia p");
-////		listaCompetencias=(List<Competencia>)query.getResultList();
-////		for (Competencia p : listaCompetencias) {
-////			listaCompetenciasDTO.add(new CompetenciaDTO(p.getNombre(), null/*modalidad*/, null/*reglamento*/, p.getCantSets(),
-////					p.getModalidadDePuntuacion(),p.getTantosXAusencia(), null/*EMPATE*/, null/*PUNTOSXPRESENTARSE*/, null/*puntosXEmpate*/,
-////					null/*puntosXGanado*/, p.getDeporte().getIdDeporte(), p.getLugares(), p.getUsuario().getIdUsuario()));
-////		}
-//		return listaCompetenciasDTO;
-//	}
+
 	public static Competencia getCompetenciaByID(Integer id) {
 		Competencia competencia = new Competencia();
 		competencia = App.entity.find(Competencia.class, id);

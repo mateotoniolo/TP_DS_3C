@@ -31,7 +31,7 @@ public class PanelAltaCompetencia extends JPanel {
 	private Double puntosPresentarse = null;
 	private Double puntosEmpate = null;
 	private Integer id_usuario = 6;
-	
+	JPanel previo;
 	//Gestores
 	private GestorCompetencia gestorCompetencia = new GestorCompetencia();
 	
@@ -60,6 +60,7 @@ public class PanelAltaCompetencia extends JPanel {
 	AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
 
 	public PanelAltaCompetencia(MainApplication m, JPanel llamante) {
+		previo =llamante;
 		initialize(m, llamante);
 	}
 
@@ -667,6 +668,9 @@ public class PanelAltaCompetencia extends JPanel {
 						
 		//Al confirmar, se asignan todos los valores ingresados
 		btnConfirmar.addActionListener( a -> {
+			int valor = JOptionPane.YES_NO_OPTION;
+			JOptionPane.showMessageDialog(null, "Seguro desea agregar una nueva competencia?","Confirmación",valor,App.emoji("icon/pregunta1.png", 32,32));				
+			if(valor == JOptionPane.YES_OPTION) {
 			nombreCompetencia = txtNombre.getText();
 			
 			try {
@@ -774,23 +778,24 @@ public class PanelAltaCompetencia extends JPanel {
 				}
 				if(compDTO.getPuntuacion()==ModalidadDePuntuacion.SETS &&
 						(compDTO.getCantSets()%2!=1||compDTO.getCantSets()>10)) {
-					throw new Exception("La cantidad de sets no es impar o es mayor a 10.");
+					throw new Exception("La cantidad de sets debe ser impar y menor a 10.");
 				}
 				if(compDTO.getEmpate()&&(compDTO.getPuntosXEmpate()>compDTO.getPuntosXGanado())) {
-					throw new Exception("Los puntos por empate son mayores a los puntos por ganar.");
+					throw new Exception("Los puntos por empate deben ser menor que los puntos por ganar.");
 				}
 				if((compDTO.getPuntuacion() == ModalidadDePuntuacion.SETS) && (compDTO.getPuntosXPresentarse() >= compDTO.getPuntosXGanado())) {
-					throw new Exception("Los puntos por presentarse son mayores a los puntos por ganar.");
+					throw new Exception("Los puntos por presentarse deben ser menor que los puntos por ganar.");
 				}
 				
 				gestorCompetencia.crearCompetencia(compDTO);
 
 				JOptionPane.showMessageDialog(null, "La Competencia se guardo con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
 				m.cambiarPanel(new PanelListarParticipantes(m, this, GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
+				
 			}catch(Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}
-				
+			}	
 		});
 		
 		JPanel panelL = new JPanel();
