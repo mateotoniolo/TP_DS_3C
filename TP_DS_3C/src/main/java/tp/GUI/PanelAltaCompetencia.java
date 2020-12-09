@@ -53,8 +53,13 @@ public class PanelAltaCompetencia extends JPanel {
 	private JRadioButton rdbtnEmpate;
 	private JButton btnConfirmar; 
 	private JButton btnModificarLugar;
+	private JButton btnAgregarLugar;
+	private JButton btnEliminarLugar;
+	private JButton btnAtras;
+	private JButton btnHome;
 	private JTable tableLugares;
 	private JFrame frame;
+	ArrayList<Component> tabOrder = new ArrayList<Component>();
 
 	//Define el Table model
 	AltaCompetenciaTM tableModel  = new AltaCompetenciaTM();
@@ -78,9 +83,10 @@ public class PanelAltaCompetencia extends JPanel {
 		}
 		
 		setBackground(new Color(102, 102, 102));
-		m.setTitle("ALTA COMPETENCIA");
+		m.setTitle("");
 		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		setBounds(100, 50, 1366, 740);
+		
 		
 		//Modelo del box deporte
 
@@ -145,14 +151,14 @@ public class PanelAltaCompetencia extends JPanel {
 		txtNombre.setPreferredSize(new Dimension(15, 30));
 		txtNombre.setColumns(10);
 		
-		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
-
+		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
 			@Override
 			public void keyReleased(KeyEvent e) {
 				txtNombre.setText(txtNombre.getText().toUpperCase());
 
 				int code=e.getKeyCode();
-				if(code==KeyEvent.VK_BACK_SPACE) {
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
 				}
 
 			}
@@ -164,10 +170,20 @@ public class PanelAltaCompetencia extends JPanel {
 		boxDeporte_1= new JComboBox( model );
 		boxDeporte_1.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
 		boxDeporte_1.addActionListener( a -> {
-		this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vac�a la tabla
-		this.tableLugares.updateUI();
-		id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
-		       });
+			this.tableModel.vaciarTabla(); //En caso de cambiar de deporte vac�a la tabla
+			this.tableLugares.updateUI();
+			id_deporte = ((Item)this.boxDeporte_1.getSelectedItem()).getId();
+		});
+		
+		boxDeporte_1.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+			}
+		});
 		
 		
 		JLabel lblModalidad = new JLabel("Modalidad *");
@@ -201,6 +217,17 @@ public class PanelAltaCompetencia extends JPanel {
 			}
 		});
 		
+		boxModalidad.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
+			}
+		});
+		
 		rdbtnEmpate = new JRadioButton("Empate");
 		rdbtnEmpate.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		rdbtnEmpate.setEnabled(false);
@@ -214,6 +241,17 @@ public class PanelAltaCompetencia extends JPanel {
 				txtPuntosEmpate.setText("");
 				empate = false;
 			}			
+		});
+		
+		rdbtnEmpate.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
+			}
 		});
 		
 		JLabel lblPuntosPartidoGanado = new JLabel("Puntos por Partido Ganado");
@@ -235,6 +273,9 @@ public class PanelAltaCompetencia extends JPanel {
 				int code=e.getKeyCode();
 				if(code==KeyEvent.VK_BACK_SPACE) {
 					txtPuntosPartidoGanado.setText(txtPuntosPartidoGanado.getText());
+				}
+				if(code==KeyEvent.VK_ENTER) { //pasa al siguiente
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
 				}
 			}
 		});
@@ -260,6 +301,9 @@ public class PanelAltaCompetencia extends JPanel {
 				if(code==KeyEvent.VK_BACK_SPACE) {
 					txtPuntosPresentarse.setText(reparse(txtPuntosPresentarse.getText()));
 				}
+				if(code==KeyEvent.VK_ENTER) { //pasa al siguiente
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
 			} 
 		});
 		
@@ -284,9 +328,9 @@ public class PanelAltaCompetencia extends JPanel {
 				if(code==KeyEvent.VK_BACK_SPACE) {
 					txtPuntosEmpate.setText(txtPuntosEmpate.getText());
 				}
-				
-
-				
+				if(code==KeyEvent.VK_ENTER) { //pasa al siguiente
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
 			} 
 		});
 		
@@ -314,6 +358,16 @@ public class PanelAltaCompetencia extends JPanel {
 			}
 		});
 		
+		rdbtnSets.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+			}
+		});
+		
 		rdbtnPuntuacion = new JRadioButton("Puntuaci\u00F3n");
 		rdbtnPuntuacion.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		rdbtnPuntuacion.setSelected(true);
@@ -326,6 +380,15 @@ public class PanelAltaCompetencia extends JPanel {
 			
 			if(!rdbtnSets.isSelected() && !rdbtnPuntuacionFinal.isSelected()) {
 				rdbtnPuntuacion.setSelected(true);
+			}
+		});
+		rdbtnPuntuacion.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
 			}
 		});
 		
@@ -341,6 +404,15 @@ public class PanelAltaCompetencia extends JPanel {
 			
 			if(!rdbtnSets.isSelected() && !rdbtnPuntuacion.isSelected()) {
 				rdbtnPuntuacionFinal.setSelected(true);
+			}
+		});
+		rdbtnPuntuacionFinal.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
 			}
 		});
 		
@@ -364,9 +436,13 @@ public class PanelAltaCompetencia extends JPanel {
 				int code=e.getKeyCode();
 				if(code==KeyEvent.VK_BACK_SPACE) {
 					txtCantidadSets.setText(txtCantidadSets.getText());
-				}}
-
+				}
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+			}
 		});
+
 		
 		JLabel lblCantidadTantos = new JLabel("Tantos por ausencia");
 		lblCantidadTantos.setToolTipText("");
@@ -390,10 +466,12 @@ public class PanelAltaCompetencia extends JPanel {
 						if(code==KeyEvent.VK_BACK_SPACE) {
 							txtTantosAusencia.setText(txtTantosAusencia.getText());
 						}
-
+						if(code==KeyEvent.VK_ENTER) {
+							KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+						}
 					}
 				});
-		
+
 				
 		JSeparator separator_1 = new JSeparator();
 		
@@ -405,8 +483,9 @@ public class PanelAltaCompetencia extends JPanel {
 		JTextArea txtReglamento = new JTextArea();
 		txtReglamento.setMaximumSize(new Dimension(100, 100));
 		scrollPane_1.setViewportView(txtReglamento);
+
 		
-		JButton btnEliminarLugar = new JButton("Eliminar Lugar");
+		btnEliminarLugar = new JButton("Eliminar Lugar");
 		btnEliminarLugar.setPreferredSize(new Dimension(80, 28));
 		btnEliminarLugar.addActionListener(a -> {
 			try {
@@ -421,8 +500,10 @@ public class PanelAltaCompetencia extends JPanel {
 				JOptionPane.showMessageDialog(null, "Debe seleccionar un lugar a eliminar.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}
 		});
+
 		
-		JButton btnAgregarLugar = new JButton("Agregar Lugar");
+		
+		btnAgregarLugar = new JButton("Agregar Lugar");
 		btnAgregarLugar.setPreferredSize(new Dimension(100, 28));
 		
 		btnAgregarLugar.addActionListener( a -> {
@@ -599,11 +680,13 @@ public class PanelAltaCompetencia extends JPanel {
 		gl_panelUp.setHorizontalGroup(
 			gl_panelUp.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelUp.createSequentialGroup()
-					.addContainerGap()
+					.addGap(6)
 					.addGroup(gl_panelUp.createParallelGroup(Alignment.LEADING)
 						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1348, Short.MAX_VALUE)
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 1348, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+						.addGroup(gl_panelUp.createSequentialGroup()
+							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 1348, Short.MAX_VALUE)
+							.addGap(6)))
+					.addGap(6))
 		);
 		gl_panelUp.setVerticalGroup(
 			gl_panelUp.createParallelGroup(Alignment.LEADING)
@@ -612,7 +695,7 @@ public class PanelAltaCompetencia extends JPanel {
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(39, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
@@ -620,7 +703,7 @@ public class PanelAltaCompetencia extends JPanel {
 		lblNuevaCompetencia.setFont(new Font("Tahoma", Font.BOLD, 35));
 		panel_1.add(lblNuevaCompetencia, BorderLayout.WEST);
 		
-		JButton btnHome = new JButton("");
+		btnHome = new JButton("");
 		btnHome.setIcon(new ImageIcon(PanelAltaCompetencia.class.getResource("/img/home.png")));
 		panel_1.add(btnHome, BorderLayout.EAST);
 		panelUp.setLayout(gl_panelUp);
@@ -638,11 +721,25 @@ public class PanelAltaCompetencia extends JPanel {
 		btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setEnabled(true);
 		btnConfirmar.setBackground(new Color(51, 102, 255));
+		btnConfirmar.addKeyListener(new java.awt.event.KeyAdapter() { //Buscar con ENTER
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					btnConfirmar.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+						}
+					});
+					btnConfirmar.doClick();
+				}
+			}
+		});
 						
 		JSplitPane splitCancelarConfirmar = new JSplitPane();
 		splitCancelarConfirmar.setDividerSize(0);
 						
-		JButton btnAtras = new JButton("Atrás");
+		btnAtras = new JButton("Atrás");
 		btnAtras.addActionListener( a -> {
 			m.cambiarPanel(llamante);
 		});
@@ -809,10 +906,14 @@ public class PanelAltaCompetencia extends JPanel {
 		add(panelR, BorderLayout.EAST);
 		
 		
+
+		this.ordenDeTabulacion();
+
 		
-		//TAB ORDEN
-		ArrayList<Component> order = new ArrayList<Component>();
 		
+	}
+	
+	private void ordenDeTabulacion() {		
 		setFocusCycleRoot(true);
 		txtNombre.setFocusCycleRoot(true);
 		boxDeporte_1.setFocusCycleRoot(true);
@@ -834,30 +935,29 @@ public class PanelAltaCompetencia extends JPanel {
 		btnHome.setFocusCycleRoot(true);
 		
 		
-		order.add(txtNombre);
-		order.add(boxDeporte_1);
-		order.add(boxModalidad);
-		order.add(txtPuntosPartidoGanado);
-		order.add(txtPuntosPresentarse);
-		order.add(rdbtnEmpate);
-		order.add(txtPuntosEmpate);
-		order.add(rdbtnSets);
-		order.add(rdbtnPuntuacion);
-		order.add(rdbtnPuntuacionFinal);
-		order.add(txtCantidadSets);
-		order.add(txtTantosAusencia);
-		order.add(btnAgregarLugar);
-		order.add(btnModificarLugar);
-		order.add(btnEliminarLugar);
-		order.add(btnAtras);
-		order.add(btnConfirmar);
-		order.add(btnHome);
+		tabOrder.add(txtNombre);
+		tabOrder.add(boxDeporte_1);
+		tabOrder.add(boxModalidad);
+		tabOrder.add(txtPuntosPartidoGanado);
+		tabOrder.add(txtPuntosPresentarse);
+		tabOrder.add(rdbtnEmpate);
+		tabOrder.add(txtPuntosEmpate);
+		tabOrder.add(rdbtnSets);
+		tabOrder.add(rdbtnPuntuacion);
+		tabOrder.add(rdbtnPuntuacionFinal);
+		tabOrder.add(txtCantidadSets);
+		tabOrder.add(txtTantosAusencia);
+//		tabOrder.add(btnAtras);
+		tabOrder.add(btnConfirmar);
+//		tabOrder.add(btnHome);
+//		tabOrder.add(btnAgregarLugar);
+//		tabOrder.add(btnModificarLugar);
+//		tabOrder.add(btnEliminarLugar);
 		
-		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, txtNombre));
-		
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
 		
 	}
-	
+
 	public String reparse(String str) {
 		String aux="";
 		for(int i=0; i<str.length(); i++) {

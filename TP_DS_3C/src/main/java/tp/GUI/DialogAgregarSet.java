@@ -12,6 +12,12 @@ import javax.swing.BoxLayout;
 import java.awt.Component;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.GroupLayout;
@@ -28,6 +34,10 @@ public class DialogAgregarSet extends JDialog {
 	private JSplitPane splitPane;
 	private JTextField textField_1;
 	private JTextField textField;
+	private JButton btnAgregar;
+	private JButton btnCancelar;
+	
+	private ArrayList<Component> tabOrder = new ArrayList<Component>();
 	
 	public DialogAgregarSet(JFrame m) {
 		super();
@@ -44,6 +54,8 @@ public class DialogAgregarSet extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		setLocationRelativeTo(m);
+		
+		ordenDeTabulacion();
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -74,10 +86,45 @@ public class DialogAgregarSet extends JDialog {
 		textField_1 = new JTextField();
 		textField_1.setPreferredSize(new Dimension(40, 30));
 		textField_1.setColumns(10);
+		textField_1.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Character c = e.getKeyChar();
+				if(!Character.isDigit(c)) {
+					textField_1.setText(reparse(textField_1.getText()));
+				}
+				
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_BACK_SPACE) {
+					textField_1.setText(textField_1.getText());
+				}
+				if(code==KeyEvent.VK_ENTER) { //pasa al siguiente
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+			} 
+		});
 		
 		textField = new JTextField();
 		textField.setPreferredSize(new Dimension(40, 30));
 		textField.setColumns(10);
+		textField.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Character c = e.getKeyChar();
+				if(!Character.isDigit(c)) {
+					textField_1.setText(reparse(textField_1.getText()));
+				}
+				
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_BACK_SPACE) {
+					textField_1.setText(textField_1.getText());
+				}
+				if(code==KeyEvent.VK_ENTER) { //pasa al siguiente
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+			} 
+		});
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -114,32 +161,72 @@ public class DialogAgregarSet extends JDialog {
 					splitPane = new JSplitPane();
 					splitPane.setDividerSize(0);
 					{
-						JButton btnCancelar = new JButton("Cancelar");
+						btnCancelar = new JButton("Cancelar");
 						splitPane.setLeftComponent(btnCancelar);
 					}
 					{
-						JButton btnAgregar = new JButton("Agregar");
+						btnAgregar = new JButton("Agregar");
 						btnAgregar.setBackground(new Color(51, 102, 255));
 						splitPane.setRightComponent(btnAgregar);
+						btnAgregar.addKeyListener(new java.awt.event.KeyAdapter() { //Agregar con ENTER
+							@Override
+							public void keyReleased(KeyEvent e) {
+								int code=e.getKeyCode();
+								if(code==KeyEvent.VK_ENTER) {
+									btnAgregar.addActionListener(new ActionListener() {
+										@Override
+										public void actionPerformed(ActionEvent e) {
+										}
+									});
+									btnAgregar.doClick();
+								}
+							}
+						});
 					}
 				}
 			}
 			GroupLayout gl_buttonPane = new GroupLayout(buttonPane);
 			gl_buttonPane.setHorizontalGroup(
-				gl_buttonPane.createParallelGroup(Alignment.LEADING)
-					.addGroup(Alignment.TRAILING, gl_buttonPane.createSequentialGroup()
-						.addContainerGap(237, Short.MAX_VALUE)
+				gl_buttonPane.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_buttonPane.createSequentialGroup()
+						.addContainerGap(236, Short.MAX_VALUE)
 						.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap())
 			);
 			gl_buttonPane.setVerticalGroup(
-				gl_buttonPane.createParallelGroup(Alignment.LEADING)
-					.addGroup(Alignment.TRAILING, gl_buttonPane.createSequentialGroup()
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				gl_buttonPane.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_buttonPane.createSequentialGroup()
+						.addGap(4)
+						.addComponent(splitPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGap(0, 0, Short.MAX_VALUE))
 			);
 			buttonPane.setLayout(gl_buttonPane);
 			
 		}
 	}
+	
+	
+	public String reparse(String str) {
+		String aux="";
+		for(int i=0; i<str.length(); i++) {
+			if(Character.isDigit(str.charAt(i))) aux+=str.charAt(i);
+		}
+		return aux;
+	} 
+	
+	private void ordenDeTabulacion() {		
+		setFocusCycleRoot(true);
+		textField.setFocusCycleRoot(true);
+		textField_1.setFocusCycleRoot(true);
+		btnAgregar.setFocusCycleRoot(true);
+		
+		tabOrder.add(textField);
+		tabOrder.add(textField_1);
+		tabOrder.add(btnAgregar);
+		tabOrder.add(btnCancelar);
+
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, textField));
+		
+	}
+	
 }

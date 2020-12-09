@@ -2,8 +2,15 @@ package tp.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -31,6 +38,8 @@ public class DialogAltaParticipante extends JDialog {
 	
 	private String nombre;
 	private String correoElectronico;
+	
+	private ArrayList<Component> tabOrder = new ArrayList<Component>();
 
 	/**
 	 * Create the dialog.
@@ -43,6 +52,8 @@ public class DialogAltaParticipante extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		setLocationRelativeTo(m);
+		
+		ordenDeTabulacion();
 		
 		JPanel panelCeleste = new JPanel();
 		panelCeleste.setBackground(new Color(153, 204, 255));
@@ -81,10 +92,30 @@ public class DialogAltaParticipante extends JDialog {
 		txtCorreoElectronico = new JTextField();
 		txtCorreoElectronico.setPreferredSize(new Dimension(7, 30));
 		txtCorreoElectronico.setColumns(10);
+		txtCorreoElectronico.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
+			}
+		});
 		
 		txtNombre = new JTextField();
 		txtNombre.setPreferredSize(new Dimension(7, 30));
 		txtNombre.setColumns(10);	
+		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
+			}
+		});
 		
 		GroupLayout gl_panelBlanco = new GroupLayout(panelBlanco);
 		gl_panelBlanco.setHorizontalGroup(
@@ -142,7 +173,20 @@ public class DialogAltaParticipante extends JDialog {
 				btnAgregar.setActionCommand("Cancel");
 				buttonPane.add(btnAgregar);
 				btnAgregar.setEnabled(true);
-				
+				btnAgregar.addKeyListener(new java.awt.event.KeyAdapter() { //Agregar con ENTER
+					@Override
+					public void keyReleased(KeyEvent e) {
+						int code=e.getKeyCode();
+						if(code==KeyEvent.VK_ENTER) {
+							btnAgregar.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+								}
+							});
+							btnAgregar.doClick();
+						}
+					}
+				});
 				btnAgregar.addActionListener( a -> {
 						 correoElectronico = txtCorreoElectronico.getText().toString();
 						 nombre = txtNombre.getText().toString();
@@ -158,5 +202,20 @@ public class DialogAltaParticipante extends JDialog {
 				});
 			}
 		}
+	}
+	
+	private void ordenDeTabulacion() {		
+		setFocusCycleRoot(true);
+		txtNombre.setFocusCycleRoot(true);
+		txtCorreoElectronico.setFocusCycleRoot(true);
+		btnAgregar.setFocusCycleRoot(true);
+		
+		tabOrder.add(txtNombre);
+		tabOrder.add(txtCorreoElectronico);
+		tabOrder.add(btnAgregar);
+		tabOrder.add(btnCancelar);
+
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
+		
 	}
 }

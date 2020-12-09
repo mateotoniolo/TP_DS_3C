@@ -6,6 +6,9 @@ import java.awt.Component;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
+import javassist.tools.Callback;
+
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -26,6 +29,10 @@ import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -33,10 +40,44 @@ import javax.swing.ImageIcon;
 
 public class PanelListarCompetenciasDeportivas extends JPanel {
 
-	private JTable tablaCompetencias;
-	private JTextField txtNombre;
 	private ListarCompetenciasTM tableModel;
 	private Integer id_usuario = 6;
+	
+	//elementos del panel
+	private JTextField txtNombre;
+	
+	private JComboBox boxDeporte;
+	private JComboBox<String> boxModalidad;
+	private JComboBox<String> boxEstado;
+	private JButton btnHome;
+	private JTable tablaCompetencias;
+	
+	class Item
+    {
+        private int id;
+        private String description;
+ 
+        public Item(int id, String description)
+        {
+            this.id = id;
+            this.description = description;
+        }
+ 
+        public int getId()
+        {
+            return id;
+        }
+ 
+        public String getDescription()
+        {
+            return description;
+        }
+ 
+        public String toString()
+        {
+            return description;
+        }
+    }
 
 	public PanelListarCompetenciasDeportivas(MainApplication m, JPanel panelHome) {
 		initialize(m, panelHome);
@@ -57,6 +98,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		
 		setBackground(new Color(102, 102, 102));
 		m.setExtendedState(Frame.MAXIMIZED_BOTH);
+		m.setTitle("");
 		setBounds(100, 50, 1366, 740);
 		setLayout(new BorderLayout(0, 0));
 		
@@ -102,7 +144,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		lblCompetencias.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panelCompetencias.add(lblCompetencias, BorderLayout.WEST);
 		
-		JButton btnHome = new JButton("");
+		btnHome = new JButton("");
 		btnHome.setIcon(new ImageIcon(PanelListarCompetenciasDeportivas.class.getResource("/img/home.png")));
 		panelCompetencias.add(btnHome, BorderLayout.EAST);
 		
@@ -114,50 +156,54 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		txtNombre.setPreferredSize(new Dimension(13, 30));
 		txtNombre.setFont(UIManager.getFont("TextArea.font"));
 		txtNombre.setColumns(10);
+		txtNombre.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
+			}
+		});
 		
-		JComboBox<String> boxModalidad = new JComboBox();
+		boxModalidad = new JComboBox();
 		boxModalidad.addItem("----Seleccionar----");
 		boxModalidad.addItem(Modalidad.ELIMINACION_DIRECTA.toString());
 		boxModalidad.addItem(Modalidad.ELIMINACION_DOBLE.toString());
 		boxModalidad.addItem(Modalidad.LIGA.toString());
 		boxModalidad.setPreferredSize(new Dimension(33, 30));
 		boxModalidad.setFont(UIManager.getFont("CheckBox.font"));
+		boxModalidad.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
+			}
+		});
 		
-		
-		class Item
-	    {
-	        private int id;
-	        private String description;
-	 
-	        public Item(int id, String description)
-	        {
-	            this.id = id;
-	            this.description = description;
-	        }
-	 
-	        public int getId()
-	        {
-	            return id;
-	        }
-	 
-	        public String getDescription()
-	        {
-	            return description;
-	        }
-	 
-	        public String toString()
-	        {
-	            return description;
-	        }
-	    }
+	
 		Vector model = new Vector();
 		model.addElement(new Item(-1,"----Seleccionar----"));
 		for(DeporteDTO d : GestorCompetencia.getDeportes()) {
 			model.addElement(new Item(d.getId_deporte(),d.getNombre()));
 		}
-		JComboBox boxDeporte = new JComboBox(model);
+		boxDeporte = new JComboBox(model);
 		boxDeporte.setPreferredSize(new Dimension(33, 30));
 		boxDeporte.setFont(UIManager.getFont("CheckBox.font"));
+		boxDeporte.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
+			}
+		});
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -171,7 +217,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		JLabel lblModalidad = new JLabel("Modalidad");
 		lblModalidad.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		JComboBox<String> boxEstado = new JComboBox();
+		boxEstado = new JComboBox();
 		boxEstado.addItem("----Seleccionar----");
 		boxEstado.addItem(EstadoCompetencia.CREADA.toString());
 		boxEstado.addItem(EstadoCompetencia.EN_DISPUTA.toString());
@@ -179,8 +225,32 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		boxEstado.addItem(EstadoCompetencia.PLANIFICADA.toString());
 		boxEstado.setPreferredSize(new Dimension(33, 30));
 		boxEstado.setFont(UIManager.getFont("CheckBox.font"));
+		boxEstado.addKeyListener(new java.awt.event.KeyAdapter() { //avanza al siguiente
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
+			}
+		});
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addKeyListener(new java.awt.event.KeyAdapter() { //Buscar con ENTER
+			@Override
+			public void keyReleased(KeyEvent e) {
+				int code=e.getKeyCode();
+				if(code==KeyEvent.VK_ENTER) {
+					btnBuscar.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+						}
+					});
+					btnBuscar.doClick();
+				}
+			}
+		});
 		
 		
 		btnBuscar.addActionListener(a -> {
@@ -357,12 +427,9 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		order.add(btnNuevaCompetencia);		
 		order.add(btnHome);	
 					    	    
-		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, btnNuevaCompetencia));
-		
-		
-	
-		
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(order, btnNuevaCompetencia));	
 	}
+	
 	public void actualizar() {
 		this.tablaCompetencias.updateUI();
 	}
