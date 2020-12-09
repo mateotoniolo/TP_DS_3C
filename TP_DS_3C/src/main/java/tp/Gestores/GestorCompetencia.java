@@ -145,7 +145,8 @@ public class GestorCompetencia {
 		String query = "SELECT c FROM Competencia c WHERE id_usuario = '"+competenciaDTO.getId_usuario()+"'"; 
 		Boolean flag = false;
 		if(!competenciaDTO.getNombre().equals("")) {
-				query = query+" AND nombre = '"+competenciaDTO.getNombre()+"'";
+				query = query+" AND nombre like '%"+competenciaDTO.getNombre()+"%'";
+
 				flag = true;
 		}
 		if(!(competenciaDTO.getModalidad() == null)) {
