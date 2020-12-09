@@ -21,9 +21,12 @@ import javax.swing.border.CompoundBorder;
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.CompetenciaPartidosDTO;
 import tp.Gestores.GestorCompetencia;
+import tp.app.App;
 import tp.clases.Competencia;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
@@ -147,7 +150,7 @@ public class DialogVerCompetencia extends JDialog {
 		});
 		
 		btnFixture.addActionListener( a -> {
-			//m.cambiarPanel(new PanelModificarCompetencia(m, id_competencia));
+			
 		});
 		
 		btnEliminar.addActionListener( a -> {
@@ -160,7 +163,12 @@ public class DialogVerCompetencia extends JDialog {
 		});
 		
 		btnGenerarFixture.addActionListener( a -> {
-			//m.cambiarPanel(new PanelGenerarFixture(m, id_competencia));
+			try {
+				GestorCompetencia.generarFixture(compDTO);
+			} catch (Exception e) {
+//				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+				e.printStackTrace();
+			}
 		});
 		
 		btnModificar.addActionListener( a -> {

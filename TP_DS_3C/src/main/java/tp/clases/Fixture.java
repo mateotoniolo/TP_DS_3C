@@ -1,5 +1,6 @@
 package tp.clases;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Table(name="Fixture")
 public class Fixture {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id_fixture;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Fecha> Fechas;
@@ -26,7 +27,8 @@ public class Fixture {
 	private Competencia competencia;
 	
 	public Fixture() {
-		
+		this.competencia = null;
+		this.Fechas = new ArrayList<>();
 	}
 
 	public Fixture(List<Fecha> fechas,Competencia competencia) {

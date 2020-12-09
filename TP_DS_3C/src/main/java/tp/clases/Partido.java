@@ -3,6 +3,8 @@ package tp.clases;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -12,6 +14,7 @@ import javax.persistence.Table;
 @Table(name="Partido")
 public class Partido {
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id_partido;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Local",referencedColumnName = "id_participante")
@@ -38,6 +41,8 @@ public class Partido {
 	public Partido(Participante pA, Participante pB) {
 		this.setParticipanteA(pA);
 		this.setParticipanteB(pB);
+		this.lugarDeRealizacion = null;
+		this.resultado = null;
 	}
 	
 	public Partido(Participante pA, Participante pB, Lugar lugarDeRealizacion, Resultado resultado) {
@@ -51,6 +56,7 @@ public class Partido {
 		this.participanteA = A;
 		this.participanteB = B;
 		this.lugarDeRealizacion = lugar;
+		this.resultado = null;
 	}
 
 	public Participante getParticipanteA() {

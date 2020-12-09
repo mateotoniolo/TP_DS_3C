@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 @Table(name="Resultado")
 public class Resultado {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id_resultado;
 	@Column
 	private Boolean aPresente;

@@ -55,11 +55,11 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 	private ListarCompetenciasTM tableModel;
 	private Integer id_usuario = 6;
 
-	public PanelListarCompetenciasDeportivas(MainApplication m, JPanel panelHome, JPanel llamante) {
-		initialize(m, panelHome, llamante);
+	public PanelListarCompetenciasDeportivas(MainApplication m, JPanel panelHome) {
+		initialize(m, panelHome);
 	}
 
-	private void initialize(MainApplication m, JPanel panelHome, JPanel llamante) {
+	private void initialize(MainApplication m, JPanel panelHome) {
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -324,7 +324,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener( a -> {
-			m.cambiarPanel(llamante);
+			m.cambiarPanel(panelHome);
 		});
 		
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);

@@ -75,10 +75,8 @@ public class Competencia {
 	public Competencia( String nombre, Modalidad modalidad, List<Participante> listaParticipantes, 
 			Fixture fixture, Integer cantSets, String reglamento, EstadoCompetencia estado, ModalidadDePuntuacion modalidadDePuntuacion, 
 			Double tantosXAusencia, Usuario usuario, Deporte deporte) {
-		//this.setIdCompetencia(id);
 		this.setNombre(nombre);
 		this.setModalidad(modalidad.toString());
-//		this.setParticipantes(listaParticipantes);
 		this.setFixture(fixture);
 		this.setReglamento(reglamento);
 		this.setEstado(estado.toString());
@@ -89,6 +87,7 @@ public class Competencia {
 		this.deporte = deporte;
 		this.Lugares = new ArrayList<>();
 		this.Participantes = new ArrayList<>();
+		this.fixture = null;
 	}
 	
 	// Getters y Setters	

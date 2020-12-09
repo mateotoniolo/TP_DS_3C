@@ -111,7 +111,7 @@ public class PanelHome extends JPanel {
 		btnCompetencias.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		btnCompetencias.setForeground(new Color(255, 255, 255));
 		btnCompetencias.addActionListener( a -> {
-			m.cambiarPanel(new PanelListarCompetenciasDeportivas(m, this, this));
+			m.cambiarPanel(new PanelListarCompetenciasDeportivas(m, this));
 		});
 		btnCompetencias.setBackground(new Color(51, 51, 51));
 		splitPane.setLeftComponent(btnCompetencias);

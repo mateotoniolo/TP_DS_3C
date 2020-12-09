@@ -1,10 +1,13 @@
 package tp.clases;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -12,6 +15,7 @@ import javax.persistence.Table;
 @Table(name="Fecha")
 public class Fecha {
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id_fecha;
 	@Column
 	private Integer numero;
@@ -25,6 +29,10 @@ public class Fecha {
 	// constructor sin params
 	public Fecha() {
 		super();
+		this.numero = null;
+		this.rondaGanadores = false;
+		this.rondaPerdedores = false;
+		this.listaPartidos = new ArrayList<>();
 	}
 	
 	// constructor
@@ -32,8 +40,7 @@ public class Fecha {
 		this.setNumero(numero);
 		this.setRondaPerdedores(rPerdedores);
 		this.setRondaGanadores(rGanadores);
-		
-		// this.addPartido(Partido obj)
+		this.listaPartidos = new ArrayList<>();
 	}
 
 

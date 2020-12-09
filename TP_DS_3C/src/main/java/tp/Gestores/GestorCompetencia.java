@@ -184,7 +184,11 @@ public class GestorCompetencia {
 			for(Participante p: comp.getParticipantes()) {
 				c.addParticipante(new ParticipanteDTO(p.getNombre(),p.getEmail()));
 			}
-			c.setId_fixture(comp.getFixture().getId_fixture());
+			if(comp.getFixture() == null) {
+				c.setId_fixture(null);
+			}else {	
+				c.setId_fixture(comp.getFixture().getId_fixture());
+			}
 			competenciasDTO.add(c);
 		}
 		return competenciasDTO;
@@ -202,7 +206,11 @@ public class GestorCompetencia {
 			for(Participante p: comp.getParticipantes()) {
 				c.addParticipante(new ParticipanteDTO(p.getNombre(),p.getEmail()));
 			}
-			c.setId_fixture(comp.getFixture().getId_fixture());
+			if(comp.getFixture() == null) {
+				c.setId_fixture(null);
+			}else {	
+				c.setId_fixture(comp.getFixture().getId_fixture());
+			}
 			
 		
 		return c;
