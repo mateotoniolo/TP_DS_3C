@@ -6,9 +6,6 @@ import java.awt.Component;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-
-import javassist.tools.Callback;
-
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -268,7 +265,7 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 			competenciaDTO.setId_usuario(id_usuario);
 			try {
 			this.tableModel.vaciarTabla();
-			for(CompetenciaDTO c : GestorCompetencia.getCompetenciasByDTO(competenciaDTO)) {
+			for(CompetenciaDTO c : GestorCompetencia.listarCompetencias(competenciaDTO)) {
 				this.tableModel.addItemTM(c);
 			}
 			this.tablaCompetencias.updateUI();

@@ -31,19 +31,19 @@ public class CompetenciaDAO {
 		App.entity.getTransaction().commit();
 		return true;
 	}
-	public Boolean Save(CompetenciaEliminacionDoble comp) {
+	public static Boolean Save(CompetenciaEliminacionDoble comp) {
 		App.entity.getTransaction().begin();
 		App.entity.persist(comp);
 		App.entity.getTransaction().commit();
 		return true;
 	}
-	public Boolean Save(CompetenciaEliminacionSimple comp) {
+	public static Boolean Save(CompetenciaEliminacionSimple comp) {
 		App.entity.getTransaction().begin();
 		App.entity.persist(comp);
 		App.entity.getTransaction().commit();
 		return true;
 	}
-	public Boolean Save(CompetenciaLiga comp) {
+	public static Boolean Save(CompetenciaLiga comp) {
 		App.entity.getTransaction().begin();
 		App.entity.persist(comp);
 		App.entity.getTransaction().commit();

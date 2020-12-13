@@ -27,13 +27,10 @@ import tp.clases.Usuario;
 import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
 
-public class GestorCompetencia {
-
-	private CompetenciaDAO competenciaDao = new CompetenciaDAO();
-	private Competencia competencia ;
+public class GestorCompetencia {	
 	
-	
-	public Boolean crearCompetencia(CompetenciaDTO DTO) throws Exception {
+	public static Boolean crearCompetencia(CompetenciaDTO DTO) throws Exception {
+		Competencia competencia ;
 	if(!(GestorCompetencia.getCompetenciaByName(DTO.getNombre()) == null)) {
 		throw new Exception("Ya existe una competencia con ese nombre. Ingrese un nombre distinto");
 	}
@@ -52,7 +49,7 @@ public class GestorCompetencia {
 					competencia.addLugar(item);
 				}
 			 usuario.addCompetencia(competencia);
-			 this.competenciaDao.Save((CompetenciaLiga)competencia);
+			 CompetenciaDAO.Save((CompetenciaLiga)competencia);
 			 break;
 		case ELIMINACION_DIRECTA:
 			 competencia = new CompetenciaEliminacionSimple(DTO.getNombre(), DTO.getModalidad(),
@@ -64,7 +61,7 @@ public class GestorCompetencia {
 					competencia.addLugar(item);
 				}
 			 usuario.addCompetencia(competencia);
-			 this.competenciaDao.Save((CompetenciaEliminacionSimple)competencia);
+			 CompetenciaDAO.Save((CompetenciaEliminacionSimple)competencia);
 			 break;
 		case ELIMINACION_DOBLE:
 			 competencia = new CompetenciaEliminacionDoble(DTO.getNombre(), DTO.getModalidad(),
@@ -76,7 +73,7 @@ public class GestorCompetencia {
 					competencia.addLugar(item);
 				}
 			 usuario.addCompetencia(competencia);
-			 this.competenciaDao.Save((CompetenciaEliminacionDoble)competencia);
+			 CompetenciaDAO.Save((CompetenciaEliminacionDoble)competencia);
 			 	break;
 		}
 		
@@ -100,22 +97,23 @@ public class GestorCompetencia {
 
 
 	public static List<ParticipanteDTO> mostrarParticipantes(Integer id_competencia) {
+		Competencia competencia = GestorCompetencia.getCompetenciaByID(id_competencia);
 		List<ParticipanteDTO> participantesDTO = new ArrayList<>();
-		for (Participante p : CompetenciaDAO.getCompetenciaByID(id_competencia).getParticipantes()) {
+		for (Participante p : competencia.getParticipantes()) {
 			participantesDTO.add(new ParticipanteDTO(p.getNombre(),p.getEmail()));
 		}
 		return participantesDTO;
 	}
 
-	public static void validar(Integer id_competencia) throws Exception {
-		Competencia competencia = CompetenciaDAO.getCompetenciaByID(id_competencia);
+	public static void validar(CompetenciaDTO competencia) throws Exception {
+
 		if(!(competencia.getEstado().equals(EstadoCompetencia.CREADA) || competencia.getEstado().equals(EstadoCompetencia.PLANIFICADA))) {
-			throw new Exception("La competencia no se encuentra en estado CREADA / Planificada. \n"+"No se puede agregar participantes.");
+			throw new Exception("La competencia no se encuentra en estado CREADA / PLANIFICADA. \n"+"No se puede agregar participantes.");
 		}
 	}
 
-	public static void crearParticipante(Integer id_competencia, ParticipanteDTO participanteDTO) throws Exception {
-		Competencia competencia = getCompetenciaByID(id_competencia);
+	public static void crearParticipante(CompetenciaDTO compDTO, ParticipanteDTO participanteDTO) throws Exception {
+		Competencia competencia = getCompetenciaByID(compDTO.getId_competencia());
 		
 		if(participanteDTO.getNombre().equals("") || participanteDTO.getEmail().equals("")) {
 			throw new Exception("El Nombre y el Email no pueden ser campos vacíos.") ;
@@ -141,7 +139,7 @@ public class GestorCompetencia {
 			}
 	}
 
-	public static List<CompetenciaDTO> getCompetenciasByDTO(CompetenciaDTO competenciaDTO) throws Exception {
+	public static List<CompetenciaDTO> listarCompetencias(CompetenciaDTO competenciaDTO) throws Exception {
 		String query = "SELECT c FROM Competencia c WHERE id_usuario = '"+competenciaDTO.getId_usuario()+"'"; 
 		Boolean flag = false;
 		if(!competenciaDTO.getNombre().equals("")) {
@@ -192,7 +190,7 @@ public class GestorCompetencia {
 		return competenciasDTO;
 	}
 	
-	private static CompetenciaDTO convertiraDTO(Competencia comp) {
+	public static CompetenciaDTO convertiraDTO(Competencia comp) {
 		
 		
 			CompetenciaDTO c = new CompetenciaDTO();

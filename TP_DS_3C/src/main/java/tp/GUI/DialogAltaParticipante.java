@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+
+import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.ParticipanteDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.app.App;
@@ -35,6 +37,7 @@ public class DialogAltaParticipante extends JDialog {
 	private JTextField txtNombre;
 	private JButton btnAgregar;
 	private JButton btnCancelar;
+	private Integer id_competencia;
 	
 	private String nombre;
 	private String correoElectronico;
@@ -44,7 +47,7 @@ public class DialogAltaParticipante extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogAltaParticipante(JFrame m,PanelListarParticipantes listaParticipantes, Integer id_competencia) {
+	public DialogAltaParticipante(JFrame m,PanelListarParticipantes listaParticipantes, CompetenciaDTO competencia) {
 		setTitle("Agregar Participante");
 		setBounds(100, 100, 800, 400);
 		getContentPane().setLayout(new BorderLayout());
@@ -55,6 +58,7 @@ public class DialogAltaParticipante extends JDialog {
 		
 		ordenDeTabulacion();
 		
+		this.id_competencia = competencia.getId_competencia();
 		JPanel panelCeleste = new JPanel();
 		panelCeleste.setBackground(new Color(153, 204, 255));
 		JPanel panelNombreEncuentro = new JPanel();
@@ -191,7 +195,7 @@ public class DialogAltaParticipante extends JDialog {
 						 correoElectronico = txtCorreoElectronico.getText().toString();
 						 nombre = txtNombre.getText().toString();
 						try {
-							GestorCompetencia.crearParticipante(id_competencia, new ParticipanteDTO(nombre,correoElectronico));
+							GestorCompetencia.crearParticipante(competencia, new ParticipanteDTO(nombre,correoElectronico));
 							JOptionPane.showMessageDialog(null, "Nuevo participante agregado con éxito","Agregar Participante",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
 							listaParticipantes.actualizarTabla();
 							dispose();							

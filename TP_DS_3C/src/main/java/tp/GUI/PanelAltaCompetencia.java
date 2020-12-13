@@ -883,10 +883,10 @@ public class PanelAltaCompetencia extends JPanel {
 				int valor = JOptionPane.YES_NO_OPTION;
 				JOptionPane.showMessageDialog(null, "Seguro desea agregar una nueva competencia?","Confirmación",valor,App.emoji("icon/pregunta1.png", 32,32));				
 				if(valor == JOptionPane.YES_OPTION) {
-					gestorCompetencia.crearCompetencia(compDTO);
+					GestorCompetencia.crearCompetencia(compDTO);
 				}
 				JOptionPane.showMessageDialog(null, "La Competencia se guardo con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
-				m.cambiarPanel(new PanelListarParticipantes(m, this, GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia()));
+				m.cambiarPanel(new PanelListarParticipantes(m, this, new CompetenciaDTO(GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia())));
 				
 			}catch(Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));

@@ -21,6 +21,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.ParticipanteDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.app.App;
@@ -33,32 +35,18 @@ public class PanelListarParticipantes extends JPanel {
 	ListarParticipantesTM tableModel ;
 	Integer id_competencia;
 	JPanel llamante;
+	Competencia competencia ;
+	CompetenciaDTO compDTO;
 	boolean PanelAlta = false;
 	/**
 	 * Create the panel.
 	 */
 
-	public PanelListarParticipantes(MainApplication m, JPanel llamante, Integer id_competencia) {
-		this.id_competencia = id_competencia;
+	public PanelListarParticipantes(MainApplication m, JPanel llamante, CompetenciaDTO competencia) {
+		this.id_competencia = competencia.getId_competencia();
 		this.llamante = llamante;
 		initialize(m,id_competencia);
 	}
-
-
-
-
-
-//	public PanelListarParticipantes(MainApplication m, PanelAltaCompetencia llamante,
-//			Integer id_competencia) {
-//		this.id_competencia = id_competencia;
-//		this.llamante = llamante;
-//		this.PanelAlta = true;
-//		initialize(m,id_competencia);
-//	}
-
-
-
-
 
 	private void initialize(MainApplication m,Integer id_competencia ) {
 		
@@ -72,7 +60,9 @@ public class PanelListarParticipantes extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Competencia competencia = GestorCompetencia.getCompetenciaByID(id_competencia);
+		
+		competencia = GestorCompetencia.getCompetenciaByID(id_competencia);
+		compDTO = GestorCompetencia.convertiraDTO(competencia);
 		
 		setBackground(new Color(102, 102, 102));
 		m.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -139,8 +129,8 @@ public class PanelListarParticipantes extends JPanel {
 				int valor = JOptionPane.YES_NO_OPTION;
 				JOptionPane.showMessageDialog(null, "Seguro desea agregar un nuevo participante?","Confirmación",valor,App.emoji("icon/pregunta1.png", 32,32));				
 				if(valor == JOptionPane.YES_OPTION) {
-				GestorCompetencia.validar(id_competencia);
-				JDialog dialogAltaParticipantes = new DialogAltaParticipante(m,this, id_competencia);
+				GestorCompetencia.validar(compDTO);
+				JDialog dialogAltaParticipantes = new DialogAltaParticipante(m,this, compDTO);
 				dialogAltaParticipantes.setVisible(true);}
 			}catch(Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
@@ -149,6 +139,7 @@ public class PanelListarParticipantes extends JPanel {
 			
 			
 		});
+		
 		tableModel  = new ListarParticipantesTM();	
 		for(ParticipanteDTO p : GestorCompetencia.mostrarParticipantes(id_competencia)) {
 			tableModel.addItemTM(p);
