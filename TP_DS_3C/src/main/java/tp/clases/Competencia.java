@@ -61,8 +61,8 @@ public class Competencia {
 	private List<ItemLugar> Lugares;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Participante> Participantes;
-	@Transient
-	private List<AuditoriaDeBajaDeCompetencia> historialBaja;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<AuditoriaDeBajaDeCompetencia> historialBajaCompetencia;
 
 
 	public Competencia() {
@@ -187,15 +187,15 @@ public class Competencia {
 	}
 
 	public List<AuditoriaDeBajaDeCompetencia> getHistorialBaja() {
-		return historialBaja;
+		return historialBajaCompetencia;
 	}
 
 	public void setHistorialBaja(List<AuditoriaDeBajaDeCompetencia> historialBaja) {
-		this.historialBaja = historialBaja;
+		this.historialBajaCompetencia = historialBaja;
 	}
 	
 	public void addBajaDeCompetencia(AuditoriaDeBajaDeCompetencia baja) {
-		this.historialBaja.add(baja);
+		this.historialBajaCompetencia.add(baja);
 	}
 
 

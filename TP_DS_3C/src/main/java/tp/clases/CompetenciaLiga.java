@@ -3,8 +3,10 @@ package tp.clases;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -25,7 +27,7 @@ public class CompetenciaLiga extends Competencia {
 	private Double puntos_por_ganar;
 	@Column
 	private Double puntos_por_empate;
-	@Transient
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<EstadisticaTabla> estadisticas;
 	
 

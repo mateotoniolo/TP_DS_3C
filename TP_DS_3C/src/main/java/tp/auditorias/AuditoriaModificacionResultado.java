@@ -3,11 +3,28 @@ package tp.auditorias;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED )
+@Table(name="Auditoria_Modificacion_Resultado")
 public class AuditoriaModificacionResultado {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id_auditoria;
+	@Column
 	private Boolean aPresente;
+	@Column
 	private Boolean bPresente;
+	@Column
 	private Date fecha;
+	@Column
 	private Time hora;
 	
 	public AuditoriaModificacionResultado() {

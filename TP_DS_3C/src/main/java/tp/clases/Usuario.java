@@ -8,10 +8,16 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -34,13 +40,19 @@ public class Usuario {
 	private TipoDni tipoDni;
 	@Column
 	private Double dni;
-	@Column
-	private Integer id_localidad;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Competencia> competencias;
-	@Transient
-	private Localidad localidad;
-	@Transient
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Lugar> lugares;
+	@OneToOne
+	@JoinColumns({
+		    @JoinColumn(name="id_localidad", referencedColumnName="id_localidad", nullable=false),
+		    @JoinColumn(name="id_provincia", referencedColumnName="id_provincia", nullable=false),
+		    @JoinColumn(name="id_pais", referencedColumnName="id_pais", nullable=false)
+		  })
+	private Localidad Localidad;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<AuditoriaIngresoUsuario> historialIngresos;
 
 	
@@ -57,8 +69,12 @@ public class Usuario {
 		this.setTipoDocumento(tipoDni);
 		this.setNroDocumento(documento);
 		this.setLocalidad(localidad);
-		this.id_localidad = this.localidad.getIdLocalidad();
 		this.competencias = new ArrayList<>();
+	}
+
+	private void setLocalidad(Localidad localidad) {
+		
+		
 	}
 
 	// Getters y Setters
@@ -94,13 +110,6 @@ public class Usuario {
 		this.apellido = apellido;
 	}
 
-	public Localidad getLocalidad() {
-		return localidad;
-	}
-
-	public void setLocalidad(Localidad localidad) {
-		this.localidad = localidad;
-	}
 
 	public Double getNroDocumento() {
 		return dni;

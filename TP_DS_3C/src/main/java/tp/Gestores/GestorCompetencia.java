@@ -131,7 +131,7 @@ public class GestorCompetencia {
 		}
 		
 		competencia.setEstado(EstadoCompetencia.CREADA.toString());
-		competencia.addParticipante(new Participante(participanteDTO.getNombre(), participanteDTO.getEmail()));
+		competencia.addParticipante(new Participante(participanteDTO.getNombre(), participanteDTO.getEmail(),competencia));
 			try{
 				CompetenciaDAO.Save(competencia);
 			}catch(Exception e) {

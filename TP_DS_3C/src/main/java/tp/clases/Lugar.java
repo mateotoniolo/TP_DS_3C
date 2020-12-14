@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,8 +23,9 @@ public class Lugar {
 	private String nombre;
 	@Column
 	private String descripcion;
-	@Column
-	private Integer id_usuario;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_usuario",referencedColumnName = "id_usuario")
+	private Usuario usuario;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Deporte> deportes;
 	
@@ -30,11 +33,11 @@ public class Lugar {
 		super();
 	}
 	
-	public Lugar(Integer codigo, String nombre, String descripcion, Integer id_user,List<Deporte> d) {
+	public Lugar(Integer codigo, String nombre, String descripcion, Usuario user,List<Deporte> d) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.id_usuario = id_user;
+		this.usuario = user;
 		this.deportes = d;
 	}
 

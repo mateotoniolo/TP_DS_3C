@@ -1,43 +1,71 @@
 package tp.clases;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import PKs.LocalidadPK;
+import PKs.ProvinciaPK;
+
+
+
+@Entity
+@Table(name="Provincia")
+@IdClass(ProvinciaPK.class)
 public class Provincia {
-	private Integer id_Provincia;
-	private String nombre;
-	private Pais pais;
 	
+		
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Integer id_provincia;
+		
+		@Id
+		@ManyToOne
+		@JoinColumn(name="id_pais",referencedColumnName = "id_pais")
+		private Pais id_pais;
 
-	public Provincia() {
-		super();
-	}
+		@Column
+		private String nombre;
 	
-	public Provincia(Integer idProvincia, String nombre, Pais pais){
-		this.setIdProvincia(idProvincia);
-		this.setNombre(nombre);
-		this.setPais(pais);
-	}
+		public Provincia() {
+			super();
+		}
 
-	// Getters y Setters
-	public Integer getIdProvincia() {
-		return id_Provincia;
-	}
+		public Integer getId_provincia() {
+			return id_provincia;
+		}
 
-	public void setIdProvincia(Integer idProvincia) {
-		this.id_Provincia = idProvincia;
-	}
+		public void setId_provincia(Integer id_provincia) {
+			this.id_provincia = id_provincia;
+		}
 
-	public String getNombre() {
-		return nombre;
-	}
+		public Pais getId_pais() {
+			return id_pais;
+		}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+		public void setId_pais(Pais id_pais) {
+			this.id_pais = id_pais;
+		}
 
-	public Pais getPais() {
-		return pais;
-	}
+		public String getNombre() {
+			return nombre;
+		}
 
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+		
+
 }

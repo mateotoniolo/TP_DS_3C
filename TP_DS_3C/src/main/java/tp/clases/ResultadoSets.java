@@ -2,8 +2,10 @@ package tp.clases;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -15,7 +17,7 @@ public class ResultadoSets extends Resultado {
 	private Integer setsA;
 	@Column
 	private Integer setsB;
-	@Transient
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Set> listaSets;
 	
 

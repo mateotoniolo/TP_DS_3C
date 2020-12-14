@@ -1,14 +1,47 @@
 package tp.auditorias;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+@Entity
+@Table(name="Auditoria_Modificacion_Participante")
 public class AuditoriaModificacionParticipante {
+	@Embeddable
+	class AuditoriaId implements Serializable{
+		@Column
+		private Date fechaModificacion;
+		@Column
+		private Time horaModificacion;
+		
+		public Date getFecha() {
+			return fechaModificacion;
+		}
+		public void setFecha(Date fecha) {
+			this.fechaModificacion = fecha;
+		}
+		public Time getHora() {
+			return horaModificacion;
+		}
+		public void setHora(Time hora) {
+			this.horaModificacion = hora;
+		}
+	}
+	
+	@EmbeddedId
+	private AuditoriaId id_auditoria;
+	@Column
 	private Integer id_Anterior;
+	@Column
 	private String nombre_Anterior;
+	@Column
 	private String correo_Anterior;
-	private Date fechaModificacion;
-	private Time horaModificacion;
+	
 	
 	public AuditoriaModificacionParticipante() {
 		super();
@@ -39,19 +72,19 @@ public class AuditoriaModificacionParticipante {
 	}
 
 	public Date getFechaModificacion() {
-		return fechaModificacion;
+		return getFechaModificacion();
 	}
 
 	public void setFechaModificacion(Date fechaModificacion) {
-		this.fechaModificacion = fechaModificacion;
+		this.id_auditoria.setFecha(fechaModificacion); 
 	}
 
 	public Time getHoraModificacion() {
-		return horaModificacion;
+		return getHoraModificacion();
 	}
 
 	public void setHoraModificacion(Time horaModificacion) {
-		this.horaModificacion = horaModificacion;
+		this.id_auditoria.setHora(horaModificacion);
 	}
 	
 	

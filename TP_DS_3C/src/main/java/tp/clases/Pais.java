@@ -1,7 +1,21 @@
 package tp.clases;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Pais")
 public class Pais {
-	private Integer id_Pais;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id_pais;
+	
+	@Column
 	private String nombre;
 	
 
@@ -16,11 +30,11 @@ public class Pais {
 
 	// Getters y Setters
 	public Integer getIdPais() {
-		return id_Pais;
+		return id_pais;
 	}
 
 	public void setIdPais(Integer idPais) {
-		this.id_Pais = idPais;
+		this.id_pais = idPais;
 	}
 
 	public String getNombre() {
