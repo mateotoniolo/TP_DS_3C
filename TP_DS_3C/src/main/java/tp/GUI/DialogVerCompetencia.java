@@ -124,7 +124,7 @@ public class DialogVerCompetencia extends JDialog {
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			m.cambiarPanel(new PanelListarParticipantes(m, llamante, id_competencia));
+			m.cambiarPanel(new PanelListarParticipantes(m, llamante,new CompetenciaDTO(id_competencia)));
 		});
 		
 		JButton btnGenerarFixture = new JButton("Generar Fixture");
@@ -162,7 +162,7 @@ public class DialogVerCompetencia extends JDialog {
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			m.cambiarPanel(new PanelListarParticipantes(m,llamante,id_competencia));
+			m.cambiarPanel(new PanelListarParticipantes(m,llamante,new CompetenciaDTO(id_competencia)));
 		});
 		
 		btnGenerarFixture.addActionListener( a -> {
