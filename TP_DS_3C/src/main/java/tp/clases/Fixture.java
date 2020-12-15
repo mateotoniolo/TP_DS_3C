@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name="Fixture")
 public class Fixture {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_fixture;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Fecha> Fechas;

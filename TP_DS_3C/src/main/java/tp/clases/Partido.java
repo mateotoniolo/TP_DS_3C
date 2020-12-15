@@ -3,19 +3,35 @@ package tp.clases;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import PKs.LocalidadPK;
+import PKs.PartidoPK;
+
 @Entity
 @Table(name="Partido")
+@IdClass(PartidoPK.class)
 public class Partido {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_partido;
+	
+	@Id
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumns({
+		    @JoinColumn(name="id_fecha", referencedColumnName="id_fecha", nullable=false),
+		    @JoinColumn(name="id_fixture", referencedColumnName="id_fixture", nullable=false)
+		  })
+	private Fecha fecha;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Local",referencedColumnName = "id_participante")
 	private Participante participanteA;
@@ -28,7 +44,12 @@ public class Partido {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_resultado",referencedColumnName = "id_resultado")
 	private Resultado resultado;
-	
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name="id_resultado",referencedColumnName = "id_resultado")
+//	private Partido eliminacionGanadores;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name="id_resultado",referencedColumnName = "id_resultado")
+//	private Partido eliminacionPerdedores;
 	
 	
 
