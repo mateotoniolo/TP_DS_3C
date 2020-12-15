@@ -1,9 +1,11 @@
 package tp.clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,19 +13,24 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 @Entity
 @Table(name="Fixture")
-public class Fixture {
+public class Fixture implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="id_fixture", unique = true)
 	private Integer id_fixture;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	
+	@Transient
 	private List<Fecha> Fechas;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_competencia",referencedColumnName = "id_competencia")
+	
+	@Transient
 	private Competencia competencia;
 	
 	public Fixture() {

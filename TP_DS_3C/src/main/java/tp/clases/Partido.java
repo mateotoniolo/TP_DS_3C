@@ -19,19 +19,11 @@ import PKs.PartidoPK;
 
 @Entity
 @Table(name="Partido")
-@IdClass(PartidoPK.class)
 public class Partido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_partido;
 	
-	@Id
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumns({
-		    @JoinColumn(name="id_fecha", referencedColumnName="id_fecha", nullable=false),
-		    @JoinColumn(name="id_fixture", referencedColumnName="id_fixture", nullable=false)
-		  })
-	private Fecha fecha;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Local",referencedColumnName = "id_participante")
 	private Participante participanteA;

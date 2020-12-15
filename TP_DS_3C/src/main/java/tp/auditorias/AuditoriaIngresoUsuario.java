@@ -10,7 +10,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import tp.auditorias.AuditoriaDeBajaDeCompetencia.AuditoriaId;
+
 @Entity
 @Table(name="Auditoria_Ingreso_Usuario")
 public class AuditoriaIngresoUsuario {

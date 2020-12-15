@@ -39,7 +39,7 @@ public class Competencia {
 	@Column
 	private String modalidad;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_fixture",referencedColumnName = "id_fixture")
+	@JoinColumn(name="id_fixture", referencedColumnName="id_fixture")
 	private Fixture fixture;
 	@Column
 	private String reglamento;
@@ -57,12 +57,12 @@ public class Competencia {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_deporte",referencedColumnName = "id_deporte")
 	private Deporte deporte;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_competencia")
 	private List<ItemLugar> Lugares;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_competencia")
 	private List<Participante> Participantes;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<AuditoriaDeBajaDeCompetencia> historialBajaCompetencia;
 
 
 	public Competencia() {
@@ -184,18 +184,6 @@ public class Competencia {
 	
 	public void addItem(ItemLugar lugar) {
 		this.Lugares.add(lugar);
-	}
-
-	public List<AuditoriaDeBajaDeCompetencia> getHistorialBaja() {
-		return historialBajaCompetencia;
-	}
-
-	public void setHistorialBaja(List<AuditoriaDeBajaDeCompetencia> historialBaja) {
-		this.historialBajaCompetencia = historialBaja;
-	}
-	
-	public void addBajaDeCompetencia(AuditoriaDeBajaDeCompetencia baja) {
-		this.historialBajaCompetencia.add(baja);
 	}
 
 

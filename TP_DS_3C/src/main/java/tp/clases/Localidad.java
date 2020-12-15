@@ -25,19 +25,16 @@ import PKs.LocalidadPK;
 
 @Entity
 @Table(name="Localidad")
-@IdClass(LocalidadPK.class)
+
 public class Localidad {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_localidad;
 	
-	@Id
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumns({
-		    @JoinColumn(name="id_provincia", referencedColumnName="id_provincia", nullable=false),
-		    @JoinColumn(name="id_pais", referencedColumnName="id_pais", nullable=false)
-		  })
+	
+	@ManyToOne
+	@JoinColumn(name="id_provincia",referencedColumnName = "id_provincia")
 	private Provincia id_provincia;
 	
 	@Column

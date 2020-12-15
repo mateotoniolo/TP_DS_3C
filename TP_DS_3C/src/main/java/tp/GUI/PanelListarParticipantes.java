@@ -125,13 +125,10 @@ public class PanelListarParticipantes extends JPanel {
 		});
 		
 		btnNuevoParticipante.addActionListener( a -> {
-			try {
-				int valor = JOptionPane.YES_NO_OPTION;
-				JOptionPane.showMessageDialog(null, "Seguro desea agregar un nuevo participante?","Confirmación",valor,App.emoji("icon/pregunta1.png", 32,32));				
-				if(valor == JOptionPane.YES_OPTION) {
+			try {				
 				GestorCompetencia.validar(compDTO);
 				JDialog dialogAltaParticipantes = new DialogAltaParticipante(m,this, compDTO);
-				dialogAltaParticipantes.setVisible(true);}
+				dialogAltaParticipantes.setVisible(true);
 			}catch(Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}

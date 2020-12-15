@@ -35,7 +35,7 @@ public class DialogAltaParticipante extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCorreoElectronico;
 	private JTextField txtNombre;
-	private JButton btnAgregar;
+	private JButton btnAgregar ;
 	private JButton btnCancelar;
 	private Integer id_competencia;
 	
@@ -56,7 +56,7 @@ public class DialogAltaParticipante extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		setLocationRelativeTo(m);
 		
-		ordenDeTabulacion();
+		
 		
 		this.id_competencia = competencia.getId_competencia();
 		JPanel panelCeleste = new JPanel();
@@ -202,7 +202,7 @@ public class DialogAltaParticipante extends JDialog {
 						}catch(Exception e) {
 							JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 						}
-												
+						ordenDeTabulacion();						
 				});
 			}
 		}

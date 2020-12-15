@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -25,7 +26,8 @@ public class Resultado {
 	private Boolean aPresente;
 	@Column
 	private Boolean bPresente;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
+	@JoinColumn(name="Resultado")
 	private List<AuditoriaModificacionResultado> historialCambios;
 	
 	

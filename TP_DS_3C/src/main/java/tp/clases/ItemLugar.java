@@ -1,5 +1,7 @@
 package tp.clases;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,21 +13,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
-public class ItemLugar {
+public class ItemLugar implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_item;
+
 	
 	@Column
 	private Integer disponibilidad;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="codigo_lugar",referencedColumnName = "codigo")
 	private Lugar Lugar; 
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_competencia",referencedColumnName = "id_competencia")
-	private Competencia competencia; 
 	
 	
 	
@@ -35,7 +34,7 @@ public class ItemLugar {
 	}
 	
 	public ItemLugar( Competencia competencia,Lugar lugar, Integer disponibilidad) {
-		this.setCompetencia(competencia);
+//		this.setCompetencia(competencia);
 		this.Lugar = lugar;
 		this.disponibilidad = disponibilidad;
 	}
@@ -51,14 +50,14 @@ public class ItemLugar {
 	public Integer getCodigo() {
 		return this.Lugar.getId();
 	}
-
-	public Competencia getCompetencia() {
-		return competencia;
-	}
-
-	public void setCompetencia(Competencia competencia) {
-		this.competencia = competencia;
-	}
+//
+//	public Competencia getCompetencia() {
+//		return competencia;
+//	}
+//
+//	public void setCompetencia(Competencia competencia) {
+//		this.competencia = competencia;
+//	}
 
 	public Integer getDisponibilidad() {
 		return disponibilidad;
@@ -67,4 +66,20 @@ public class ItemLugar {
 	public void setDisponibilidad(Integer disponibilidad2) {
 		this.disponibilidad = disponibilidad2;
 	}
+
+	public Integer getId_item() {
+		return id_item;
+	}
+
+	public void setId_item(Integer id_item) {
+		this.id_item = id_item;
+	}
+
+//	public Competencia getCompetencia() {
+//		return competencia;
+//	}
+//
+//	public void setCompetencia(Competencia competencia) {
+//		this.competencia = competencia;
+//	}
 }

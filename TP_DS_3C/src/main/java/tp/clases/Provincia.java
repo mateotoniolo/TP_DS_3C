@@ -23,7 +23,7 @@ import PKs.ProvinciaPK;
 
 @Entity
 @Table(name="Provincia")
-@IdClass(ProvinciaPK.class)
+
 public class Provincia {
 	
 		
@@ -31,7 +31,7 @@ public class Provincia {
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Integer id_provincia;
 		
-		@Id
+		
 		@ManyToOne
 		@JoinColumn(name="id_pais",referencedColumnName = "id_pais")
 		private Pais id_pais;

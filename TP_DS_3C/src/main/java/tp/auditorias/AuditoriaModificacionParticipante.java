@@ -8,33 +8,29 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import tp.clases.Participante;
 @Entity
 @Table(name="Auditoria_Modificacion_Participante")
 public class AuditoriaModificacionParticipante {
-	@Embeddable
-	class AuditoriaId implements Serializable{
-		@Column
-		private Date fechaModificacion;
-		@Column
-		private Time horaModificacion;
-		
-		public Date getFecha() {
-			return fechaModificacion;
-		}
-		public void setFecha(Date fecha) {
-			this.fechaModificacion = fecha;
-		}
-		public Time getHora() {
-			return horaModificacion;
-		}
-		public void setHora(Time hora) {
-			this.horaModificacion = hora;
-		}
-	}
 	
-	@EmbeddedId
-	private AuditoriaId id_auditoria;
+	@Id
+	@Column(name="id_participante")
+	Integer id;
+	@MapsId
+	@OneToOne(mappedBy = "audi")
+	@JoinColumn(name = "id_participante")
+	private Participante participante;
+	@Column
+	private Date fechaModificacion;
+	@Column
+	private Time horaModificacion;
 	@Column
 	private Integer id_Anterior;
 	@Column
@@ -75,17 +71,7 @@ public class AuditoriaModificacionParticipante {
 		return getFechaModificacion();
 	}
 
-	public void setFechaModificacion(Date fechaModificacion) {
-		this.id_auditoria.setFecha(fechaModificacion); 
-	}
 
-	public Time getHoraModificacion() {
-		return getHoraModificacion();
-	}
-
-	public void setHoraModificacion(Time horaModificacion) {
-		this.id_auditoria.setHora(horaModificacion);
-	}
 	
 	
 }

@@ -40,19 +40,24 @@ public class Usuario {
 	private TipoDni tipoDni;
 	@Column
 	private Double dni;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
+	@JoinColumn(name="id_usuario")
 	private List<Competencia> competencias;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
+	@JoinColumn(name="id_usuario")
 	private List<Lugar> lugares;
+//	@OneToOne
+//	@JoinColumns({
+//		    @JoinColumn(name="id_localidad", referencedColumnName="id_localidad", nullable=false),
+//		    @JoinColumn(name="id_provincia", referencedColumnName="id_provincia", nullable=false),
+//		    @JoinColumn(name="id_pais", referencedColumnName="id_pais", nullable=false)
+//		  })
 	@OneToOne
-	@JoinColumns({
-		    @JoinColumn(name="id_localidad", referencedColumnName="id_localidad", nullable=false),
-		    @JoinColumn(name="id_provincia", referencedColumnName="id_provincia", nullable=false),
-		    @JoinColumn(name="id_pais", referencedColumnName="id_pais", nullable=false)
-		  })
+	@JoinColumn(name="id_localidad",referencedColumnName = "id_localidad")
 	private Localidad Localidad;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
+	@JoinColumn(name="Usuario")
 	private List<AuditoriaIngresoUsuario> historialIngresos;
 
 	

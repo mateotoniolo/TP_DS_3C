@@ -13,52 +13,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import tp.clases.Competencia;
 @Entity
 @Table(name="Auditoria_Baja_Competencia")
-public class AuditoriaDeBajaDeCompetencia {
-	@Embeddable
-	class AuditoriaId implements Serializable{
-		@Column
-		private Date fecha;
-		@Column
-		private Time hora;
-		
-		public Date getFecha() {
-			return fecha;
-		}
-		public void setFecha(Date fecha) {
-			this.fecha = fecha;
-		}
-		public Time getHora() {
-			return hora;
-		}
-		public void setHora(Time hora) {
-			this.hora = hora;
-		}
-	}
-	 
-	@EmbeddedId
-	private AuditoriaId id_auditoria;
+public class AuditoriaDeBajaDeCompetencia implements Serializable{
+	@Id
+	@OneToOne
+    @JoinColumn(name = "id_competencia", referencedColumnName = "id_competencia")
+	private Competencia competencia;
+	
+	@Column
+	private Date fecha;
+	@Column
+	private Time hora;
 	
 	public AuditoriaDeBajaDeCompetencia() {
 		super();
-	}
-
-	public Date getFecha() {
-		return this.id_auditoria.getFecha();
-	}
-
-	public void setFecha(Date fecha) {
-		this.id_auditoria.setFecha(fecha);
-	}
-
-	public Time getHora() {
-		return this.id_auditoria.getHora();
-	}
-
-	public void setHora(Time hora) {
-		this.id_auditoria.setHora(hora); 
 	}
 	
 }

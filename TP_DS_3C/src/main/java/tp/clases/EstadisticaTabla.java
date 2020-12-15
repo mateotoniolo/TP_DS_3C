@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED )
@@ -35,7 +36,7 @@ public class EstadisticaTabla {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_competencia",referencedColumnName = "id_competencia")
 	private CompetenciaLiga competencia;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@Transient
 	List<Participante> participantes = null;
 	
 

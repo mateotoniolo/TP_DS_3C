@@ -13,6 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -30,9 +31,9 @@ public final class Participante {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_competencia",referencedColumnName = "id_competencia")
 	private Competencia competencia;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<AuditoriaModificacionParticipante> historialCambios;
-
+	@OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private AuditoriaModificacionParticipante audi; 
 
 	public Participante() {
 		super();
@@ -69,16 +70,6 @@ public final class Participante {
 		this.email = email;
 	}
 
-	public List<AuditoriaModificacionParticipante> getHistorialCambios() {
-		return historialCambios;
-	}
 
-	public void setHistorialCambios(List<AuditoriaModificacionParticipante> historialCambios) {
-		this.historialCambios = historialCambios;
-	}
-	
-	public void addCambio(AuditoriaModificacionParticipante cambio) {
-		this.historialCambios.add(cambio);
-	}
 	
 }

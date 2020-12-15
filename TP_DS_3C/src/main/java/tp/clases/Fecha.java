@@ -20,22 +20,22 @@ import PKs.FechaPK;
 import PKs.LocalidadPK;
 @Entity
 @Table(name="Fecha")
-@IdClass(FechaPK.class)
 public class Fecha {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_fecha;
-	@Id
-	@ManyToOne
-	@JoinColumn(name="id_fixture",referencedColumnName = "id_fixture")
-	private Fixture id_fixture;
+	
 	@Column
 	private Integer numero;
 	@Column
 	private Boolean rondaPerdedores;
 	@Column
 	private Boolean rondaGanadores;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@ManyToOne
+    @JoinColumn(name="id_fixture")
+	private Fixture fixture;
+	@OneToMany
+	@JoinColumn(name="Fecha")
 	private List<Partido> listaPartidos;
 	
 

@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -27,7 +28,8 @@ public class CompetenciaLiga extends Competencia {
 	private Double puntos_por_ganar;
 	@Column
 	private Double puntos_por_empate;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
+	@JoinColumn(name="id_competencia")
 	private List<EstadisticaTabla> estadisticas;
 	
 
