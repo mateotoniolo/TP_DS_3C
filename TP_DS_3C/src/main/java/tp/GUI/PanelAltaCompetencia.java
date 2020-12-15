@@ -83,7 +83,7 @@ public class PanelAltaCompetencia extends JPanel {
 		}
 		
 		setBackground(new Color(102, 102, 102));
-		m.setTitle("");
+		m.setTitle("GRUPO 3C");
 		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		setBounds(100, 50, 1366, 740);
 		
@@ -199,6 +199,7 @@ public class PanelAltaCompetencia extends JPanel {
 				txtPuntosPresentarse.setEnabled(true);
 				rdbtnEmpate.setEnabled(true);
 				txtTantosAusencia.setEnabled(true);
+				this.ordenDeTabulacionCompleta();
 			} else {
 				txtPuntosPartidoGanado.setEnabled(false);
 				txtPuntosPartidoGanado.setText("");
@@ -208,10 +209,15 @@ public class PanelAltaCompetencia extends JPanel {
 				rdbtnEmpate.setSelected(false);
 				txtPuntosEmpate.setText("");
 				txtPuntosEmpate.setEnabled(false);
+				this.reordenDeTabulacion(txtPuntosPartidoGanado);
+				this.reordenDeTabulacion(txtPuntosPresentarse);
+				this.reordenDeTabulacion(rdbtnEmpate);
+				this.reordenDeTabulacion(txtPuntosEmpate);
 
 			}
 			if(boxModalidad.getSelectedItem()=="----Seleccionar----") {
 				txtTantosAusencia.setEnabled(false);
+				this.reordenDeTabulacion(txtTantosAusencia);
 			} else {
 				txtTantosAusencia.setEnabled(true);
 			}
@@ -236,10 +242,14 @@ public class PanelAltaCompetencia extends JPanel {
 			if (rdbtnEmpate.isSelected()) {
 				txtPuntosEmpate.setEnabled(true);
 				empate = true;
+				tabOrder.add(6, txtPuntosEmpate);
+				setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
 			} else {
 				txtPuntosEmpate.setEnabled(false);
 				txtPuntosEmpate.setText("");
 				empate = false;
+				tabOrder.remove(txtPuntosEmpate);
+				setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
 			}			
 		});
 		
@@ -353,8 +363,14 @@ public class PanelAltaCompetencia extends JPanel {
 			}
 			if(rdbtnSets.isSelected()) {
 				txtCantidadSets.setEnabled(true);
+				
+				if(tabOrder.size()==13)tabOrder.add(9, txtCantidadSets);
+				else if(tabOrder.size()==12)tabOrder.add(10, txtCantidadSets);
+				setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
 			} else {
 				txtCantidadSets.setEnabled(false);
+				tabOrder.remove(txtCantidadSets);
+				setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
 			}
 		});
 		
@@ -906,14 +922,15 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		
 
-		this.ordenDeTabulacion();
+		this.ordenDeTabulacionInicial();
 
 		
 		
 	}
 	
-	private void ordenDeTabulacion() {		
+	private void ordenDeTabulacionInicial() {		
 		setFocusCycleRoot(true);
+		
 		txtNombre.setFocusCycleRoot(true);
 		boxDeporte_1.setFocusCycleRoot(true);
 		boxModalidad.setFocusCycleRoot(true);
@@ -933,25 +950,63 @@ public class PanelAltaCompetencia extends JPanel {
 		btnConfirmar.setFocusCycleRoot(true);
 		btnHome.setFocusCycleRoot(true);
 		
+		tabOrder.clear();
+		tabOrder.add(txtNombre);
+		tabOrder.add(boxDeporte_1);
+		tabOrder.add(boxModalidad);
+		tabOrder.add(rdbtnSets);
+		tabOrder.add(rdbtnPuntuacion);
+		tabOrder.add(rdbtnPuntuacionFinal);
+		tabOrder.add(btnConfirmar);
 		
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
+		
+	}
+	
+	private void ordenDeTabulacionCompleta() {		
+		setFocusCycleRoot(true);
+		
+		txtNombre.setFocusCycleRoot(true);
+		boxDeporte_1.setFocusCycleRoot(true);
+		boxModalidad.setFocusCycleRoot(true);
+		txtPuntosPartidoGanado.setFocusCycleRoot(true);
+		txtPuntosPresentarse.setFocusCycleRoot(true);
+		rdbtnEmpate.setFocusCycleRoot(true);
+		txtPuntosEmpate.setFocusCycleRoot(true);
+		rdbtnSets.setFocusCycleRoot(true);
+		rdbtnPuntuacion.setFocusCycleRoot(true);
+		rdbtnPuntuacionFinal.setFocusCycleRoot(true);
+		txtCantidadSets.setFocusCycleRoot(true);
+		txtTantosAusencia.setFocusCycleRoot(true);
+		btnAgregarLugar.setFocusCycleRoot(true);
+		btnModificarLugar.setFocusCycleRoot(true);
+		btnEliminarLugar.setFocusCycleRoot(true);
+		btnAtras.setFocusCycleRoot(true);
+		btnConfirmar.setFocusCycleRoot(true);
+		btnHome.setFocusCycleRoot(true);
+		
+		tabOrder.clear();
 		tabOrder.add(txtNombre);
 		tabOrder.add(boxDeporte_1);
 		tabOrder.add(boxModalidad);
 		tabOrder.add(txtPuntosPartidoGanado);
 		tabOrder.add(txtPuntosPresentarse);
 		tabOrder.add(rdbtnEmpate);
-		tabOrder.add(txtPuntosEmpate);
 		tabOrder.add(rdbtnSets);
 		tabOrder.add(rdbtnPuntuacion);
 		tabOrder.add(rdbtnPuntuacionFinal);
-		tabOrder.add(txtCantidadSets);
 		tabOrder.add(txtTantosAusencia);
-//		tabOrder.add(btnAtras);
 		tabOrder.add(btnConfirmar);
-//		tabOrder.add(btnHome);
-//		tabOrder.add(btnAgregarLugar);
-//		tabOrder.add(btnModificarLugar);
-//		tabOrder.add(btnEliminarLugar);
+		
+		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
+		
+	}
+	
+	private void reordenDeTabulacion(Component c) {		
+		setFocusCycleRoot(true);
+
+		//ELIMINO LOS DESHABILITADOS DEL ORDEN
+		tabOrder.remove(c);
 		
 		setFocusTraversalPolicy(new PanelsFocusTraversalPolicy(tabOrder, txtNombre));
 		

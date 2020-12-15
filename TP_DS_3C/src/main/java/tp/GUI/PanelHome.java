@@ -34,7 +34,7 @@ public class PanelHome extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		m.setTitle("TORNEOS Y COMPETENCIAS");
+		m.setTitle("GRUPO 3C");
 		m.setExtendedState(Frame.MAXIMIZED_BOTH);
 		
 		this.setLayout(new BorderLayout(0, 0));
