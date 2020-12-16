@@ -86,6 +86,7 @@ public class DialogModificarLugar extends JDialog {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
+				textField.setText(textField.getText().toUpperCase());
 				Character c = e.getKeyChar();
 				if(!c.isDigit(c)) {
 					try{

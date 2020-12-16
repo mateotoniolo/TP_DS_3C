@@ -219,7 +219,8 @@ public class PanelAltaCompetencia extends JPanel {
 				txtTantosAusencia.setEnabled(false);
 				this.reordenDeTabulacion(txtTantosAusencia);
 			} else {
-				txtTantosAusencia.setEnabled(true);
+				if(!rdbtnPuntuacionFinal.isSelected()) txtTantosAusencia.setEnabled(true);
+				else txtTantosAusencia.setEnabled(false);
 			}
 		});
 		
@@ -358,6 +359,8 @@ public class PanelAltaCompetencia extends JPanel {
 			rdbtnPuntuacionFinal.setSelected(false);
 			txtCantidadSets.setEnabled(true);
 			
+			if(boxModalidad.getSelectedItem() != "----Seleccionar----") txtTantosAusencia.setEnabled(true);
+			
 			if(!rdbtnPuntuacion.isSelected() && !rdbtnPuntuacionFinal.isSelected()) {
 				rdbtnSets.setSelected(true);
 			}
@@ -394,6 +397,8 @@ public class PanelAltaCompetencia extends JPanel {
 			txtCantidadSets.setEnabled(false);
 			txtCantidadSets.setText("");
 			
+			if(boxModalidad.getSelectedItem() != "----Seleccionar----") txtTantosAusencia.setEnabled(true);
+			
 			if(!rdbtnSets.isSelected() && !rdbtnPuntuacionFinal.isSelected()) {
 				rdbtnPuntuacion.setSelected(true);
 			}
@@ -417,6 +422,7 @@ public class PanelAltaCompetencia extends JPanel {
 			txtCantidadSets.setEnabled(false);
 			txtCantidadSets.setText("");
 			txtTantosAusencia.setText("");
+			txtTantosAusencia.setEnabled(false);
 			
 			if(!rdbtnSets.isSelected() && !rdbtnPuntuacion.isSelected()) {
 				rdbtnPuntuacionFinal.setSelected(true);
@@ -466,7 +472,7 @@ public class PanelAltaCompetencia extends JPanel {
 		
 				
 		txtTantosAusencia = new JTextField();
-		txtTantosAusencia.setEnabled(false);
+		txtTantosAusencia.setEnabled(true);
 		txtTantosAusencia.setColumns(10);
 				
 		//ignora el ingreso de caracteres no numericos
