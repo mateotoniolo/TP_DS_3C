@@ -193,17 +193,16 @@ public class DialogAltaParticipante extends JDialog {
 						 correoElectronico = txtCorreoElectronico.getText().toString();
 						 nombre = txtNombre.getText().toString();
 						try {
-							String CamposVacios="";
-							if(txtNombre.getText().isBlank()) {
-								CamposVacios=CamposVacios+"El participante debe tener un nombre. \n";
-							}
-							if(this.correoNoValido(txtCorreoElectronico.getText())) {
-								CamposVacios=CamposVacios+"Debe brindar un correo electronico valido. \n";
-							}
+
+							int result = JOptionPane.showConfirmDialog(null,"Seguro desea agregar un nuevo participante?", "Confirmación",
+						            JOptionPane.OK_CANCEL_OPTION,
+						            JOptionPane.QUESTION_MESSAGE);
+							if(result == JOptionPane.OK_OPTION) {
+							
 							GestorCompetencia.crearParticipante(competencia, new ParticipanteDTO(nombre,correoElectronico));
 							JOptionPane.showMessageDialog(null, "Nuevo participante agregado con éxito","Agregar Participante",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
 							listaParticipantes.actualizarTabla();
-							dispose();							
+							dispose();}							
 						}catch(Exception e) {
 							JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 						}
@@ -213,21 +212,7 @@ public class DialogAltaParticipante extends JDialog {
 		}
 	}
 	
-	private boolean correoNoValido(String text) {
-		Boolean chequeo = false;
-		if(text.isBlank()) chequeo = false;
-		
-		chequeo = (text.contains("@") && text.contains("."));
-		if(chequeo) {
-			Integer posArroba =  text.indexOf("@");
-			Integer posPunto =  text.indexOf(".");
-			chequeo = (text.charAt(0) != '@' && !text.substring(posArroba).isBlank()
-					&& text.substring(posArroba, posArroba+1) != "."
-					&& !text.substring(posPunto).isBlank());
-		}
-			
-		return chequeo;
-	}
+	
 
 	private void ordenDeTabulacion() {		
 		setFocusCycleRoot(true);

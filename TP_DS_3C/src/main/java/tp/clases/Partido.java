@@ -1,5 +1,7 @@
 package tp.clases;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import PKs.LocalidadPK;
@@ -19,9 +22,10 @@ import PKs.PartidoPK;
 
 @Entity
 @Table(name="Partido")
-public class Partido {
+public class Partido implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="id_partido", unique = true)
 	private Integer id_partido;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -30,18 +34,22 @@ public class Partido {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_visitante",referencedColumnName = "id_participante")
 	private Participante participanteB;
+	@Id
+	@ManyToOne
+    @PrimaryKeyJoinColumn(name="id_fecha",referencedColumnName = "id_fecha")
+	private Fecha fecha;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_lugar",referencedColumnName = "codigo")
 	private Lugar lugarDeRealizacion;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_resultado",referencedColumnName = "id_resultado")
 	private Resultado resultado;
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name="id_resultado",referencedColumnName = "id_resultado")
-//	private Partido eliminacionGanadores;
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name="id_resultado",referencedColumnName = "id_resultado")
-//	private Partido eliminacionPerdedores;
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn(name="eliminacionGanadores",referencedColumnName = "id_partido")
+	private Partido eliminacionGanadores;
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn(name="eliminacionPerdedores",referencedColumnName = "id_partido")
+	private Partido eliminacionPerdedores;
 	
 	
 

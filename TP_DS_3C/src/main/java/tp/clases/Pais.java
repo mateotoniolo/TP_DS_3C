@@ -13,6 +13,7 @@ public class Pais {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name ="id_pais", unique = true)
 	private Integer id_pais;
 	
 	@Column

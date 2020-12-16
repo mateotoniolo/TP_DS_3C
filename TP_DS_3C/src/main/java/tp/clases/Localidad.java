@@ -19,23 +19,25 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import PKs.LocalidadPK;
 
 @Entity
 @Table(name="Localidad")
+public class Localidad implements Serializable{
 
-public class Localidad {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="id_localidad", unique = true)
 	private Integer id_localidad;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="id_provincia",referencedColumnName = "id_provincia")
-	private Provincia id_provincia;
+    @PrimaryKeyJoinColumn(name="id_provincia",referencedColumnName = "id_provincia")
+	private Provincia provincia;
 	
 	@Column
 	private String nombre;

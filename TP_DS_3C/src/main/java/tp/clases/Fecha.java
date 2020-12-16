@@ -1,5 +1,6 @@
 package tp.clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +21,10 @@ import PKs.FechaPK;
 import PKs.LocalidadPK;
 @Entity
 @Table(name="Fecha")
-public class Fecha {
+public class Fecha implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="id_fecha", unique = true)
 	private Integer id_fecha;
 	
 	@Column
@@ -31,11 +33,11 @@ public class Fecha {
 	private Boolean rondaPerdedores;
 	@Column
 	private Boolean rondaGanadores;
+	@Id
 	@ManyToOne
     @JoinColumn(name="id_fixture")
 	private Fixture fixture;
-	@OneToMany
-	@JoinColumn(name="Fecha")
+	@Transient
 	private List<Partido> listaPartidos;
 	
 

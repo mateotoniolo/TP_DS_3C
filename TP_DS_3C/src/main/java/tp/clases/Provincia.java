@@ -14,6 +14,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import PKs.LocalidadPK;
@@ -23,18 +24,17 @@ import PKs.ProvinciaPK;
 
 @Entity
 @Table(name="Provincia")
-
-public class Provincia {
+public class Provincia implements Serializable{
 	
-		
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		@Column( unique = true)
 		private Integer id_provincia;
 		
 		
 		@ManyToOne
 		@JoinColumn(name="id_pais",referencedColumnName = "id_pais")
-		private Pais id_pais;
+		private Pais pais;
 
 		@Column
 		private String nombre;
@@ -49,14 +49,6 @@ public class Provincia {
 
 		public void setId_provincia(Integer id_provincia) {
 			this.id_provincia = id_provincia;
-		}
-
-		public Pais getId_pais() {
-			return id_pais;
-		}
-
-		public void setId_pais(Pais id_pais) {
-			this.id_pais = id_pais;
 		}
 
 		public String getNombre() {

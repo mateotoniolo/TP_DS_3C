@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.swing.JOptionPane;
+
 import tp.DAO.CompetenciaDAO;
 import tp.DAO.DeporteDAO;
 import tp.DAO.LugarDAO;
@@ -15,6 +17,7 @@ import tp.DTOs.CompetenciaPartidosDTO;
 import tp.DTOs.DeporteDTO;
 import tp.DTOs.ItemLugarDTO;
 import tp.DTOs.ParticipanteDTO;
+import tp.app.App;
 import tp.clases.Competencia;
 import tp.clases.CompetenciaEliminacionDoble;
 import tp.clases.CompetenciaEliminacionSimple;
@@ -26,17 +29,70 @@ import tp.clases.Participante;
 import tp.clases.Usuario;
 import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
+import tp.enums.ModalidadDePuntuacion;
 
 public class GestorCompetencia {	
 	
 	public static Boolean crearCompetencia(CompetenciaDTO DTO) throws Exception {
+		//VALIDACIONES -----------------------------------------------------------------------------------------------
+		String CamposVacios="";
+		if(DTO.getNombre().isBlank()) {
+			CamposVacios=CamposVacios+"La competencia debe tener un nombre. \n";
+		}
+		if(DTO.getLugares().isEmpty()) {
+			CamposVacios=CamposVacios+"La competencia debe tener al menos un lugar de realización. \n";
+		}
+		if(DTO.getModalidad() == null) {
+			CamposVacios=CamposVacios+"Debe indicar una Modalidad de competencia. \n";
+		}
+		if(DTO.getModalidad()==tp.enums.Modalidad.LIGA) {
+			if(DTO.getEmpate()&&DTO.getPuntosXEmpate()==null) {
+				CamposVacios=CamposVacios+"Debe ingresar puntos por empate. \n";
+			}
+			if(DTO.getPuntosXGanado()==null) {
+				CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado. \n";
+			}
+			if(DTO.getPuntosXPresentarse()==null) {
+				CamposVacios=CamposVacios+"Debe ingresar puntos por presentarse. \n";
+			}
+		}
+		switch(DTO.getPuntuacion()) {
+		case SETS:
+			if(DTO.getCantSets()==null) {
+				CamposVacios=CamposVacios+"Debe ingresar una cantidad válida de sets. \n";
+			}
+			break;
+		default:
+			if(DTO.getTantosXAusencia()==null) {
+				CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia. \n";
+			}
+		}
+		if(!CamposVacios.equals("")) {
+			throw new Exception("Campos incompletos: \n"+CamposVacios);
+		}
+		if(DTO.getPuntuacion()==ModalidadDePuntuacion.SETS &&
+				(DTO.getCantSets()%2!=1||DTO.getCantSets()>10)) {
+			throw new Exception("La cantidad de sets debe ser impar y menor a 10.");
+		}
+		if(DTO.getEmpate()&&(DTO.getPuntosXEmpate()>DTO.getPuntosXGanado())) {
+			throw new Exception("Los puntos por empate deben ser menor que los puntos por ganar.");
+		}
+		if((DTO.getModalidad() == Modalidad.LIGA) && (DTO.getPuntosXPresentarse() >= DTO.getPuntosXGanado())) {
+			throw new Exception("Los puntos por presentarse deben ser menor que los puntos por ganar.");
+		}
+		//FIN VALIDACIONES--------------------------------------------------------------------------------------------------------------------------------
 		Competencia competencia ;
 	if(!(GestorCompetencia.getCompetenciaByName(DTO.getNombre()) == null)) {
 		throw new Exception("Ya existe una competencia con ese nombre. Ingrese un nombre distinto");
 	}
 	Deporte deporte = DeporteDAO.getDeporteById(DTO.getId_deporte());
 	Usuario usuario = UsuarioDAO.getUsuarioById(DTO.getId_usuario());
-
+	int result = JOptionPane.showConfirmDialog(null,"Seguro desea agregar una nueva competencia?", "Confirmación",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+	if(result == JOptionPane.CANCEL_OPTION) {
+		return false;
+	}
 	switch(DTO.getModalidad()) {
 		case LIGA:
 			 competencia = new CompetenciaLiga(DTO.getNombre(),DTO.getModalidad(),null,
@@ -49,6 +105,7 @@ public class GestorCompetencia {
 					competencia.addLugar(item);
 				}
 			 usuario.addCompetencia(competencia);
+			 
 			 CompetenciaDAO.Save((CompetenciaLiga)competencia);
 			 break;
 		case ELIMINACION_DIRECTA:
@@ -115,9 +172,12 @@ public class GestorCompetencia {
 	public static void crearParticipante(CompetenciaDTO compDTO, ParticipanteDTO participanteDTO) throws Exception {
 		Competencia competencia = getCompetenciaByID(compDTO.getId_competencia());
 		
-		if(participanteDTO.getNombre().equals("") || participanteDTO.getEmail().equals("")) {
-			throw new Exception("El Nombre y el Email no pueden ser campos vacíos.") ;
-			}
+		if(participanteDTO.getNombre().isBlank() || participanteDTO.getEmail().isBlank()) {
+			throw new Exception("El nombre y el mail del participante no pueden ser campos vacíos. \n");
+		}
+		if(correoNoValido(participanteDTO.getEmail())) {
+			throw new Exception("El correo ingresado no es válido. \n Debe tener formato xxx@xx.xxx");
+		}
 		
 		Optional<Participante> participanteByName = competencia.getParticipantes().stream().filter(p -> p.getNombre().equals(participanteDTO.getNombre())).findAny();
 		
@@ -241,5 +301,20 @@ public class GestorCompetencia {
 			}
 		CompetenciaDAO.Save(competencia);
 		}
+	private static boolean correoNoValido(String text) {
+		Boolean chequeo = false;
+		if(text.isBlank()) chequeo = false;
+		
+		chequeo = (text.contains("@") && text.contains("."));
+		if(chequeo) {
+			Integer posArroba =  text.indexOf("@");
+			Integer posPunto =  text.indexOf(".");
+			chequeo = (text.charAt(0) != '@' && !text.substring(posArroba).isBlank()
+					&& posArroba+1 != posPunto
+					&& !text.substring(posPunto).isBlank());
+		}
+			
+		return !chequeo;
+	}
 	
 }

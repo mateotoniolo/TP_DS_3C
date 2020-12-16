@@ -170,10 +170,11 @@ public class DialogVerCompetencia extends JDialog {
 				JOptionPane.showMessageDialog(null, "Solo se crea el fixture de competencias con modalidad Liga.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}else {
 				try {
-					int valor = JOptionPane.YES_NO_OPTION;
-					JOptionPane.showMessageDialog(null, "Seguro desea generar un nuevo fixture para esta competencia?","Confirmación",valor,App.emoji("icon/pregunta1.png", 32,32));				
-					if(valor == JOptionPane.YES_OPTION) {
-					GestorCompetencia.generarFixture(compDTO);
+					int result = JOptionPane.showConfirmDialog(null,"Seguro desea generar un nuevo fixture para esta competencia?", "Confirmación",
+				            JOptionPane.OK_CANCEL_OPTION,
+				            JOptionPane.QUESTION_MESSAGE);
+					if(result == JOptionPane.OK_OPTION) {
+						GestorCompetencia.generarFixture(compDTO);
 					}
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
