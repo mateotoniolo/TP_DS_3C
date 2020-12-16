@@ -31,7 +31,6 @@ public class Fecha implements Serializable{
 	private Boolean rondaPerdedores;
 	@Column
 	private Boolean rondaGanadores;
-	@Id
 	@ManyToOne
     @JoinColumn(name="id_fixture")
 	private Fixture fixture;

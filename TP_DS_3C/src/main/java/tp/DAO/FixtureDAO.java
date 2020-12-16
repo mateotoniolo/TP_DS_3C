@@ -32,6 +32,13 @@ public class FixtureDAO {
 		return fix;
 	}
 
+	public static void save(Fixture fixture) {
+		App.entity.getTransaction().begin();
+		App.entity.persist(fixture);
+		App.entity.getTransaction().commit();
+		
+	}
+
 
 	
 	

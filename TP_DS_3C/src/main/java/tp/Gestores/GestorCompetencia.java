@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import tp.DAO.CompetenciaDAO;
 import tp.DAO.DeporteDAO;
+import tp.DAO.FixtureDAO;
 import tp.DAO.LugarDAO;
 import tp.DAO.UsuarioDAO;
 import tp.DTOs.CompetenciaDTO;
@@ -193,14 +194,14 @@ public class GestorCompetencia {
 			throw new Exception("Ya existe un participante con ese Email. Reingrese un Email distinto.") ;
 		}
 		
-		competencia.setEstado(EstadoCompetencia.CREADA.toString());
-		competencia.addParticipante(new Participante(participanteDTO.getNombre(), participanteDTO.getEmail(),competencia));
-			try{
+		try{
 				int result = JOptionPane.showConfirmDialog(null,"Seguro desea agregar un nuevo participante?", "Confirmación",
 			            JOptionPane.OK_CANCEL_OPTION,
 			            JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.OK_OPTION) {
-				CompetenciaDAO.Save(competencia);
+					competencia.setEstado(EstadoCompetencia.CREADA.toString());
+					competencia.addParticipante(new Participante(participanteDTO.getNombre(), participanteDTO.getEmail(),competencia));
+					CompetenciaDAO.Save(competencia);
 				return true;
 				}else {
 					return false;

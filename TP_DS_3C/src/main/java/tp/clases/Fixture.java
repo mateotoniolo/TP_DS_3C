@@ -24,7 +24,7 @@ import javax.persistence.Transient;
 public class Fixture implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="id_fixture", unique = true)
+	@Column(name ="id_fixture")
 	private Integer id_fixture;
 	
 	@OneToMany(mappedBy = "fixture")
