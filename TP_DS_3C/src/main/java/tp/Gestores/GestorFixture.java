@@ -54,7 +54,7 @@ public static Fixture generarFixture(Competencia competencia) {
 		if(competencia.getEstado()==EstadoCompetencia.PLANIFICADA) {
 			competencia.setFixture(null);
 		}
-		competencia.setFixture(fixture);
+//		competencia.setFixture(fixture);
 		return fixture;
 	}
 	static public class PartidoTemp
@@ -140,8 +140,8 @@ public static Fixture generarFixture(Competencia competencia) {
     	else
     		return calcularLigaNumEquiposImpar(participantes);
     }
-	public static List<PartidoDTO> getProximosEncuentros(Integer id_fixture) {
-		Fixture fixture = FixtureDAO.getFixtureById(id_fixture);
+	public static List<PartidoDTO> getProximosEncuentros(FixtureDTO fixtureDto) {
+		Fixture fixture = FixtureDAO.getFixtureById(fixtureDto.getId_fixture());
 		List<Partido> partidos = new ArrayList<>();
 		List<PartidoDTO> retorno = new ArrayList<>();
 		for(Fecha f : fixture.getListaFechas()) {

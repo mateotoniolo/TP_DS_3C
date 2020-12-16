@@ -17,8 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import PKs.FechaPK;
-import PKs.LocalidadPK;
 @Entity
 @Table(name="Fecha")
 public class Fecha implements Serializable{
@@ -37,7 +35,7 @@ public class Fecha implements Serializable{
 	@ManyToOne
     @JoinColumn(name="id_fixture")
 	private Fixture fixture;
-	@Transient
+	@OneToMany(mappedBy = "fecha")
 	private List<Partido> listaPartidos;
 	
 
@@ -59,6 +57,9 @@ public class Fecha implements Serializable{
 
 
 	public Fecha(int contFechas, List<Partido> partidos) {
+		for(Partido partido: partidos) {
+			partido.setFecha(this);
+		}
 		this.numero = contFechas;
 		this.listaPartidos = partidos;
 	}
@@ -105,5 +106,15 @@ public class Fecha implements Serializable{
 	
 	public void addPartido(Partido partido) {
 		this.listaPartidos.add(partido);
+	}
+
+
+	public Fixture getFixture() {
+		return fixture;
+	}
+
+
+	public void setFixture(Fixture fixture) {
+		this.fixture = fixture;
 	}
 }

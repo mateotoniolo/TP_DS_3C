@@ -12,7 +12,11 @@ public class FixtureDTO {
 	private Integer id_fixture;
 	private List<Fecha> listaFechas;
 	
-
+	public FixtureDTO(Integer id_fixture) {
+		this.id_fixture = id_fixture;
+		
+	}
+	
 	public FixtureDTO(Integer id_fixture, List<Fecha> fechas) {
 		this.id_fixture = id_fixture;
 		this.listaFechas = fechas;

@@ -17,8 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import PKs.LocalidadPK;
-import PKs.ProvinciaPK;
+
 
 
 

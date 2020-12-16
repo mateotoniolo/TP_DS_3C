@@ -1,4 +1,4 @@
-INSERT INTO `Usuario` (`id_usuario`, `apellido`, `contrasenia`, `correoElectronico`, `dni`, `nombre`, `tipoDni`, `id_localidad`) VALUES
+INSERT INTO `Usuario` (`id_usuario`, `apellido`, `contrasenia`, `correoElectronico`, `dni`, `nombre`, `tipoDni`, `Localidad_id_localidad`) VALUES
 (6, 'Toniolo', 'utn', 'mateojustotoniolo@gmail.com', 42561194, 'Mateo', 0, NULL);
 
 INSERT INTO `Deporte` (`id_deporte`, `nombre`) VALUES

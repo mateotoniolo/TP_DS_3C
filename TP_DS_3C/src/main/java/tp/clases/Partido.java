@@ -17,8 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import PKs.LocalidadPK;
-import PKs.PartidoPK;
+
 
 @Entity
 @Table(name="Partido")
@@ -109,6 +108,16 @@ public class Partido implements Serializable{
 
 	public void setResultado(Resultado resultado) {
 		this.resultado = resultado;
+	}
+
+
+	public Fecha getFecha() {
+		return fecha;
+	}
+
+
+	public void setFecha(Fecha fecha) {
+		this.fecha = fecha;
 	}
 
 }

@@ -193,16 +193,11 @@ public class DialogAltaParticipante extends JDialog {
 						 correoElectronico = txtCorreoElectronico.getText().toString();
 						 nombre = txtNombre.getText().toString();
 						try {
-
-							int result = JOptionPane.showConfirmDialog(null,"Seguro desea agregar un nuevo participante?", "Confirmación",
-						            JOptionPane.OK_CANCEL_OPTION,
-						            JOptionPane.QUESTION_MESSAGE);
-							if(result == JOptionPane.OK_OPTION) {
-							
-							GestorCompetencia.crearParticipante(competencia, new ParticipanteDTO(nombre,correoElectronico));
+							if(GestorCompetencia.crearParticipante(competencia, new ParticipanteDTO(nombre,correoElectronico))) {
 							JOptionPane.showMessageDialog(null, "Nuevo participante agregado con éxito","Agregar Participante",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
 							listaParticipantes.actualizarTabla();
-							dispose();}							
+							dispose();
+							}						
 						}catch(Exception e) {
 							JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 						}

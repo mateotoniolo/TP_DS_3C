@@ -93,47 +93,50 @@ public class GestorCompetencia {
 	if(result == JOptionPane.CANCEL_OPTION) {
 		return false;
 	}
-	switch(DTO.getModalidad()) {
-		case LIGA:
-			 competencia = new CompetenciaLiga(DTO.getNombre(),DTO.getModalidad(),null,
-					 null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA, DTO.getPuntuacion(),
-					 DTO.getTantosXAusencia(),usuario,deporte,
-					 null, DTO.getEmpate(),DTO.getPuntosXPresentarse(),DTO.getPuntosXGanado(),DTO.getPuntosXEmpate());
-			 for(ItemLugarDTO dto : DTO.getLugares()) {
-					Lugar lugar = LugarDAO.getLugarByCodigo(dto.getCodigo());
-					ItemLugar item = new ItemLugar(competencia,lugar,dto.getDisponibilidad());
-					competencia.addLugar(item);
-				}
-			 usuario.addCompetencia(competencia);
-			 
-			 CompetenciaDAO.Save((CompetenciaLiga)competencia);
-			 break;
-		case ELIMINACION_DIRECTA:
-			 competencia = new CompetenciaEliminacionSimple(DTO.getNombre(), DTO.getModalidad(),
-					 null,null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA,DTO.getPuntuacion(),
-					 DTO.getTantosXAusencia(),usuario,deporte);
-			 for(ItemLugarDTO dto : DTO.getLugares()) {
-					Lugar lugar = LugarDAO.getLugarByCodigo(dto.getCodigo());
-					ItemLugar item = new ItemLugar(competencia,lugar,dto.getDisponibilidad());
-					competencia.addLugar(item);
-				}
-			 usuario.addCompetencia(competencia);
-			 CompetenciaDAO.Save((CompetenciaEliminacionSimple)competencia);
-			 break;
-		case ELIMINACION_DOBLE:
-			 competencia = new CompetenciaEliminacionDoble(DTO.getNombre(), DTO.getModalidad(),
-					 null,null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA,DTO.getPuntuacion(),
-					 DTO.getTantosXAusencia(),usuario,deporte);
-			 for(ItemLugarDTO dto : DTO.getLugares()) {
-					Lugar lugar = LugarDAO.getLugarByCodigo(dto.getCodigo());
-					ItemLugar item = new ItemLugar(competencia,lugar,dto.getDisponibilidad());
-					competencia.addLugar(item);
-				}
-			 usuario.addCompetencia(competencia);
-			 CompetenciaDAO.Save((CompetenciaEliminacionDoble)competencia);
-			 	break;
+	try {
+		switch(DTO.getModalidad()) {
+			case LIGA:
+				 competencia = new CompetenciaLiga(DTO.getNombre(),DTO.getModalidad(),null,
+						 null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA, DTO.getPuntuacion(),
+						 DTO.getTantosXAusencia(),usuario,deporte,
+						 null, DTO.getEmpate(),DTO.getPuntosXPresentarse(),DTO.getPuntosXGanado(),DTO.getPuntosXEmpate());
+				 for(ItemLugarDTO dto : DTO.getLugares()) {
+						Lugar lugar = LugarDAO.getLugarByCodigo(dto.getCodigo());
+						ItemLugar item = new ItemLugar(competencia,lugar,dto.getDisponibilidad());
+						competencia.addLugar(item);
+					}
+				 usuario.addCompetencia(competencia);
+				 
+				 CompetenciaDAO.Save((CompetenciaLiga)competencia);
+				 break;
+			case ELIMINACION_DIRECTA:
+				 competencia = new CompetenciaEliminacionSimple(DTO.getNombre(), DTO.getModalidad(),
+						 null,null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA,DTO.getPuntuacion(),
+						 DTO.getTantosXAusencia(),usuario,deporte);
+				 for(ItemLugarDTO dto : DTO.getLugares()) {
+						Lugar lugar = LugarDAO.getLugarByCodigo(dto.getCodigo());
+						ItemLugar item = new ItemLugar(competencia,lugar,dto.getDisponibilidad());
+						competencia.addLugar(item);
+					}
+				 usuario.addCompetencia(competencia);
+				 CompetenciaDAO.Save((CompetenciaEliminacionSimple)competencia);
+				 break;
+			case ELIMINACION_DOBLE:
+				 competencia = new CompetenciaEliminacionDoble(DTO.getNombre(), DTO.getModalidad(),
+						 null,null,DTO.getCantSets(),DTO.getReglamento(),EstadoCompetencia.CREADA,DTO.getPuntuacion(),
+						 DTO.getTantosXAusencia(),usuario,deporte);
+				 for(ItemLugarDTO dto : DTO.getLugares()) {
+						Lugar lugar = LugarDAO.getLugarByCodigo(dto.getCodigo());
+						ItemLugar item = new ItemLugar(competencia,lugar,dto.getDisponibilidad());
+						competencia.addLugar(item);
+					}
+				 usuario.addCompetencia(competencia);
+				 CompetenciaDAO.Save((CompetenciaEliminacionDoble)competencia);
+				 	break;
+			}
+		}catch(Exception e) {
+			throw new Exception("Lo sentimos, algo salió mal. Aguarde un momento e intentelo nuevamente");
 		}
-		
 		return true;
 		}
 	
@@ -169,7 +172,7 @@ public class GestorCompetencia {
 		}
 	}
 
-	public static void crearParticipante(CompetenciaDTO compDTO, ParticipanteDTO participanteDTO) throws Exception {
+	public static Boolean crearParticipante(CompetenciaDTO compDTO, ParticipanteDTO participanteDTO) throws Exception {
 		Competencia competencia = getCompetenciaByID(compDTO.getId_competencia());
 		
 		if(participanteDTO.getNombre().isBlank() || participanteDTO.getEmail().isBlank()) {
@@ -193,9 +196,17 @@ public class GestorCompetencia {
 		competencia.setEstado(EstadoCompetencia.CREADA.toString());
 		competencia.addParticipante(new Participante(participanteDTO.getNombre(), participanteDTO.getEmail(),competencia));
 			try{
+				int result = JOptionPane.showConfirmDialog(null,"Seguro desea agregar un nuevo participante?", "Confirmación",
+			            JOptionPane.OK_CANCEL_OPTION,
+			            JOptionPane.QUESTION_MESSAGE);
+				if(result == JOptionPane.OK_OPTION) {
 				CompetenciaDAO.Save(competencia);
+				return true;
+				}else {
+					return false;
+				}
 			}catch(Exception e) {
-				throw new Exception("Lo sentimos, algo falló en el proceso. Inténtelo de nuevo.");
+				throw new Exception("Lo sentimos, algo salió mal. Aguarde un momento e intentelo nuevamente");
 			}
 	}
 
@@ -295,11 +306,15 @@ public class GestorCompetencia {
 		if(competencia.getParticipantes().size()<2) {
 			throw new Exception("La competencia tiene menos de 2 participantes.");
 		}
-		GestorFixture.generarFixture(competencia);
-			if(competencia.getEstado()==EstadoCompetencia.CREADA) {
-				competencia.setEstado(EstadoCompetencia.PLANIFICADA.toString());
+			try {
+				competencia.setFixture(GestorFixture.generarFixture(competencia));
+				if(competencia.getEstado()==EstadoCompetencia.CREADA) {
+					competencia.setEstado(EstadoCompetencia.PLANIFICADA.toString());
+				}
+				CompetenciaDAO.Save(competencia);
+			}catch(Exception e) {
+				throw new Exception("Lo sentimos, algo salió mal. Aguarde un momento e intentelo nuevamente");
 			}
-		CompetenciaDAO.Save(competencia);
 		}
 	private static boolean correoNoValido(String text) {
 		Boolean chequeo = false;

@@ -27,7 +27,7 @@ public class Fixture implements Serializable{
 	@Column(name ="id_fixture", unique = true)
 	private Integer id_fixture;
 	
-	@Transient
+	@OneToMany(mappedBy = "fixture")
 	private List<Fecha> Fechas;
 	
 	@Transient
@@ -39,6 +39,9 @@ public class Fixture implements Serializable{
 	}
 
 	public Fixture(List<Fecha> fechas,Competencia competencia) {
+		for(Fecha fecha : fechas) {
+			fecha.setFixture(this);
+		}
 		this.Fechas = fechas;
 		this.competencia = competencia;
 	}

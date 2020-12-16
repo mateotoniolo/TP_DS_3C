@@ -1,7 +1,6 @@
 package tp.GUI;
 
 import java.awt.Color;
-
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -16,16 +15,15 @@ import javax.swing.JDialog;
 import java.awt.GridLayout;
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.CompetenciaPartidosDTO;
+import tp.DTOs.FixtureDTO;
 import tp.DTOs.PartidoDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.Gestores.GestorFixture;
 import tp.app.App;
 import tp.enums.EstadoCompetencia;
 import tp.enums.Modalidad;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
@@ -356,14 +354,14 @@ public class DialogVerCompetencia extends JDialog {
 		
 		//Carga la tabla de proximos partidos
 		if(compDTO.getId_fixture() != null) {
-			for(PartidoDTO p : GestorFixture.getProximosEncuentros(compDTO.getId_fixture())) {
+			for(PartidoDTO p : GestorFixture.getProximosEncuentros(new FixtureDTO(compDTO.getId_fixture()))) {
 				this.tableModel.addItemTM(p);
 			}
 		}
 	}
 	public void actualizarTabla(Integer id_competencia) {
 		this.tableModel.removeAll();
-		for(PartidoDTO p : GestorFixture.getProximosEncuentros(GestorCompetencia.getCompetenciaByID(id_competencia).getFixture().getId_fixture())) {
+		for(PartidoDTO p : GestorFixture.getProximosEncuentros(new FixtureDTO(GestorCompetencia.getCompetenciaByID(id_competencia).getFixture().getId_fixture()))) {
 			this.tableModel.addItemTM(p);
 		}
 		this.table.updateUI();
