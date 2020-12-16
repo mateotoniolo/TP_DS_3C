@@ -122,25 +122,24 @@ public class DialogModificarLugar extends JDialog {
 				btnConfirmar.setBackground(new Color(102, 102, 255));
 				btnConfirmar.addActionListener(a -> {
 					try{
-						try{					
-							disponibilidad = Integer.parseInt(textField.getText());
-						}catch(Exception e) {
-							throw new Exception("La disponibilidad debe ser una cantidad entera.");
-						}
+							try{					
+								disponibilidad = Integer.parseInt(textField.getText());
+							}catch(Exception e) {
+								throw new Exception("La disponibilidad debe ser una cantidad entera.");
+							}
 						if(disponibilidad == 0) {
 							throw new Exception("La disponibilidad debe ser una cantidad entera mayor a 0(cero).");
 						}else {
 							Lugar place = GestorUsuario.getLugarByNombre(this.boxLugar.getSelectedItem().toString());
 							ItemLugarDTO item = new ItemLugarDTO(place.getId(),place.getNombre(), disponibilidad);
 					
-						try {
-							p.tableModel.remove(itemDTO);
-							p.addItemTM(item);
-							this.dispose();
-						} catch(Exception e) {
-							JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-						}
-					//Modifica el item con los datos ingresados
+							try {
+								p.tableModel.remove(itemDTO);
+								p.addItemTM(item);
+								this.dispose();
+							} catch(Exception e) {
+								JOptionPane.showMessageDialog(null, "Algo falló al actualizar la tabla. Intentelo nuevamente","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+							}
 						}
 					}catch(Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
