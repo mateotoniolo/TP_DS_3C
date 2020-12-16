@@ -276,7 +276,7 @@ public class PanelAltaCompetencia extends JPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				Character c = e.getKeyChar();
-				if(!Character.isDigit(c)) { // TODO Falta Capturar la exception cuando esta vacio
+				if(!Character.isDigit(c)) {
 					txtPuntosPartidoGanado.setText(reparse(txtPuntosPartidoGanado.getText()));
 				}
 				
@@ -852,7 +852,7 @@ public class PanelAltaCompetencia extends JPanel {
 
 			try {
 				String CamposVacios="";
-				if(compDTO.getNombre().isEmpty()) {
+				if(compDTO.getNombre().isBlank()) {
 					CamposVacios=CamposVacios+"La competencia debe tener un nombre. \n";
 				}
 				if(compDTO.getLugares().isEmpty()) {
@@ -927,7 +927,7 @@ public class PanelAltaCompetencia extends JPanel {
 		
 		
 	}
-	
+
 	private void ordenDeTabulacionInicial() {		
 		setFocusCycleRoot(true);
 		

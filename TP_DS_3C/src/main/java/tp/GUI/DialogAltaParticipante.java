@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,9 +45,6 @@ public class DialogAltaParticipante extends JDialog {
 	
 	private ArrayList<Component> tabOrder = new ArrayList<Component>();
 
-	/**
-	 * Create the dialog.
-	 */
 	public DialogAltaParticipante(JFrame m,PanelListarParticipantes listaParticipantes, CompetenciaDTO competencia) {
 		setTitle("Agregar Participante");
 		setBounds(100, 100, 800, 400);
@@ -195,6 +193,13 @@ public class DialogAltaParticipante extends JDialog {
 						 correoElectronico = txtCorreoElectronico.getText().toString();
 						 nombre = txtNombre.getText().toString();
 						try {
+							String CamposVacios="";
+							if(txtNombre.getText().isBlank()) {
+								CamposVacios=CamposVacios+"El participante debe tener un nombre. \n";
+							}
+							if(this.correoNoValido(txtCorreoElectronico.getText())) {
+								CamposVacios=CamposVacios+"Debe brindar un correo electronico valido. \n";
+							}
 							GestorCompetencia.crearParticipante(competencia, new ParticipanteDTO(nombre,correoElectronico));
 							JOptionPane.showMessageDialog(null, "Nuevo participante agregado con éxito","Agregar Participante",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
 							listaParticipantes.actualizarTabla();
@@ -208,6 +213,22 @@ public class DialogAltaParticipante extends JDialog {
 		}
 	}
 	
+	private boolean correoNoValido(String text) {
+		Boolean chequeo = false;
+		if(text.isBlank()) chequeo = false;
+		
+		chequeo = (text.contains("@") && text.contains("."));
+		if(chequeo) {
+			Integer posArroba =  text.indexOf("@");
+			Integer posPunto =  text.indexOf(".");
+			chequeo = (text.charAt(0) != '@' && !text.substring(posArroba).isBlank()
+					&& text.substring(posArroba, posArroba+1) != "."
+					&& !text.substring(posPunto).isBlank());
+		}
+			
+		return chequeo;
+	}
+
 	private void ordenDeTabulacion() {		
 		setFocusCycleRoot(true);
 		txtNombre.setFocusCycleRoot(true);
