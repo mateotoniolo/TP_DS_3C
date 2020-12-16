@@ -42,7 +42,13 @@ public class PanelListarParticipantes extends JPanel {
 	 * Create the panel.
 	 */
 
-	public PanelListarParticipantes(MainApplication m, JPanel llamante, CompetenciaDTO competencia) {
+	public PanelListarParticipantes(MainApplication m, PanelAltaCompetencia llamante, CompetenciaDTO competencia) {
+		this.id_competencia = competencia.getId_competencia();
+		this.llamante = llamante;
+		this.PanelAlta = true;
+		initialize(m,id_competencia);
+	}
+	public PanelListarParticipantes(MainApplication m, PanelListarCompetenciasDeportivas llamante, CompetenciaDTO competencia) {
 		this.id_competencia = competencia.getId_competencia();
 		this.llamante = llamante;
 		initialize(m,id_competencia);

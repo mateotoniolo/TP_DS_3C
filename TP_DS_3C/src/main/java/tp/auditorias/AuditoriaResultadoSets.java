@@ -17,9 +17,7 @@ public class AuditoriaResultadoSets extends AuditoriaModificacionResultado {
 	private Integer setsA;
 	@Column
 	private Integer setsB;
-	@OneToMany
-	@JoinColumn(name="Auditoria_Sets")
-	private List<AuditoriaSet> listaSets;
+	
 	
 	public AuditoriaResultadoSets() {
 		super();
@@ -47,15 +45,4 @@ public class AuditoriaResultadoSets extends AuditoriaModificacionResultado {
 		this.setsB = setsB;
 	}
 
-	public List<AuditoriaSet> getListaSets() {
-		return listaSets;
-	}
-
-	public void setListaSets(List<AuditoriaSet> listaSets) {
-		this.listaSets = listaSets;
-	}
-	
-	public void addSet(AuditoriaSet set) {
-		this.listaSets.add(set);
-	}
 }

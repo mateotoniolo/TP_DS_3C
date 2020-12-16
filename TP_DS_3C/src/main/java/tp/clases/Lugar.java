@@ -27,7 +27,7 @@ public class Lugar {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_usuario",referencedColumnName = "id_usuario")
 	private Usuario usuario;
-	@OneToMany
+	@ManyToMany
 	private List<Deporte> deportes;
 	
 	public Lugar() {
