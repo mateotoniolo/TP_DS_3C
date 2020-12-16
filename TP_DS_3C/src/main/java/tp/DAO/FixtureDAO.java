@@ -18,6 +18,7 @@ import tp.clases.CompetenciaEliminacionDoble;
 import tp.clases.CompetenciaEliminacionSimple;
 import tp.clases.CompetenciaLiga;
 import tp.clases.Deporte;
+import tp.clases.Fecha;
 import tp.clases.Fixture;
 import tp.enums.Modalidad;
 import tp.enums.ModalidadDePuntuacion;
@@ -30,6 +31,8 @@ public class FixtureDAO {
 		Fixture fix = App.entity.find(Fixture.class, id_fixture);
 		return fix;
 	}
+
+
 	
 	
 	

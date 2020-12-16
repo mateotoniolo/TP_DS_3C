@@ -47,7 +47,7 @@ public class Usuario {
 	@JoinColumn(name="id_usuario")
 	private List<Lugar> lugares;
 	@OneToOne
-//	@JoinColumn(name="id_localidad",referencedColumnName = "id_localidad")
+	@JoinColumn(name="id_localidad",referencedColumnName = "id_localidad")
 	private Localidad Localidad;
 	
 	@OneToMany

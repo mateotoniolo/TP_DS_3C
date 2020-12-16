@@ -54,7 +54,6 @@ public static Fixture generarFixture(Competencia competencia) {
 		if(competencia.getEstado()==EstadoCompetencia.PLANIFICADA) {
 			competencia.setFixture(null);
 		}
-//		competencia.setFixture(fixture);
 		return fixture;
 	}
 	static public class PartidoTemp
