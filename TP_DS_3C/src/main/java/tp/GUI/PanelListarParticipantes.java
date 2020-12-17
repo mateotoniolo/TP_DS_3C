@@ -122,12 +122,9 @@ public class PanelListarParticipantes extends JPanel {
 		splitPane.setLeftComponent(btnAtras);
 		
 		btnAtras.addActionListener( a -> {
-			if(!PanelAlta) {
-				((PanelListarCompetenciasDeportivas)llamante).actualizar();
-				m.cambiarPanel(llamante);
-			}else {
-				m.cambiarPanel(new PanelAltaCompetencia(m, ((PanelAltaCompetencia)llamante).previo));
-			}
+			
+				m.cambiarPanel(new PanelListarCompetenciasDeportivas(m, new PanelHome(m)));
+			
 			
 		});
 		

@@ -1,8 +1,10 @@
 package tp.auditorias;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,11 +12,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import tp.clases.Resultado;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED )
 @Table(name="Auditoria_Modificacion_Resultado")
-public class AuditoriaModificacionResultado {
+public class AuditoriaModificacionResultado implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_auditoria;
@@ -27,6 +33,9 @@ public class AuditoriaModificacionResultado {
 	@Column
 	private Time hora;
 	
+	@ManyToOne(cascade=CascadeType.ALL)  
+	@PrimaryKeyJoinColumn(referencedColumnName = "id_resultado")  
+	private Resultado resultado;
 	public AuditoriaModificacionResultado() {
 		super();
 	}

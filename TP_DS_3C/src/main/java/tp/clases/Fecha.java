@@ -19,12 +19,11 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="Fecha")
+
 public class Fecha implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="id_fecha", unique = true)
-	private Integer id_fecha;
-	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer idfecha;
 	@Column
 	private Integer numero;
 	@Column
@@ -32,9 +31,9 @@ public class Fecha implements Serializable{
 	@Column
 	private Boolean rondaGanadores;
 	@ManyToOne
-    @JoinColumn(name="id_fixture")
+	@JoinColumn(name="fixture")
 	private Fixture fixture;
-	@OneToMany(mappedBy = "fecha")
+	@OneToMany(mappedBy="fecha", cascade = CascadeType.ALL,orphanRemoval=true)
 	private List<Partido> listaPartidos;
 	
 
@@ -105,6 +104,7 @@ public class Fecha implements Serializable{
 	
 	public void addPartido(Partido partido) {
 		this.listaPartidos.add(partido);
+		partido.setFecha(this);
 	}
 
 

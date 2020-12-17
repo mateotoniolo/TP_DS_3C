@@ -28,6 +28,7 @@ public static Fixture generarFixture(Competencia competencia) {
 		List<Participante> participantes= competencia.getParticipantes();
 		List<ItemLugar> lugares= competencia.getLugares();
 		List<PartidoTemp> partidosTemp= calcularPartidos(participantes);
+		Fecha fecha;
 		int lugarActual=0;
 		int contLugarActual=0;
 		int contFechas=1;
@@ -40,20 +41,27 @@ public static Fixture generarFixture(Competencia competencia) {
 				lugarActual++;
 				contLugarActual=0;
 			}
-			if(lugarActual==lugares.size()) {
-				fechas.add(new Fecha(contFechas,partidos));
-				contFechas++;
-				lugarActual=0;
+			if(contPartidos==competencia.getParticipantes().size()/2) {
+				fecha=new Fecha(contFechas,partidos);
+				fechas.add(fecha);
+				for(Partido partido : partidos) {
+					partido.setFecha(fecha);
+				}
 				partidos=new ArrayList<Partido>();
-			}
-			else if(contPartidos==partidosTemp.size()) {
-				fechas.add(new Fecha(contFechas,partidos));
+				contFechas++;
+				contPartidos=0;
+				contLugarActual=0;
+				lugarActual=0;
 			}
 		}
 		Fixture fixture=new Fixture(fechas,competencia);
+		for(Fecha f : fechas) {
+			f.setFixture(fixture);
+		}
 		if(competencia.getEstado()==EstadoCompetencia.PLANIFICADA) {
 			competencia.setFixture(null);
 		}
+
 		return fixture;
 	}
 	static public class PartidoTemp
@@ -102,7 +110,7 @@ public static Fixture generarFixture(Competencia competencia) {
     }
     private static List<PartidoTemp> calcularLigaNumEquiposImpar(List<Participante> participantes){
         int numRondas=participantes.size();
-        int numPartidosPorRonda=participantes.size()/2;
+        int numPartidosPorRonda=(participantes.size())/2;
         PartidoTemp[][] rondas = new PartidoTemp[numRondas][numPartidosPorRonda];
         for(int i=0,k=0;i<numRondas;i++){
             for (int j = -1; j < numPartidosPorRonda; j ++){

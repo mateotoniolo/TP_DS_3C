@@ -4,28 +4,28 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import tp.clases.Competencia;
 import tp.clases.Participante;
 @Entity
 @Table(name="Auditoria_Modificacion_Participante")
-public class AuditoriaModificacionParticipante {
+public class AuditoriaModificacionParticipante implements Serializable{
 	
 	@Id
-	@Column(name="id_participante")
-	Integer id;
-	@MapsId
-	@OneToOne(mappedBy = "audi")
-	@JoinColumn(name = "id_participante")
+	@ManyToOne(cascade=CascadeType.ALL)  
+	@PrimaryKeyJoinColumn(referencedColumnName = "id_participante")  
 	private Participante participante;
 	@Column
 	private Date fechaModificacion;

@@ -39,7 +39,7 @@ public class Competencia {
 	@Column
 	private String modalidad;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_fixture", referencedColumnName="id_fixture")
+	@JoinColumn(name="idfixture", referencedColumnName="idfixture")
 	private Fixture fixture;
 	@Column
 	private String reglamento;

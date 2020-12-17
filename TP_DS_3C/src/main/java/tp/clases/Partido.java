@@ -22,11 +22,17 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="Partido")
+
 public class Partido implements Serializable{
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="id_partido", unique = true)
-	private Integer id_partido;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="idpartido", unique=true)
+	private Integer idpartido;
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn(name="fecha",referencedColumnName = "idfecha")
+	private Fecha fecha;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_Local",referencedColumnName = "id_participante")
@@ -34,10 +40,7 @@ public class Partido implements Serializable{
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_visitante",referencedColumnName = "id_participante")
 	private Participante participanteB;
-	@Id
-	@ManyToOne
-    @PrimaryKeyJoinColumn(name="id_fecha",referencedColumnName = "id_fecha")
-	private Fecha fecha;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_lugar",referencedColumnName = "codigo")
 	private Lugar lugarDeRealizacion;

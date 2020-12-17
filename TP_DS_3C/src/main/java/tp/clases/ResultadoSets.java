@@ -18,7 +18,7 @@ public class ResultadoSets extends Resultado {
 	private Integer setsA;
 	@Column
 	private Integer setsB;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="ResultadoSets")
 	private List<Set> listaSets;
 	

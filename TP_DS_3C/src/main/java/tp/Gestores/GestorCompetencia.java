@@ -64,7 +64,7 @@ public class GestorCompetencia {
 			}
 			break;
 		default:
-			if(DTO.getTantosXAusencia()==null) {
+			if((DTO.getPuntuacion() == ModalidadDePuntuacion.PUNTUACION) && (DTO.getTantosXAusencia()==null)) {
 				CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia. \n";
 			}
 		}

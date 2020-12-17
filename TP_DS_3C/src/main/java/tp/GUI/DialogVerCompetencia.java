@@ -16,6 +16,7 @@ import java.awt.GridLayout;
 import tp.DTOs.CompetenciaDTO;
 import tp.DTOs.CompetenciaPartidosDTO;
 import tp.DTOs.FixtureDTO;
+import tp.DTOs.ItemLugarDTO;
 import tp.DTOs.PartidoDTO;
 import tp.Gestores.GestorCompetencia;
 import tp.Gestores.GestorFixture;
@@ -167,7 +168,16 @@ public class DialogVerCompetencia extends JDialog {
 			if(compDTO.getModalidad() != Modalidad.LIGA) {
 				JOptionPane.showMessageDialog(null, "Solo se crea el fixture de competencias con modalidad Liga.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 			}else {
+				
+				  
 				try {
+					int disponibilidad=0;
+					  for(ItemLugarDTO l: compDTO.getLugares()) {
+					   disponibilidad=+l.getDisponibilidad();
+					  }
+					if(compDTO.getParticipantes().size()/2>disponibilidad) {
+						   throw new Exception("La competencia no tiene suficiente disponibilidad en sus lugares");
+						  }
 					int result = JOptionPane.showConfirmDialog(null,"Seguro desea generar un nuevo fixture para esta competencia?", "Confirmación",
 				            JOptionPane.OK_CANCEL_OPTION,
 				            JOptionPane.QUESTION_MESSAGE);

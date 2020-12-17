@@ -10,11 +10,18 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import org.hibernate.mapping.Collection;
+
+import tp.DAO.CompetenciaDAO;
+import tp.DAO.FixtureDAO;
 import tp.GUI.MainApplication;
+import tp.Gestores.GestorCompetencia;
 import tp.clases.Competencia;
 import tp.clases.Deporte;
+import tp.clases.Fecha;
+import tp.clases.Fixture;
 import tp.clases.ItemLugar;
 import tp.clases.Lugar;
+import tp.clases.Partido;
 
 public class App {
 	public static EntityManager entity;

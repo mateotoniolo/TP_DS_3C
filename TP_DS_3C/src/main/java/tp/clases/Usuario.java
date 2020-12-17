@@ -50,8 +50,7 @@ public class Usuario {
 	@JoinColumn(name="id_localidad",referencedColumnName = "id_localidad")
 	private Localidad Localidad;
 	
-	@OneToMany
-	@JoinColumn(name="Usuario")
+	@Transient
 	private List<AuditoriaIngresoUsuario> historialIngresos;
 
 	

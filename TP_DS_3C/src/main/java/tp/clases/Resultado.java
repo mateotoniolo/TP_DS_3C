@@ -26,8 +26,7 @@ public class Resultado {
 	private Boolean aPresente;
 	@Column
 	private Boolean bPresente;
-	@OneToMany
-	@JoinColumn(name="Resultado")
+	@Transient
 	private List<AuditoriaModificacionResultado> historialCambios;
 	
 	

@@ -1,5 +1,6 @@
 package tp.auditorias;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Auditoria_Set")
-public class AuditoriaSet {
+public class AuditoriaSet implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id_auditoriaSet;
@@ -23,6 +24,7 @@ public class AuditoriaSet {
 	private Integer tantosA;
 	@Column
 	private Integer tantosB;
+	@Id
 	@ManyToOne
 	@JoinColumn(name="Auditoria_Resultado")
 	private AuditoriaResultadoSets auditoria;

@@ -23,11 +23,10 @@ import javax.persistence.Transient;
 @Table(name="Fixture")
 public class Fixture implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="id_fixture")
-	private Integer id_fixture;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer idfixture;
 	
-	@OneToMany(mappedBy = "fixture")
+	@OneToMany(mappedBy="fixture", cascade = CascadeType.ALL)
 	private List<Fecha> Fechas;
 	
 	@Transient
@@ -56,13 +55,14 @@ public class Fixture implements Serializable{
 	
 	public void addFecha(Fecha fecha) {
 		this.Fechas.add(fecha);
+		fecha.setFixture(this);
 	}
 
 	public Integer getId_fixture() {
-		return id_fixture;
+		return idfixture;
 	}
 
 	public void setId_fixture(Integer id_fixture) {
-		this.id_fixture = id_fixture;
+		this.idfixture = id_fixture;
 	}
 }
