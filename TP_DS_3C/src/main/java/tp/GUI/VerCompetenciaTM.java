@@ -16,7 +16,7 @@ public class VerCompetenciaTM extends AbstractTableModel{
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<PartidoDTO> data = new ArrayList<PartidoDTO>();
-	private String[] columnNames = {"Visitante"," @ ","Local"};
+	private String[] columnNames = {"Fecha","Visitante"," @ ","Local"};
 	
 	public VerCompetenciaTM() {
 		
@@ -47,10 +47,12 @@ public class VerCompetenciaTM extends AbstractTableModel{
 		PartidoDTO temp = data.get(rowIndex);
 		switch(columnIndex) {
 		case 0:
-			return temp.getVisistante().getNombre();
+			return temp.getNro_fecha();
 		case 1:
+			return temp.getVisistante().getNombre();
+		case 2:
 			return "vs.";
-		case 2: 
+		case 3: 
 			return temp.getLocal().getNombre();
 		}
 		return null;

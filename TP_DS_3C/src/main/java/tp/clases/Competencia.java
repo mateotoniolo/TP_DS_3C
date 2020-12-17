@@ -57,8 +57,13 @@ public class Competencia {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_deporte",referencedColumnName = "id_deporte")
 	private Deporte deporte;
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_competencia")
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name="id_competencia")
+	@OneToMany(
+	        mappedBy = "competencia",
+	        cascade = CascadeType.ALL,
+	        orphanRemoval = true
+	    )
 	private List<ItemLugar> Lugares;
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_competencia")

@@ -130,12 +130,13 @@ public class DialogVerCompetencia extends JDialog {
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
 			
-			if(isAltaCompetencia) {
-				m.cambiarPanel(new PanelListarParticipantes(m, (PanelAltaCompetencia)llamante, new CompetenciaDTO(id_competencia)));
-			}
-			else {
-				m.cambiarPanel(new PanelListarParticipantes(m, (PanelListarCompetenciasDeportivas)llamante, new CompetenciaDTO(id_competencia), true));
-			}
+//			if(isAltaCompetencia) {
+//				m.cambiarPanel(new PanelListarParticipantes(m, (PanelAltaCompetencia)llamante, new CompetenciaDTO(id_competencia)));
+//			}
+//			else {
+				dispose();
+				m.cambiarPanel(new PanelListarParticipantes(m, (PanelListarCompetenciasDeportivas)llamante, new CompetenciaDTO(id_competencia)));
+//			}
 			
 		});
 		
@@ -174,12 +175,8 @@ public class DialogVerCompetencia extends JDialog {
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			if(isAltaCompetencia) {
-				m.cambiarPanel(new PanelListarParticipantes(m,(PanelAltaCompetencia)llamante,new CompetenciaDTO(id_competencia)));
-			}
-			else {
 				m.cambiarPanel(new PanelListarParticipantes(m,(PanelListarCompetenciasDeportivas)llamante,new CompetenciaDTO(id_competencia)));
-			}
+			
 		});
 		
 		btnGenerarFixture.addActionListener( a -> {
@@ -190,11 +187,14 @@ public class DialogVerCompetencia extends JDialog {
 			else {
 
 				try {
+					if(compDTO.getParticipantes().size() < 2) {
+						throw new Exception("La competencia debe tener al menos de 2(dos) participantes para generar el fixture");
+					}
 					int disponibilidad=0;
 					  for(ItemLugarDTO l: compDTO.getLugares()) {
 					   disponibilidad=+l.getDisponibilidad();
 					  }
-					if(compDTO.getParticipantes().size()/2>disponibilidad) {
+					if(((Integer)compDTO.getParticipantes().size()/2)>disponibilidad) {
 						   throw new Exception("La competencia no tiene suficiente disponibilidad en sus lugares");
 						  }
 					int result = JOptionPane.showConfirmDialog(null,"Seguro desea generar un nuevo fixture para esta competencia?", "Confirmación",
@@ -203,18 +203,19 @@ public class DialogVerCompetencia extends JDialog {
 					if(result == JOptionPane.OK_OPTION) {
 						GestorCompetencia.generarFixture(compDTO);
 					}
+				
+						try {
+						actualizarTabla(id_competencia);
+						lblEstado.setText("Estado: " + EstadoCompetencia.PLANIFICADA.toString());
+						if(!isAltaCompetencia) {
+							((PanelListarCompetenciasDeportivas)llamante).actualizar();
+						}
+						
+						}catch(Exception e) {
+							JOptionPane.showMessageDialog(null, "Hubo un errror al actualizar la tabla. Intente nuevamente.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+						}
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-				}
-				try {
-				actualizarTabla(id_competencia);
-				lblEstado.setText("Estado: " + EstadoCompetencia.PLANIFICADA.toString());
-				if(!isAltaCompetencia) {
-					((PanelListarCompetenciasDeportivas)llamante).actualizar();
-				}
-				
-				}catch(Exception e) {
-					JOptionPane.showMessageDialog(null, "Hubo un errror al actualizar la tabla. Intente nuevamente.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 				}
 			}
 		});
@@ -356,11 +357,13 @@ public class DialogVerCompetencia extends JDialog {
 		table = new JTable();
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(200);
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table.getColumnModel().getColumn(1).setPreferredWidth(170);
 		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(20);
+		table.getColumnModel().getColumn(3).setResizable(false);
+		table.getColumnModel().getColumn(3).setPreferredWidth(150);
 		scrollPane.setViewportView(table);
 		GroupLayout gl_panelR = new GroupLayout(panelR);
 		gl_panelR.setHorizontalGroup(

@@ -48,10 +48,10 @@ public class Partido implements Serializable{
 	@JoinColumn(name="id_resultado",referencedColumnName = "id_resultado")
 	private Resultado resultado;
 	@OneToOne(cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn(name="eliminacionGanadores",referencedColumnName = "id_partido")
+	@JoinColumn(name="partido_ganador",referencedColumnName = "idpartido")
 	private Partido eliminacionGanadores;
 	@OneToOne(cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn(name="eliminacionPerdedores",referencedColumnName = "id_partido")
+	@JoinColumn(name="partido_perdedor",referencedColumnName = "idpartido")
 	private Partido eliminacionPerdedores;
 	
 	

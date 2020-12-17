@@ -24,7 +24,7 @@ public class CompetenciaDTO {
 	Double puntosXEmpate;
 	Double puntosXGanado;
 	Integer id_deporte;
-	List<ItemLugarDTO> Lugares;
+	List<ItemLugarDTO> Lugares = new ArrayList<>();
 	Integer id_usuario;
 	EstadoCompetencia estado;
 	Integer id_fixture;
@@ -189,6 +189,9 @@ public class CompetenciaDTO {
 	}
 	public void addParticipante(ParticipanteDTO dto) {
 		this.participantes.add(dto);
+	}
+	public void addLugar(ItemLugarDTO dto) {
+		this.Lugares.add(dto);
 	}
 
 	public Integer getId_fixture() {

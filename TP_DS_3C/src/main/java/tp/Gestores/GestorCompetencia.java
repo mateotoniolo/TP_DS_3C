@@ -274,6 +274,9 @@ public class GestorCompetencia {
 			for(Participante p: comp.getParticipantes()) {
 				c.addParticipante(new ParticipanteDTO(p.getNombre(),p.getEmail()));
 			}
+			for(ItemLugar l: comp.getLugares()) {
+				c.addLugar(new ItemLugarDTO(l.getLugar().getCodigo(),l.getLugar().getNombre(),l.getDisponibilidad()));
+			}
 			if(comp.getFixture() == null) {
 				c.setId_fixture(null);
 			}else {	

@@ -18,8 +18,11 @@ public class ResultadoSets extends Resultado {
 	private Integer setsA;
 	@Column
 	private Integer setsB;
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="ResultadoSets")
+	@OneToMany(
+	        mappedBy = "resultado",
+	        cascade = CascadeType.ALL,
+	        orphanRemoval = true
+	    )
 	private List<Set> listaSets;
 	
 

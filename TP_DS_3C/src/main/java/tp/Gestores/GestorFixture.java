@@ -28,6 +28,11 @@ public static Fixture generarFixture(Competencia competencia) {
 		List<Participante> participantes= competencia.getParticipantes();
 		List<ItemLugar> lugares= competencia.getLugares();
 		List<PartidoTemp> partidosTemp= calcularPartidos(participantes);
+		Integer divisor = participantes.size();
+		if(participantes.size()%2 == 0) {
+			divisor = (participantes.size()-1);
+		}
+		
 		Fecha fecha;
 		int lugarActual=0;
 		int contLugarActual=0;
@@ -41,7 +46,7 @@ public static Fixture generarFixture(Competencia competencia) {
 				lugarActual++;
 				contLugarActual=0;
 			}
-			if(contPartidos==competencia.getParticipantes().size()/2) {
+			if(contPartidos==partidosTemp.size()/divisor) {
 				fecha=new Fecha(contFechas,partidos);
 				fechas.add(fecha);
 				for(Partido partido : partidos) {
@@ -156,7 +161,7 @@ public static Fixture generarFixture(Competencia competencia) {
 		}
 		for(Partido p : partidos) {
 			if(p.getResultado() == null) {
-				retorno.add(new PartidoDTO(p.getParticipanteA(),p.getParticipanteB()));
+				retorno.add(new PartidoDTO(p.getParticipanteA(),p.getParticipanteB(),p.getFecha().getNumero()));
 			}
 		}
 		return retorno;
