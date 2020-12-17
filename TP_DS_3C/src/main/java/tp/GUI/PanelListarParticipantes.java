@@ -29,6 +29,7 @@ import tp.app.App;
 import tp.clases.Competencia;
 import javax.swing.JSplitPane;
 import javax.swing.ImageIcon;
+import tp.GUI.DialogVerCompetencia;
 
 public class PanelListarParticipantes extends JPanel {
 	private JTable tablaParticipantes;
@@ -38,6 +39,7 @@ public class PanelListarParticipantes extends JPanel {
 	Competencia competencia ;
 	CompetenciaDTO compDTO;
 	boolean PanelAlta = false;
+	boolean panelDetalle = false;
 	/**
 	 * Create the panel.
 	 */
@@ -54,6 +56,14 @@ public class PanelListarParticipantes extends JPanel {
 		initialize(m,id_competencia);
 	}
 
+
+	public PanelListarParticipantes(MainApplication m, PanelListarCompetenciasDeportivas llamante,
+			CompetenciaDTO competenciaDTO, boolean isDetalle) {
+		this.id_competencia = competenciaDTO.getId_competencia();
+		this.llamante = llamante;
+		this.panelDetalle = isDetalle;
+		initialize(m,id_competencia);
+	}
 	private void initialize(MainApplication m,Integer id_competencia ) {
 		
 		try {
@@ -122,9 +132,34 @@ public class PanelListarParticipantes extends JPanel {
 		splitPane.setLeftComponent(btnAtras);
 		
 		btnAtras.addActionListener( a -> {
-			
-				m.cambiarPanel(new PanelListarCompetenciasDeportivas(m, new PanelHome(m)));
-			
+
+			if(panelDetalle) {
+				// Aprieta el botón luego de haber apretado "Ver participantes" en el panel detalle
+				DialogVerCompetencia comp = new DialogVerCompetencia(m, (PanelListarCompetenciasDeportivas) llamante, competencia.getId_competencia());
+				comp.setVisible(true);
+				panelDetalle = false;
+			}
+			else if(!PanelAlta) {
+				/*((PanelListarCompetenciasDeportivas)llamante).actualizar();
+				m.cambiarPanel(llamante);*/
+				System.out.println(llamante.getClass().getName());
+				
+				if(llamante.getClass().getName() == "tp.GUI.PanelAltaCompetencia") {
+					m.cambiarPanel(new PanelListarCompetenciasDeportivas(m, new PanelHome(m)));
+				}
+				else {
+					m.cambiarPanel((PanelListarCompetenciasDeportivas)llamante);
+				}
+				
+			}
+			else {
+				// Aprieta el botón luego de haber creado una competencia
+				DialogVerCompetencia comp = new DialogVerCompetencia(m, (PanelAltaCompetencia)llamante, competencia.getId_competencia());
+				comp.setVisible(true);
+				PanelAlta = false;
+				//m.cambiarPanel(new PanelAltaCompetencia(m, ((PanelAltaCompetencia)llamante).previo));
+			}
+
 			
 		});
 		
