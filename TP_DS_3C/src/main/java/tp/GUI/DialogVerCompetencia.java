@@ -34,13 +34,13 @@ public class DialogVerCompetencia extends JDialog {
 	private JPanel panelBotonesR;
 	private JLabel lblNombreCompetencia; 
 	private VerCompetenciaTM tableModel = new VerCompetenciaTM();
-	private PanelListarCompetenciasDeportivas llamante;
+	private JPanel llamante;
 
 	private GestorCompetencia gestorCompetencia = new GestorCompetencia();
 		
 	private CompetenciaDTO compDTO;
 	private CompetenciaPartidosDTO compPartDTO;
-		
+	private boolean isAltaCompetencia = false;
 	/**
 	 * Create the panel.
 	 */
@@ -49,6 +49,12 @@ public class DialogVerCompetencia extends JDialog {
 	public DialogVerCompetencia(MainApplication m,PanelListarCompetenciasDeportivas p, Integer id_competencia) {
 		llamante = p;
 		initialize(m, id_competencia);
+	}
+	
+	public DialogVerCompetencia(MainApplication m,PanelAltaCompetencia p, Integer id_competencia) {
+		llamante = p;
+		initialize(m, id_competencia);
+		isAltaCompetencia = true;
 	}
 
 	private void initialize(MainApplication m, Integer id_competencia) {
@@ -122,7 +128,14 @@ public class DialogVerCompetencia extends JDialog {
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			m.cambiarPanel(new PanelListarParticipantes(m, llamante,new CompetenciaDTO(id_competencia)));
+			
+			if(isAltaCompetencia) {
+				m.cambiarPanel(new PanelListarParticipantes(m, (PanelAltaCompetencia)llamante, new CompetenciaDTO(id_competencia)));
+			}
+			else {
+				m.cambiarPanel(new PanelListarParticipantes(m, (PanelListarCompetenciasDeportivas)llamante, new CompetenciaDTO(id_competencia), true));
+			}
+			
 		});
 		
 		JButton btnGenerarFixture = new JButton("Generar Fixture");
@@ -160,13 +173,19 @@ public class DialogVerCompetencia extends JDialog {
 		
 		btnVerParticipantes.addActionListener( a -> {
 			dispose();
-			m.cambiarPanel(new PanelListarParticipantes(m,llamante,new CompetenciaDTO(id_competencia)));
+			if(isAltaCompetencia) {
+				m.cambiarPanel(new PanelListarParticipantes(m,(PanelAltaCompetencia)llamante,new CompetenciaDTO(id_competencia)));
+			}
+			else {
+				m.cambiarPanel(new PanelListarParticipantes(m,(PanelListarCompetenciasDeportivas)llamante,new CompetenciaDTO(id_competencia)));
+			}
 		});
 		
 		btnGenerarFixture.addActionListener( a -> {
 			if(compDTO.getModalidad() != Modalidad.LIGA) {
 				JOptionPane.showMessageDialog(null, "Solo se crea el fixture de competencias con modalidad Liga.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
-			}else {
+			}
+			else {
 				try {
 					int result = JOptionPane.showConfirmDialog(null,"Seguro desea generar un nuevo fixture para esta competencia?", "Confirmación",
 				            JOptionPane.OK_CANCEL_OPTION,
@@ -180,7 +199,10 @@ public class DialogVerCompetencia extends JDialog {
 				try {
 				actualizarTabla(id_competencia);
 				lblEstado.setText("Estado: " + EstadoCompetencia.PLANIFICADA.toString());
-				llamante.actualizar();
+				if(!isAltaCompetencia) {
+					((PanelListarCompetenciasDeportivas)llamante).actualizar();
+				}
+				
 				}catch(Exception e) {
 					JOptionPane.showMessageDialog(null, "Hubo un errror al actualizar la tabla. Intente nuevamente.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 				}
