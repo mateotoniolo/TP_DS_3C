@@ -26,7 +26,8 @@ public class Resultado {
 	private Boolean aPresente;
 	@Column
 	private Boolean bPresente;
-	@Transient
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_participante")
 	private List<AuditoriaModificacionResultado> historialCambios;
 	
 	

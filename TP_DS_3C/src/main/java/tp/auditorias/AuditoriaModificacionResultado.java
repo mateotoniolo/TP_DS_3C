@@ -33,9 +33,6 @@ public class AuditoriaModificacionResultado implements Serializable{
 	@Column
 	private Time hora;
 	
-	@ManyToOne(cascade=CascadeType.ALL)  
-	@PrimaryKeyJoinColumn(referencedColumnName = "id_resultado")  
-	private Resultado resultado;
 	public AuditoriaModificacionResultado() {
 		super();
 	}

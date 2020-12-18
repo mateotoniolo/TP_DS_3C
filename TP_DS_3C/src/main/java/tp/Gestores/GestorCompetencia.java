@@ -35,53 +35,6 @@ import tp.enums.ModalidadDePuntuacion;
 public class GestorCompetencia {	
 	
 	public static Boolean crearCompetencia(CompetenciaDTO DTO) throws Exception {
-		//VALIDACIONES -----------------------------------------------------------------------------------------------
-		String CamposVacios="";
-		if(DTO.getNombre().isBlank()) {
-			CamposVacios=CamposVacios+"La competencia debe tener un nombre. \n";
-		}
-		if(DTO.getLugares().isEmpty()) {
-			CamposVacios=CamposVacios+"La competencia debe tener al menos un lugar de realización. \n";
-		}
-		if(DTO.getModalidad() == null) {
-			CamposVacios=CamposVacios+"Debe indicar una Modalidad de competencia. \n";
-		}
-		if(DTO.getModalidad()==tp.enums.Modalidad.LIGA) {
-			if(DTO.getEmpate()&&DTO.getPuntosXEmpate()==null) {
-				CamposVacios=CamposVacios+"Debe ingresar puntos por empate. \n";
-			}
-			if(DTO.getPuntosXGanado()==null) {
-				CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado. \n";
-			}
-			if(DTO.getPuntosXPresentarse()==null) {
-				CamposVacios=CamposVacios+"Debe ingresar puntos por presentarse. \n";
-			}
-		}
-		switch(DTO.getPuntuacion()) {
-		case SETS:
-			if(DTO.getCantSets()==null) {
-				CamposVacios=CamposVacios+"Debe ingresar una cantidad válida de sets. \n";
-			}
-			break;
-		default:
-			if((DTO.getPuntuacion() == ModalidadDePuntuacion.PUNTUACION) && (DTO.getTantosXAusencia()==null)) {
-				CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia. \n";
-			}
-		}
-		if(!CamposVacios.equals("")) {
-			throw new Exception("Campos incompletos: \n"+CamposVacios);
-		}
-		if(DTO.getPuntuacion()==ModalidadDePuntuacion.SETS &&
-				(DTO.getCantSets()%2!=1||DTO.getCantSets()>10)) {
-			throw new Exception("La cantidad de sets debe ser impar y menor a 10.");
-		}
-		if(DTO.getEmpate()&&(DTO.getPuntosXEmpate()>DTO.getPuntosXGanado())) {
-			throw new Exception("Los puntos por empate deben ser menor que los puntos por ganar.");
-		}
-		if((DTO.getModalidad() == Modalidad.LIGA) && (DTO.getPuntosXPresentarse() >= DTO.getPuntosXGanado())) {
-			throw new Exception("Los puntos por presentarse deben ser menor que los puntos por ganar.");
-		}
-		//FIN VALIDACIONES--------------------------------------------------------------------------------------------------------------------------------
 		Competencia competencia ;
 	if(!(GestorCompetencia.getCompetenciaByName(DTO.getNombre()) == null)) {
 		throw new Exception("Ya existe una competencia con ese nombre. Ingrese un nombre distinto");
@@ -190,6 +143,7 @@ public class GestorCompetencia {
 		}
 		
 		Optional<Participante> participanteByEmail = competencia.getParticipantes().stream().filter(p -> p.getEmail().equals(participanteDTO.getEmail())).findAny();
+		
 		if(participanteByEmail.isPresent()) {
 			throw new Exception("Ya existe un participante con ese Email. Reingrese un Email distinto.") ;
 		}
@@ -212,32 +166,8 @@ public class GestorCompetencia {
 	}
 
 	public static List<CompetenciaDTO> listarCompetencias(CompetenciaDTO competenciaDTO) throws Exception {
-		String query = "SELECT c FROM Competencia c WHERE id_usuario = '"+competenciaDTO.getId_usuario()+"'"; 
-		Boolean flag = false;
-		if(!competenciaDTO.getNombre().equals("")) {
-				query = query+" AND nombre like '%"+competenciaDTO.getNombre()+"%'";
-
-				flag = true;
-		}
-		if(!(competenciaDTO.getModalidad() == null)) {
-			
-				query = query+" AND modalidad = '"+competenciaDTO.getModalidad().toString()+"'";
-				flag = true;
-		}
-		if(!(competenciaDTO.getId_deporte() == null)) {
-			
-				query = query+" AND id_deporte = '"+competenciaDTO.getId_deporte()+"'";
-				flag = true;
-		}
-		if(!(competenciaDTO.getEstado() == null)) {
-			
-				query = query+" AND estado = '"+competenciaDTO.getEstado().toString()+"'";
-				flag = true;
-		}
-		if(!flag) {
-			throw new Exception("Debe completar al menos un campo de búsqueda.");
-		}
-		return convertiraDTO(CompetenciaDAO.getCompetenciasByDTO(query));
+		
+		return convertiraDTO(CompetenciaDAO.getCompetenciasByDTO(competenciaDTO));
 	}
 
 	private static List<CompetenciaDTO> convertiraDTO(List<Competencia> competenciasByDTO) {
@@ -287,7 +217,7 @@ public class GestorCompetencia {
 		return c;
 	}
 
-	public CompetenciaPartidosDTO mostrarCompetencia(CompetenciaDTO compDTO) {
+	public static CompetenciaPartidosDTO mostrarCompetencia(CompetenciaDTO compDTO) {
 		CompetenciaPartidosDTO compPartDTO = new CompetenciaPartidosDTO(compDTO, null);
 		return compPartDTO;
 	}

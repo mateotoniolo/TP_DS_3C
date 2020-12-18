@@ -855,10 +855,58 @@ public class PanelAltaCompetencia extends JPanel {
 			compDTO = new CompetenciaDTO(this.nombreCompetencia,this.modalidadCompetencia, this.reglamentoCompetencia,
 					this.cantSets, this.puntuacion, this.tantosXAusencia, this.empate,this.puntosPresentarse,
 					this.puntosEmpate,this.puntosPartidoGanado, this.id_deporte, this.tableModel.getData(), this.id_usuario);
-
 			try {
+					//VALIDACIONES -----------------------------------------------------------------------------------------------
+					String CamposVacios="";
+					if(compDTO.getNombre().isBlank()) {
+						CamposVacios=CamposVacios+"La competencia debe tener un nombre. \n";
+					}
+					if(compDTO.getLugares().isEmpty()) {
+						CamposVacios=CamposVacios+"La competencia debe tener al menos un lugar de realización. \n";
+					}
+					if(compDTO.getModalidad() == null) {
+						CamposVacios=CamposVacios+"Debe indicar una Modalidad de competencia. \n";
+					}
+					if(compDTO.getModalidad()==tp.enums.Modalidad.LIGA) {
+						if(compDTO.getEmpate()&&compDTO.getPuntosXEmpate()==null) {
+							CamposVacios=CamposVacios+"Debe ingresar puntos por empate. \n";
+						}
+						if(compDTO.getPuntosXGanado()==null) {
+							CamposVacios=CamposVacios+"Debe ingresar puntos por partido ganado. \n";
+						}
+						if(compDTO.getPuntosXPresentarse()==null) {
+							CamposVacios=CamposVacios+"Debe ingresar puntos por presentarse. \n";
+						}
+					}
+					if((compDTO.getPuntuacion() != ModalidadDePuntuacion.PUNTUACION_FINAL) && (compDTO.getTantosXAusencia()==null)) {
+						CamposVacios=CamposVacios+"Debe ingresar tantos por ausencia. \n";
+					}
+					switch(compDTO.getPuntuacion()) {
+					case SETS:
+						if(compDTO.getCantSets()==null) {
+							CamposVacios=CamposVacios+"Debe ingresar una cantidad válida de sets. \n";
+						}
+						break;
+				
+					}
+					if(!CamposVacios.equals("")) {
+						throw new Exception("Campos incompletos: \n"+CamposVacios);
+					}
+					if(compDTO.getPuntuacion()==ModalidadDePuntuacion.SETS &&
+							(compDTO.getCantSets()%2!=1||compDTO.getCantSets()>10)) {
+						throw new Exception("La cantidad de sets debe ser impar y menor a 10.");
+					}
+					if(compDTO.getEmpate()&&(compDTO.getPuntosXEmpate()>compDTO.getPuntosXGanado())) {
+						throw new Exception("Los puntos por empate deben ser menor que los puntos por ganar.");
+					}
+					if((compDTO.getModalidad() == Modalidad.LIGA) && (compDTO.getPuntosXPresentarse() >= compDTO.getPuntosXGanado())) {
+						throw new Exception("Los puntos por presentarse deben ser menor que los puntos por ganar.");
+					}
+					//FIN VALIDACIONES--------------------------------------------------------------------------------------------------------------------------------
+					
+			
 				if(GestorCompetencia.crearCompetencia(compDTO)) {
-				JOptionPane.showMessageDialog(null, "La Competencia se guardo con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
+				JOptionPane.showMessageDialog(null, "La Competencia se guardó con éxito","Dar de Alta Competencia",JOptionPane.INFORMATION_MESSAGE,App.emoji("icon/correcto1.png", 32,32));
 				m.cambiarPanel(new PanelListarParticipantes(m, this, new CompetenciaDTO(GestorCompetencia.getCompetenciaByName(this.nombreCompetencia).getId_competencia())));
 				}
 			}catch(Exception e) {

@@ -264,6 +264,9 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 			}
 			competenciaDTO.setId_usuario(id_usuario);
 			try {
+				if(competenciaDTO.getNombre()== null && competenciaDTO.getId_deporte() == null && competenciaDTO.getModalidad() == null && competenciaDTO.getEstado() == null) {
+					throw new Exception("Debe completar al menos un campo de búsqueda.");
+				}
 			this.tableModel.vaciarTabla();
 			for(CompetenciaDTO c : GestorCompetencia.listarCompetencias(competenciaDTO)) {
 				this.tableModel.addItemTM(c);
@@ -428,6 +431,27 @@ public class PanelListarCompetenciasDeportivas extends JPanel {
 	}
 	
 	public void actualizar() {
+		CompetenciaDTO competenciaDTO = new CompetenciaDTO();
+		competenciaDTO.setNombre(this.txtNombre.getText().toString());
+		if(((Item)boxDeporte.getSelectedItem()).getId() != -1) {
+			competenciaDTO.setId_deporte(((Item)boxDeporte.getSelectedItem()).getId());
+		}
+		if(!boxModalidad.getSelectedItem().toString().equals("----Seleccionar----")) {
+			competenciaDTO.setModalidad(Modalidad.valueOf(boxModalidad.getSelectedItem().toString()));
+		}
+		if(!boxEstado.getSelectedItem().toString().equals("----Seleccionar----")) {
+			competenciaDTO.setEstado(EstadoCompetencia.valueOf(boxEstado.getSelectedItem().toString()));
+		}
+		competenciaDTO.setId_usuario(id_usuario);
+		try {
+		this.tableModel.vaciarTabla();
+		for(CompetenciaDTO c : GestorCompetencia.listarCompetencias(competenciaDTO)) {
+			this.tableModel.addItemTM(c);
+		}
 		this.tablaCompetencias.updateUI();
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
+		}
+		
 	}
 }

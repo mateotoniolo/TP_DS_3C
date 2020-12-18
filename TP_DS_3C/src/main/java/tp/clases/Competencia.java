@@ -57,17 +57,18 @@ public class Competencia {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_deporte",referencedColumnName = "id_deporte")
 	private Deporte deporte;
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinColumn(name="id_competencia")
 	@OneToMany(
 	        mappedBy = "competencia",
 	        cascade = CascadeType.ALL,
 	        orphanRemoval = true
 	    )
-	private List<ItemLugar> Lugares;
+	private List<ItemLugar> Lugares = new ArrayList<>();
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_competencia")
 	private List<Participante> Participantes;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private AuditoriaDeBajaDeCompetencia auditoriadeBaja;
 
 
 	public Competencia() {
@@ -188,7 +189,9 @@ public class Competencia {
 	}
 	
 	public void addItem(ItemLugar lugar) {
+		lugar.setCompetencia(this);
 		this.Lugares.add(lugar);
+		
 	}
 
 

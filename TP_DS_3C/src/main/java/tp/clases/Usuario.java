@@ -49,8 +49,8 @@ public class Usuario {
 	@OneToOne
 	@JoinColumn(name="id_localidad",referencedColumnName = "id_localidad")
 	private Localidad Localidad;
-	
-	@Transient
+	@OneToMany
+	@JoinColumn(name="id_usuario")
 	private List<AuditoriaIngresoUsuario> historialIngresos;
 
 	

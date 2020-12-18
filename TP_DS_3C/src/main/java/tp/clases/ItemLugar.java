@@ -16,26 +16,27 @@ import javax.persistence.Transient;
 
 @Entity
 public class ItemLugar implements Serializable{
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id_item;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Integer idItem = null;
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="competencia")
 	private Competencia competencia;
 	@Column
 	private Integer disponibilidad;
 	
 	@Id
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="codigo_lugar",referencedColumnName = "codigo")
+	@JoinColumn(name="codigo_lugar",referencedColumnName = "codigo",unique = false)
 	private Lugar Lugar; 
 	
 	
 	
 
 	public ItemLugar() {
-		super();
+		
 	}
 	
 	public ItemLugar( Competencia competencia,Lugar lugar, Integer disponibilidad) {
@@ -72,19 +73,13 @@ public class ItemLugar implements Serializable{
 		this.disponibilidad = disponibilidad2;
 	}
 
-	public Integer getId_item() {
-		return id_item;
-	}
-
-	public void setId_item(Integer id_item) {
-		this.id_item = id_item;
-	}
-
-//	public Competencia getCompetencia() {
-//		return competencia;
+//	public Integer getId_item() {
+//		return idItem;
 //	}
 //
-//	public void setCompetencia(Competencia competencia) {
-//		this.competencia = competencia;
+//	public void setId_item(Integer id_item) {
+//		this.idItem = id_item;
 //	}
+
+
 }

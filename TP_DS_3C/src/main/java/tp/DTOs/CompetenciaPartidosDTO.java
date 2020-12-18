@@ -1,5 +1,6 @@
 package tp.DTOs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tp.Gestores.GestorCompetencia;
@@ -12,11 +13,11 @@ import tp.enums.ModalidadDePuntuacion;
 public class CompetenciaPartidosDTO {
 	
 	private CompetenciaDTO competencia;
-	private FixtureDTO fixture;
+	private List<PartidoDTO> partidos = new ArrayList<>();
 	
-	public CompetenciaPartidosDTO(CompetenciaDTO comp, FixtureDTO fixture) {
+	public CompetenciaPartidosDTO(CompetenciaDTO comp, List<PartidoDTO> games) {
 		this.competencia = comp;
-		this.fixture = fixture;
+		this.partidos = games;
 	}
 	
 	
@@ -40,17 +41,47 @@ public class CompetenciaPartidosDTO {
 		return competencia.getEstado();
 	}
 	
-	public Integer getId_fixture() {
-		return fixture.getId_fixture();
-	}
-	
-	public List<Fecha> getListaFechas() {
-		return fixture.getListaFechas();
-	}
+//	public Integer getId_fixture() {
+//		return fixture.getId_fixture();
+//	}
+//	
+//	public List<Fecha> getListaFechas() {
+//		return fixture.getListaFechas();
+//	}
 
 
 	public boolean isCreated() {
-		return (fixture!=null);
+		return (!partidos.isEmpty());
+	}
+
+
+	public CompetenciaDTO getCompetencia() {
+		return competencia;
+	}
+
+
+	public void setCompetencia(CompetenciaDTO competencia) {
+		this.competencia = competencia;
+	}
+
+
+//	public FixtureDTO getFixture() {
+//		return fixture;
+//	}
+//
+//
+//	public void setFixture(FixtureDTO fixture) {
+//		this.fixture = fixture;
+//	}
+
+
+	public List<PartidoDTO> getPartidos() {
+		return partidos;
+	}
+
+
+	public void setPartidos(List<PartidoDTO> partidos) {
+		this.partidos = partidos;
 	}
 	
 }

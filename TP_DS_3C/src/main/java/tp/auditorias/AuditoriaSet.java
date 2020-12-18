@@ -24,10 +24,7 @@ public class AuditoriaSet implements Serializable{
 	private Integer tantosA;
 	@Column
 	private Integer tantosB;
-	@Id
-	@ManyToOne
-	@JoinColumn(name="Auditoria_Resultado")
-	private AuditoriaResultadoSets auditoria;
+	
 	
 	public AuditoriaSet() {
 		super();

@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 @Table(name="Fixture")
 public class Fixture implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idfixture;
 	
 	@OneToMany(mappedBy="fixture", cascade = CascadeType.ALL)

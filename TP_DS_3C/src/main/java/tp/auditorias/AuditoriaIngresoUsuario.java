@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,9 +27,8 @@ import tp.clases.Usuario;
 public class AuditoriaIngresoUsuario implements Serializable{
 	
 	@Id
-	@ManyToOne(cascade=CascadeType.ALL)  
-	@PrimaryKeyJoinColumn(referencedColumnName = "id_usuario")  
-	private Usuario usuario;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id_auditoria;
 	@Column
 	private Date fecha;
 	@Column

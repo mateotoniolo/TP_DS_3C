@@ -22,7 +22,7 @@ import javax.persistence.Transient;
 
 public class Fecha implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idfecha;
 	@Column
 	private Integer numero;

@@ -22,10 +22,10 @@ import tp.clases.Competencia;
 @Entity
 @Table(name="Auditoria_Baja_Competencia")
 public class AuditoriaDeBajaDeCompetencia implements Serializable{
+	
 	@Id
-	@OneToOne
-    @JoinColumn(name = "id_competencia", referencedColumnName = "id_competencia")
-	private Competencia competencia;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id_auditoria;
 	
 	@Column
 	private Date fecha;

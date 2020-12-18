@@ -26,7 +26,7 @@ import javax.persistence.Transient;
 public class Partido implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="idpartido", unique=true)
 	private Integer idpartido;
 	

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name="Lugar")
 public class Lugar {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer codigo;
 	@Column
 	private String nombre;

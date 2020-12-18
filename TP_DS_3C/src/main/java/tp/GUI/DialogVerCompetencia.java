@@ -37,7 +37,7 @@ public class DialogVerCompetencia extends JDialog {
 	private VerCompetenciaTM tableModel = new VerCompetenciaTM();
 	private JPanel llamante;
 
-	private GestorCompetencia gestorCompetencia = new GestorCompetencia();
+	
 		
 	private CompetenciaDTO compDTO;
 	private CompetenciaPartidosDTO compPartDTO;
@@ -52,11 +52,6 @@ public class DialogVerCompetencia extends JDialog {
 		initialize(m, id_competencia);
 	}
 	
-	public DialogVerCompetencia(MainApplication m,PanelAltaCompetencia p, Integer id_competencia) {
-		llamante = p;
-		initialize(m, id_competencia);
-		isAltaCompetencia = true;
-	}
 
 	private void initialize(MainApplication m, Integer id_competencia) {
 		
@@ -72,7 +67,7 @@ public class DialogVerCompetencia extends JDialog {
 		}
 		
 		compDTO = GestorCompetencia.getCompetenciaDTObyID(id_competencia);
-		compPartDTO = gestorCompetencia.mostrarCompetencia(compDTO);
+		compPartDTO = GestorCompetencia.mostrarCompetencia(compDTO);
 		
 		setBackground(new Color(102, 102, 102));
 		setBounds(100, 50, 1000, 657);
@@ -128,15 +123,10 @@ public class DialogVerCompetencia extends JDialog {
 		panelBotonesL.add(btnVerParticipantes);
 		
 		btnVerParticipantes.addActionListener( a -> {
-			dispose();
 			
-//			if(isAltaCompetencia) {
-//				m.cambiarPanel(new PanelListarParticipantes(m, (PanelAltaCompetencia)llamante, new CompetenciaDTO(id_competencia)));
-//			}
-//			else {
 				dispose();
 				m.cambiarPanel(new PanelListarParticipantes(m, (PanelListarCompetenciasDeportivas)llamante, new CompetenciaDTO(id_competencia)));
-//			}
+
 			
 		});
 		
@@ -154,10 +144,9 @@ public class DialogVerCompetencia extends JDialog {
 		if(compPartDTO.getEstado() != null) {
 			lblEstado.setText("Estado: " + compPartDTO.getEstado().toString());
 		}
-		// Si el fixture no esta creado, se bloquea el boton
-		if(!compPartDTO.isCreated()) {
-			btnModificar.setEnabled(false);
-		}
+		
+		btnModificar.setEnabled(false);
+		
 		
 		
 		// Logica de botones
@@ -187,12 +176,13 @@ public class DialogVerCompetencia extends JDialog {
 			else {
 
 				try {
+					compDTO = GestorCompetencia.getCompetenciaDTObyID(id_competencia);
 					if(compDTO.getParticipantes().size() < 2) {
 						throw new Exception("La competencia debe tener al menos de 2(dos) participantes para generar el fixture");
 					}
 					int disponibilidad=0;
 					  for(ItemLugarDTO l: compDTO.getLugares()) {
-					   disponibilidad=+l.getDisponibilidad();
+					   disponibilidad= disponibilidad + l.getDisponibilidad();
 					  }
 					if(((Integer)compDTO.getParticipantes().size()/2)>disponibilidad) {
 						   throw new Exception("La competencia no tiene suficiente disponibilidad en sus lugares");
@@ -202,18 +192,17 @@ public class DialogVerCompetencia extends JDialog {
 				            JOptionPane.QUESTION_MESSAGE);
 					if(result == JOptionPane.OK_OPTION) {
 						GestorCompetencia.generarFixture(compDTO);
-					}
+					
 				
 						try {
-						actualizarTabla(id_competencia);
-						lblEstado.setText("Estado: " + EstadoCompetencia.PLANIFICADA.toString());
-						if(!isAltaCompetencia) {
+							actualizarTabla(id_competencia);
+							lblEstado.setText("Estado: " + EstadoCompetencia.PLANIFICADA.toString());
 							((PanelListarCompetenciasDeportivas)llamante).actualizar();
-						}
 						
 						}catch(Exception e) {
 							JOptionPane.showMessageDialog(null, "Hubo un errror al actualizar la tabla. Intente nuevamente.","ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 						}
+					}
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE,App.emoji("icon/alerta1.png", 32,32));
 				}
@@ -389,14 +378,16 @@ public class DialogVerCompetencia extends JDialog {
 		
 		//Carga la tabla de proximos partidos
 		if(compDTO.getId_fixture() != null) {
-			for(PartidoDTO p : GestorFixture.getProximosEncuentros(new FixtureDTO(compDTO.getId_fixture()))) {
+			compPartDTO.setPartidos((GestorFixture.getProximosEncuentros(new FixtureDTO(compDTO.getId_fixture()))));
+			for(PartidoDTO p : compPartDTO.getPartidos()) {
 				this.tableModel.addItemTM(p);
 			}
 		}
 	}
 	public void actualizarTabla(Integer id_competencia) {
 		this.tableModel.removeAll();
-		for(PartidoDTO p : GestorFixture.getProximosEncuentros(new FixtureDTO(GestorCompetencia.getCompetenciaByID(id_competencia).getFixture().getId_fixture()))) {
+		compPartDTO.setPartidos( GestorFixture.getProximosEncuentros(new FixtureDTO(GestorCompetencia.getCompetenciaByID(id_competencia).getFixture().getId_fixture())));
+		for(PartidoDTO p : compPartDTO.getPartidos()) {
 			this.tableModel.addItemTM(p);
 		}
 		this.table.updateUI();

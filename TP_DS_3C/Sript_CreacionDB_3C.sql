@@ -1,9 +1,9 @@
-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 208.113.158.158
--- Generation Time: Dec 14, 2020 at 04:08 PM
+-- Generation Time: Dec 17, 2020 at 09:13 PM
 -- Server version: 5.7.29-log
 -- PHP Version: 7.1.22
 
@@ -29,8 +29,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `Auditoria_Baja_Competencia` (
-  `fecha` date NOT NULL,
-  `hora` time NOT NULL
+  `id_auditoria` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `hora` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -40,8 +41,10 @@ CREATE TABLE `Auditoria_Baja_Competencia` (
 --
 
 CREATE TABLE `Auditoria_Ingreso_Usuario` (
-  `fecha` date NOT NULL,
-  `hora` time NOT NULL
+  `id_auditoria` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `hora` time DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -51,11 +54,13 @@ CREATE TABLE `Auditoria_Ingreso_Usuario` (
 --
 
 CREATE TABLE `Auditoria_Modificacion_Participante` (
-  `fechaModificacion` date NOT NULL,
-  `horaModificacion` time NOT NULL,
+  `id_auditoria` int(11) NOT NULL,
   `correo_Anterior` varchar(255) DEFAULT NULL,
+  `fechaModificacion` date DEFAULT NULL,
+  `horaModificacion` time DEFAULT NULL,
   `id_Anterior` int(11) DEFAULT NULL,
-  `nombre_Anterior` varchar(255) DEFAULT NULL
+  `nombre_Anterior` varchar(255) DEFAULT NULL,
+  `id_participante` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -69,7 +74,8 @@ CREATE TABLE `Auditoria_Modificacion_Resultado` (
   `aPresente` bit(1) DEFAULT NULL,
   `bPresente` bit(1) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
-  `hora` time DEFAULT NULL
+  `hora` time DEFAULT NULL,
+  `id_participante` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -112,24 +118,14 @@ CREATE TABLE `Auditoria_Resultado_Sets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Auditoria_Resultado_Sets_Auditoria_Set`
---
-
-CREATE TABLE `Auditoria_Resultado_Sets_Auditoria_Set` (
-  `AuditoriaResultadoSets_id_auditoria` int(11) NOT NULL,
-  `listaSets_id_auditoriaSet` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `Auditoria_Set`
 --
 
 CREATE TABLE `Auditoria_Set` (
   `id_auditoriaSet` int(11) NOT NULL,
   `tantosA` int(11) DEFAULT NULL,
-  `tantosB` int(11) DEFAULT NULL
+  `tantosB` int(11) DEFAULT NULL,
+  `id_auditoriaResultado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -148,20 +144,8 @@ CREATE TABLE `Competencia` (
   `reglamento` varchar(255) DEFAULT NULL,
   `tantosXAusencia` double DEFAULT NULL,
   `id_deporte` int(11) DEFAULT NULL,
-  `id_fixture` int(11) DEFAULT NULL,
+  `idfixture` int(11) DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Competencia_Auditoria_Baja_Competencia`
---
-
-CREATE TABLE `Competencia_Auditoria_Baja_Competencia` (
-  `Competencia_id_competencia` int(11) NOT NULL,
-  `historialBajaCompetencia_fecha` date NOT NULL,
-  `historialBajaCompetencia_hora` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -187,17 +171,6 @@ CREATE TABLE `Competencia_Eliminacion_Doble` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Competencia_ItemLugar`
---
-
-CREATE TABLE `Competencia_ItemLugar` (
-  `Competencia_id_competencia` int(11) NOT NULL,
-  `Lugares_id_item` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `Competencia_Liga`
 --
 
@@ -207,28 +180,6 @@ CREATE TABLE `Competencia_Liga` (
   `puntos_por_ganar` double DEFAULT NULL,
   `puntos_por_presentarse` double DEFAULT NULL,
   `id_competencia` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Competencia_Liga_EstadisticaTabla`
---
-
-CREATE TABLE `Competencia_Liga_EstadisticaTabla` (
-  `CompetenciaLiga_id_competencia` int(11) NOT NULL,
-  `estadisticas_id_estadistica` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Competencia_Participante`
---
-
-CREATE TABLE `Competencia_Participante` (
-  `Competencia_id_competencia` int(11) NOT NULL,
-  `Participantes_id_Participante` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -284,40 +235,15 @@ CREATE TABLE `EstadisticaTabla` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `EstadisticaTabla_Participante`
---
-
-CREATE TABLE `EstadisticaTabla_Participante` (
-  `EstadisticaTabla_id_estadistica` int(11) NOT NULL,
-  `participantes_id_Participante` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `Fecha`
 --
 
 CREATE TABLE `Fecha` (
-  `id_fecha` int(11) NOT NULL,
-  `id_fixture` int(11) NOT NULL,
+  `idfecha` int(11) NOT NULL,
   `numero` int(11) DEFAULT NULL,
   `rondaGanadores` bit(1) DEFAULT NULL,
-  `rondaPerdedores` bit(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Fecha_Partido`
---
-
-CREATE TABLE `Fecha_Partido` (
-  `Fecha_id_fecha` int(11) NOT NULL,
-  `Fecha_id_fixture` int(11) NOT NULL,
-  `listaPartidos_id_fecha` int(11) NOT NULL,
-  `listaPartidos_id_fixture` int(11) NOT NULL,
-  `listaPartidos_id_partido` int(11) NOT NULL
+  `rondaPerdedores` bit(1) DEFAULT NULL,
+  `fixture` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -327,20 +253,7 @@ CREATE TABLE `Fecha_Partido` (
 --
 
 CREATE TABLE `Fixture` (
-  `id_fixture` int(11) NOT NULL,
-  `id_competencia` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Fixture_Fecha`
---
-
-CREATE TABLE `Fixture_Fecha` (
-  `Fixture_id_fixture` int(11) NOT NULL,
-  `Fechas_id_fecha` int(11) NOT NULL,
-  `Fechas_id_fixture` int(11) NOT NULL
+  `idfixture` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -353,13 +266,6 @@ CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `hibernate_sequence`
---
-
-INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(1);
-
 -- --------------------------------------------------------
 
 --
@@ -367,10 +273,9 @@ INSERT INTO `hibernate_sequence` (`next_val`) VALUES
 --
 
 CREATE TABLE `ItemLugar` (
-  `id_item` int(11) NOT NULL,
   `disponibilidad` int(11) DEFAULT NULL,
-  `codigo_lugar` int(11) DEFAULT NULL,
-  `id_competencia` int(11) DEFAULT NULL
+  `competencia` int(11) NOT NULL,
+  `codigo_lugar` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -382,8 +287,7 @@ CREATE TABLE `ItemLugar` (
 CREATE TABLE `Localidad` (
   `id_localidad` int(11) NOT NULL,
   `nombre` varchar(255) DEFAULT NULL,
-  `id_pais` int(11) NOT NULL,
-  `id_provincia` int(11) NOT NULL
+  `provincia_id_provincia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -437,25 +341,14 @@ CREATE TABLE `Participante` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Participante_Auditoria_Modificacion_Participante`
---
-
-CREATE TABLE `Participante_Auditoria_Modificacion_Participante` (
-  `Participante_id_Participante` int(11) NOT NULL,
-  `historialCambios_fechaModificacion` date NOT NULL,
-  `historialCambios_horaModificacion` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `Partido`
 --
 
 CREATE TABLE `Partido` (
-  `id_partido` int(11) NOT NULL,
-  `id_fecha` int(11) NOT NULL,
-  `id_fixture` int(11) NOT NULL,
+  `idpartido` int(11) NOT NULL,
+  `partido_ganador` int(11) DEFAULT NULL,
+  `partido_perdedor` int(11) DEFAULT NULL,
+  `fecha_idfecha` int(11) NOT NULL,
   `id_lugar` int(11) DEFAULT NULL,
   `id_Local` int(11) DEFAULT NULL,
   `id_visitante` int(11) DEFAULT NULL,
@@ -469,9 +362,9 @@ CREATE TABLE `Partido` (
 --
 
 CREATE TABLE `Provincia` (
-  `id_pais` int(11) NOT NULL,
   `id_provincia` int(11) NOT NULL,
-  `nombre` varchar(255) DEFAULT NULL
+  `nombre` varchar(255) DEFAULT NULL,
+  `id_pais` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -484,17 +377,6 @@ CREATE TABLE `Resultado` (
   `id_resultado` int(11) NOT NULL,
   `aPresente` bit(1) DEFAULT NULL,
   `bPresente` bit(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Resultado_Auditoria_Modificacion_Resultado`
---
-
-CREATE TABLE `Resultado_Auditoria_Modificacion_Resultado` (
-  `Resultado_id_resultado` int(11) NOT NULL,
-  `historialCambios_id_auditoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -537,24 +419,14 @@ CREATE TABLE `Resultado_Sets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Resultado_Sets_SetJuego`
---
-
-CREATE TABLE `Resultado_Sets_SetJuego` (
-  `ResultadoSets_id_resultado` int(11) NOT NULL,
-  `listaSets_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `SetJuego`
 --
 
 CREATE TABLE `SetJuego` (
   `id` int(11) NOT NULL,
   `tantosA` int(11) DEFAULT NULL,
-  `tantosB` int(11) DEFAULT NULL
+  `tantosB` int(11) DEFAULT NULL,
+  `resultado_id_resultado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -571,43 +443,7 @@ CREATE TABLE `Usuario` (
   `dni` double DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   `tipoDni` int(11) DEFAULT NULL,
-  `id_localidad` int(11) NOT NULL,
-  `id_pais` int(11) NOT NULL,
-  `id_provincia` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Usuario_Auditoria_Ingreso_Usuario`
---
-
-CREATE TABLE `Usuario_Auditoria_Ingreso_Usuario` (
-  `Usuario_id_usuario` int(11) NOT NULL,
-  `historialIngresos_fecha` date NOT NULL,
-  `historialIngresos_hora` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Usuario_Competencia`
---
-
-CREATE TABLE `Usuario_Competencia` (
-  `Usuario_id_usuario` int(11) NOT NULL,
-  `competencias_id_competencia` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Usuario_Lugar`
---
-
-CREATE TABLE `Usuario_Lugar` (
-  `Usuario_id_usuario` int(11) NOT NULL,
-  `lugares_codigo` int(11) NOT NULL
+  `id_localidad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -618,25 +454,28 @@ CREATE TABLE `Usuario_Lugar` (
 -- Indexes for table `Auditoria_Baja_Competencia`
 --
 ALTER TABLE `Auditoria_Baja_Competencia`
-  ADD PRIMARY KEY (`fecha`,`hora`);
+  ADD PRIMARY KEY (`id_auditoria`);
 
 --
 -- Indexes for table `Auditoria_Ingreso_Usuario`
 --
 ALTER TABLE `Auditoria_Ingreso_Usuario`
-  ADD PRIMARY KEY (`fecha`,`hora`);
+  ADD PRIMARY KEY (`id_auditoria`),
+  ADD KEY `FK41yd6yavmwhaoi861hiu2g95i` (`id_usuario`);
 
 --
 -- Indexes for table `Auditoria_Modificacion_Participante`
 --
 ALTER TABLE `Auditoria_Modificacion_Participante`
-  ADD PRIMARY KEY (`fechaModificacion`,`horaModificacion`);
+  ADD PRIMARY KEY (`id_auditoria`),
+  ADD KEY `FK3nadbyuqquiyuak50sebdquw8` (`id_participante`);
 
 --
 -- Indexes for table `Auditoria_Modificacion_Resultado`
 --
 ALTER TABLE `Auditoria_Modificacion_Resultado`
-  ADD PRIMARY KEY (`id_auditoria`);
+  ADD PRIMARY KEY (`id_auditoria`),
+  ADD KEY `FKbxlef0dmoy7lup5ydhlawhan6` (`id_participante`);
 
 --
 -- Indexes for table `Auditoria_Resultado_Puntuacion`
@@ -657,17 +496,11 @@ ALTER TABLE `Auditoria_Resultado_Sets`
   ADD PRIMARY KEY (`id_auditoria`);
 
 --
--- Indexes for table `Auditoria_Resultado_Sets_Auditoria_Set`
---
-ALTER TABLE `Auditoria_Resultado_Sets_Auditoria_Set`
-  ADD UNIQUE KEY `UK_e3f8mpvyw5tp92pn3ixvns00m` (`listaSets_id_auditoriaSet`),
-  ADD KEY `FKjwq42hwhd72p1is4mi205booc` (`AuditoriaResultadoSets_id_auditoria`);
-
---
 -- Indexes for table `Auditoria_Set`
 --
 ALTER TABLE `Auditoria_Set`
-  ADD PRIMARY KEY (`id_auditoriaSet`);
+  ADD PRIMARY KEY (`id_auditoriaSet`),
+  ADD KEY `FK6pcjp1vb9mxu7jnv4uo0grgxh` (`id_auditoriaResultado`);
 
 --
 -- Indexes for table `Competencia`
@@ -675,15 +508,8 @@ ALTER TABLE `Auditoria_Set`
 ALTER TABLE `Competencia`
   ADD PRIMARY KEY (`id_competencia`),
   ADD KEY `FKfddycbloyohqy9ibpwibne0t` (`id_deporte`),
-  ADD KEY `FK4ts6fy1ibr20xwd8tujmmsfvo` (`id_fixture`),
+  ADD KEY `FKjh4033qh0wgies3k3hg148k1l` (`idfixture`),
   ADD KEY `FKf13xhhqh5ymd35l3c7qg6ujh9` (`id_usuario`);
-
---
--- Indexes for table `Competencia_Auditoria_Baja_Competencia`
---
-ALTER TABLE `Competencia_Auditoria_Baja_Competencia`
-  ADD UNIQUE KEY `UK_412wnwmv0yw2xsq1bvf52h8if` (`historialBajaCompetencia_fecha`,`historialBajaCompetencia_hora`),
-  ADD KEY `FKsp2db1qnn95pcxr34b86lq4a9` (`Competencia_id_competencia`);
 
 --
 -- Indexes for table `Competencia_Eliminacion_Directa`
@@ -698,31 +524,10 @@ ALTER TABLE `Competencia_Eliminacion_Doble`
   ADD PRIMARY KEY (`id_competencia`);
 
 --
--- Indexes for table `Competencia_ItemLugar`
---
-ALTER TABLE `Competencia_ItemLugar`
-  ADD UNIQUE KEY `UK_pknyhn5ct8d4mhi75kekoxk7y` (`Lugares_id_item`),
-  ADD KEY `FKod0g8i22rkgbajjjjv622ce1o` (`Competencia_id_competencia`);
-
---
 -- Indexes for table `Competencia_Liga`
 --
 ALTER TABLE `Competencia_Liga`
   ADD PRIMARY KEY (`id_competencia`);
-
---
--- Indexes for table `Competencia_Liga_EstadisticaTabla`
---
-ALTER TABLE `Competencia_Liga_EstadisticaTabla`
-  ADD UNIQUE KEY `UK_4fh0of8giy4nmwr9je5ba81j7` (`estadisticas_id_estadistica`),
-  ADD KEY `FKo2mb7rfxamdpxkgy8v858mhox` (`CompetenciaLiga_id_competencia`);
-
---
--- Indexes for table `Competencia_Participante`
---
-ALTER TABLE `Competencia_Participante`
-  ADD UNIQUE KEY `UK_8o9650mgbswflt08jstw56dvl` (`Participantes_id_Participante`),
-  ADD KEY `FKbm1r66l2fdy4m8ca4chj6obny` (`Competencia_id_competencia`);
 
 --
 -- Indexes for table `Deporte`
@@ -750,54 +555,31 @@ ALTER TABLE `EstadisticaTabla`
   ADD KEY `FK8qexkgs1p7d3ydj9x0njn0cr0` (`id_competencia`);
 
 --
--- Indexes for table `EstadisticaTabla_Participante`
---
-ALTER TABLE `EstadisticaTabla_Participante`
-  ADD UNIQUE KEY `UK_snburmx3hi1rmbwxxssnael11` (`participantes_id_Participante`),
-  ADD KEY `FKg992yanqkolrbrktnptd1307y` (`EstadisticaTabla_id_estadistica`);
-
---
 -- Indexes for table `Fecha`
 --
 ALTER TABLE `Fecha`
-  ADD PRIMARY KEY (`id_fecha`,`id_fixture`),
-  ADD KEY `FK22mivh918g5oixxam1m3hldn8` (`id_fixture`);
-
---
--- Indexes for table `Fecha_Partido`
---
-ALTER TABLE `Fecha_Partido`
-  ADD UNIQUE KEY `UK_dgpt4jstuhifqa6asis4qoxxp` (`listaPartidos_id_fecha`,`listaPartidos_id_fixture`,`listaPartidos_id_partido`),
-  ADD KEY `FKc15me77bbq83fo04dr63mlx3m` (`Fecha_id_fecha`,`Fecha_id_fixture`);
+  ADD PRIMARY KEY (`idfecha`,`fixture`),
+  ADD KEY `FKlx9dd4vjn19yue6b0t25llknf` (`fixture`);
 
 --
 -- Indexes for table `Fixture`
 --
 ALTER TABLE `Fixture`
-  ADD PRIMARY KEY (`id_fixture`),
-  ADD KEY `FK2dqh2kcplgrxwx7dt6u55olr1` (`id_competencia`);
-
---
--- Indexes for table `Fixture_Fecha`
---
-ALTER TABLE `Fixture_Fecha`
-  ADD UNIQUE KEY `UK_srwifi5k5hfqnljb7dumtthr1` (`Fechas_id_fecha`,`Fechas_id_fixture`),
-  ADD KEY `FK6k0kel9s5ini9bsad08dkws1s` (`Fixture_id_fixture`);
+  ADD PRIMARY KEY (`idfixture`);
 
 --
 -- Indexes for table `ItemLugar`
 --
 ALTER TABLE `ItemLugar`
-  ADD PRIMARY KEY (`id_item`),
-  ADD KEY `FK2wcl8nscovi6qvxu3td4efh8h` (`codigo_lugar`),
-  ADD KEY `FKgfoidg1ewry480dtjub4q5odd` (`id_competencia`);
+  ADD PRIMARY KEY (`competencia`,`codigo_lugar`),
+  ADD KEY `UK_q510ynoaw3hbub3187upq44o` (`codigo_lugar`) USING BTREE;
 
 --
 -- Indexes for table `Localidad`
 --
 ALTER TABLE `Localidad`
-  ADD PRIMARY KEY (`id_localidad`,`id_pais`,`id_provincia`),
-  ADD KEY `FKmatyv8aufopkaaf21p70aimt0` (`id_pais`,`id_provincia`);
+  ADD PRIMARY KEY (`id_localidad`,`provincia_id_provincia`),
+  ADD KEY `FKf8uibl8ose2ibp6pps8jsqpqi` (`provincia_id_provincia`);
 
 --
 -- Indexes for table `Lugar`
@@ -810,8 +592,8 @@ ALTER TABLE `Lugar`
 -- Indexes for table `Lugar_Deporte`
 --
 ALTER TABLE `Lugar_Deporte`
-  ADD UNIQUE KEY `UK_bkf1y47saoaymqgwd94w2g64s` (`deportes_id_deporte`),
-  ADD KEY `FKcw5vcc93hgire5x1csbdf79y` (`Lugar_codigo`);
+  ADD PRIMARY KEY (`Lugar_codigo`,`deportes_id_deporte`),
+  ADD KEY `FKn5kdgq0he65era83vypnt9ab0` (`deportes_id_deporte`);
 
 --
 -- Indexes for table `Pais`
@@ -827,40 +609,30 @@ ALTER TABLE `Participante`
   ADD KEY `FKcgu5pdh0mgqyoep0o3qmnp1e7` (`id_competencia`);
 
 --
--- Indexes for table `Participante_Auditoria_Modificacion_Participante`
---
-ALTER TABLE `Participante_Auditoria_Modificacion_Participante`
-  ADD UNIQUE KEY `UK_5ampqp9k73xjxluqr5vwintrh` (`historialCambios_fechaModificacion`,`historialCambios_horaModificacion`),
-  ADD KEY `FKsxbwmuyf3mo1iu030ud8k4par` (`Participante_id_Participante`);
-
---
 -- Indexes for table `Partido`
 --
 ALTER TABLE `Partido`
-  ADD PRIMARY KEY (`id_fecha`,`id_fixture`,`id_partido`),
+  ADD PRIMARY KEY (`idpartido`,`fecha_idfecha`),
+  ADD KEY `FK9puoigehs5hp4wp0qvljjl580` (`partido_ganador`),
+  ADD KEY `FKafhx4rdoscb04oaxsabtyywu2` (`partido_perdedor`),
   ADD KEY `FKrysfg8pilcrd22vpvbig5q5ll` (`id_lugar`),
   ADD KEY `FKfnah9n0kacspprf6bqif8lme2` (`id_Local`),
   ADD KEY `FKqe66gg24bd3v0teu1gmuio7sp` (`id_visitante`),
-  ADD KEY `FK776618l24uhoesvcgkn0l90q9` (`id_resultado`);
+  ADD KEY `FK776618l24uhoesvcgkn0l90q9` (`id_resultado`),
+  ADD KEY `FK1vgalimcs35k4iaqgmq6lqt3r` (`fecha_idfecha`);
 
 --
 -- Indexes for table `Provincia`
 --
 ALTER TABLE `Provincia`
-  ADD PRIMARY KEY (`id_pais`,`id_provincia`);
+  ADD PRIMARY KEY (`id_provincia`,`id_pais`),
+  ADD KEY `FKjnx8iv0tbse2c1td4f2jh71x` (`id_pais`);
 
 --
 -- Indexes for table `Resultado`
 --
 ALTER TABLE `Resultado`
   ADD PRIMARY KEY (`id_resultado`);
-
---
--- Indexes for table `Resultado_Auditoria_Modificacion_Resultado`
---
-ALTER TABLE `Resultado_Auditoria_Modificacion_Resultado`
-  ADD UNIQUE KEY `UK_bbv2cyiiq1elgg0natuoa0kq9` (`historialCambios_id_auditoria`),
-  ADD KEY `FKafahhps068rmjnhfre68pqqmx` (`Resultado_id_resultado`);
 
 --
 -- Indexes for table `Resultado_Puntuacion`
@@ -881,49 +653,39 @@ ALTER TABLE `Resultado_Sets`
   ADD PRIMARY KEY (`id_resultado`);
 
 --
--- Indexes for table `Resultado_Sets_SetJuego`
---
-ALTER TABLE `Resultado_Sets_SetJuego`
-  ADD UNIQUE KEY `UK_hca21004kbqwgqfyt1h1g6a5p` (`listaSets_id`),
-  ADD KEY `FKivjcar1mntetijbsumjs3j0ea` (`ResultadoSets_id_resultado`);
-
---
 -- Indexes for table `SetJuego`
 --
 ALTER TABLE `SetJuego`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`resultado_id_resultado`,`id`);
 
 --
 -- Indexes for table `Usuario`
 --
 ALTER TABLE `Usuario`
   ADD PRIMARY KEY (`id_usuario`),
-  ADD KEY `FK1ohild83xuh2ragc6jkx54f60` (`id_localidad`,`id_pais`,`id_provincia`);
-
---
--- Indexes for table `Usuario_Auditoria_Ingreso_Usuario`
---
-ALTER TABLE `Usuario_Auditoria_Ingreso_Usuario`
-  ADD UNIQUE KEY `UK_7duifag9gsun9hh7mpb6hiy60` (`historialIngresos_fecha`,`historialIngresos_hora`),
-  ADD KEY `FKpokomoukvklgr7rq5qf22f22m` (`Usuario_id_usuario`);
-
---
--- Indexes for table `Usuario_Competencia`
---
-ALTER TABLE `Usuario_Competencia`
-  ADD UNIQUE KEY `UK_i4d79vtnuy4v6qnpepng6sxvs` (`competencias_id_competencia`),
-  ADD KEY `FKgw69qdavsfh630ikynvalt9ld` (`Usuario_id_usuario`);
-
---
--- Indexes for table `Usuario_Lugar`
---
-ALTER TABLE `Usuario_Lugar`
-  ADD UNIQUE KEY `UK_9yo7vcepny79bq42li3p3n1qp` (`lugares_codigo`),
-  ADD KEY `FKlgu5voo6cdyp3uk8amc0g0bxa` (`Usuario_id_usuario`);
+  ADD KEY `FKtdfti95m2bohskhx8p8mhwnii` (`id_localidad`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `Auditoria_Baja_Competencia`
+--
+ALTER TABLE `Auditoria_Baja_Competencia`
+  MODIFY `id_auditoria` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Auditoria_Ingreso_Usuario`
+--
+ALTER TABLE `Auditoria_Ingreso_Usuario`
+  MODIFY `id_auditoria` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Auditoria_Modificacion_Participante`
+--
+ALTER TABLE `Auditoria_Modificacion_Participante`
+  MODIFY `id_auditoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Auditoria_Modificacion_Resultado`
@@ -953,19 +715,13 @@ ALTER TABLE `EstadisticaTabla`
 -- AUTO_INCREMENT for table `Fecha`
 --
 ALTER TABLE `Fecha`
-  MODIFY `id_fecha` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idfecha` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Fixture`
 --
 ALTER TABLE `Fixture`
-  MODIFY `id_fixture` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `ItemLugar`
---
-ALTER TABLE `ItemLugar`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idfixture` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Localidad`
@@ -995,13 +751,13 @@ ALTER TABLE `Participante`
 -- AUTO_INCREMENT for table `Partido`
 --
 ALTER TABLE `Partido`
-  MODIFY `id_fecha` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idpartido` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Provincia`
 --
 ALTER TABLE `Provincia`
-  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_provincia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Resultado`
@@ -1013,7 +769,7 @@ ALTER TABLE `Resultado`
 -- AUTO_INCREMENT for table `SetJuego`
 --
 ALTER TABLE `SetJuego`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `resultado_id_resultado` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Usuario`
@@ -1024,6 +780,24 @@ ALTER TABLE `Usuario`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `Auditoria_Ingreso_Usuario`
+--
+ALTER TABLE `Auditoria_Ingreso_Usuario`
+  ADD CONSTRAINT `FK41yd6yavmwhaoi861hiu2g95i` FOREIGN KEY (`id_usuario`) REFERENCES `Usuario` (`id_usuario`);
+
+--
+-- Constraints for table `Auditoria_Modificacion_Participante`
+--
+ALTER TABLE `Auditoria_Modificacion_Participante`
+  ADD CONSTRAINT `FK3nadbyuqquiyuak50sebdquw8` FOREIGN KEY (`id_participante`) REFERENCES `Participante` (`id_Participante`);
+
+--
+-- Constraints for table `Auditoria_Modificacion_Resultado`
+--
+ALTER TABLE `Auditoria_Modificacion_Resultado`
+  ADD CONSTRAINT `FKbxlef0dmoy7lup5ydhlawhan6` FOREIGN KEY (`id_participante`) REFERENCES `Resultado` (`id_resultado`);
 
 --
 -- Constraints for table `Auditoria_Resultado_Puntuacion`
@@ -1044,26 +818,18 @@ ALTER TABLE `Auditoria_Resultado_Sets`
   ADD CONSTRAINT `FKjbebntc2fgg0v3fvb1wnk8s8q` FOREIGN KEY (`id_auditoria`) REFERENCES `Auditoria_Modificacion_Resultado` (`id_auditoria`);
 
 --
--- Constraints for table `Auditoria_Resultado_Sets_Auditoria_Set`
+-- Constraints for table `Auditoria_Set`
 --
-ALTER TABLE `Auditoria_Resultado_Sets_Auditoria_Set`
-  ADD CONSTRAINT `FKi4e8y9h21do22rbqrvur4d7le` FOREIGN KEY (`listaSets_id_auditoriaSet`) REFERENCES `Auditoria_Set` (`id_auditoriaSet`),
-  ADD CONSTRAINT `FKjwq42hwhd72p1is4mi205booc` FOREIGN KEY (`AuditoriaResultadoSets_id_auditoria`) REFERENCES `Auditoria_Resultado_Sets` (`id_auditoria`);
+ALTER TABLE `Auditoria_Set`
+  ADD CONSTRAINT `FK6pcjp1vb9mxu7jnv4uo0grgxh` FOREIGN KEY (`id_auditoriaResultado`) REFERENCES `Auditoria_Resultado_Sets` (`id_auditoria`);
 
 --
 -- Constraints for table `Competencia`
 --
 ALTER TABLE `Competencia`
-  ADD CONSTRAINT `FK4ts6fy1ibr20xwd8tujmmsfvo` FOREIGN KEY (`id_fixture`) REFERENCES `Fixture` (`id_fixture`),
   ADD CONSTRAINT `FKf13xhhqh5ymd35l3c7qg6ujh9` FOREIGN KEY (`id_usuario`) REFERENCES `Usuario` (`id_usuario`),
-  ADD CONSTRAINT `FKfddycbloyohqy9ibpwibne0t` FOREIGN KEY (`id_deporte`) REFERENCES `Deporte` (`id_deporte`);
-
---
--- Constraints for table `Competencia_Auditoria_Baja_Competencia`
---
-ALTER TABLE `Competencia_Auditoria_Baja_Competencia`
-  ADD CONSTRAINT `FKcbl1asyq56baq6a8rgulqjpn` FOREIGN KEY (`historialBajaCompetencia_fecha`,`historialBajaCompetencia_hora`) REFERENCES `Auditoria_Baja_Competencia` (`fecha`, `hora`),
-  ADD CONSTRAINT `FKsp2db1qnn95pcxr34b86lq4a9` FOREIGN KEY (`Competencia_id_competencia`) REFERENCES `Competencia` (`id_competencia`);
+  ADD CONSTRAINT `FKfddycbloyohqy9ibpwibne0t` FOREIGN KEY (`id_deporte`) REFERENCES `Deporte` (`id_deporte`),
+  ADD CONSTRAINT `FKjh4033qh0wgies3k3hg148k1l` FOREIGN KEY (`idfixture`) REFERENCES `Fixture` (`idfixture`);
 
 --
 -- Constraints for table `Competencia_Eliminacion_Directa`
@@ -1078,31 +844,10 @@ ALTER TABLE `Competencia_Eliminacion_Doble`
   ADD CONSTRAINT `FK4dge1g3fffuwn5twax3m8a29e` FOREIGN KEY (`id_competencia`) REFERENCES `Competencia` (`id_competencia`);
 
 --
--- Constraints for table `Competencia_ItemLugar`
---
-ALTER TABLE `Competencia_ItemLugar`
-  ADD CONSTRAINT `FK6h0kecdlbdb01hcq1y9roqvb4` FOREIGN KEY (`Lugares_id_item`) REFERENCES `ItemLugar` (`id_item`),
-  ADD CONSTRAINT `FKod0g8i22rkgbajjjjv622ce1o` FOREIGN KEY (`Competencia_id_competencia`) REFERENCES `Competencia` (`id_competencia`);
-
---
 -- Constraints for table `Competencia_Liga`
 --
 ALTER TABLE `Competencia_Liga`
   ADD CONSTRAINT `FK1lqob34qgdnw9ksoqlci6gj43` FOREIGN KEY (`id_competencia`) REFERENCES `Competencia` (`id_competencia`);
-
---
--- Constraints for table `Competencia_Liga_EstadisticaTabla`
---
-ALTER TABLE `Competencia_Liga_EstadisticaTabla`
-  ADD CONSTRAINT `FKa7k2dpu2pv7k3vf3xddjh4618` FOREIGN KEY (`estadisticas_id_estadistica`) REFERENCES `EstadisticaTabla` (`id_estadistica`),
-  ADD CONSTRAINT `FKo2mb7rfxamdpxkgy8v858mhox` FOREIGN KEY (`CompetenciaLiga_id_competencia`) REFERENCES `Competencia_Liga` (`id_competencia`);
-
---
--- Constraints for table `Competencia_Participante`
---
-ALTER TABLE `Competencia_Participante`
-  ADD CONSTRAINT `FKbm1r66l2fdy4m8ca4chj6obny` FOREIGN KEY (`Competencia_id_competencia`) REFERENCES `Competencia` (`id_competencia`),
-  ADD CONSTRAINT `FKd156k2swal6dxhoj56kv58h12` FOREIGN KEY (`Participantes_id_Participante`) REFERENCES `Participante` (`id_Participante`);
 
 --
 -- Constraints for table `Estadisitica_Equipo_Puntuacion`
@@ -1123,50 +868,25 @@ ALTER TABLE `EstadisticaTabla`
   ADD CONSTRAINT `FK8qexkgs1p7d3ydj9x0njn0cr0` FOREIGN KEY (`id_competencia`) REFERENCES `Competencia_Liga` (`id_competencia`);
 
 --
--- Constraints for table `EstadisticaTabla_Participante`
---
-ALTER TABLE `EstadisticaTabla_Participante`
-  ADD CONSTRAINT `FKc1iefgpbttnkvu7ab2v7u56di` FOREIGN KEY (`participantes_id_Participante`) REFERENCES `Participante` (`id_Participante`),
-  ADD CONSTRAINT `FKg992yanqkolrbrktnptd1307y` FOREIGN KEY (`EstadisticaTabla_id_estadistica`) REFERENCES `EstadisticaTabla` (`id_estadistica`);
-
---
 -- Constraints for table `Fecha`
 --
 ALTER TABLE `Fecha`
-  ADD CONSTRAINT `FK22mivh918g5oixxam1m3hldn8` FOREIGN KEY (`id_fixture`) REFERENCES `Fixture` (`id_fixture`);
-
---
--- Constraints for table `Fecha_Partido`
---
-ALTER TABLE `Fecha_Partido`
-  ADD CONSTRAINT `FKc15me77bbq83fo04dr63mlx3m` FOREIGN KEY (`Fecha_id_fecha`,`Fecha_id_fixture`) REFERENCES `Fecha` (`id_fecha`, `id_fixture`),
-  ADD CONSTRAINT `FKtqm51apfcy0jum0c5pfxda5r7` FOREIGN KEY (`listaPartidos_id_fecha`,`listaPartidos_id_fixture`,`listaPartidos_id_partido`) REFERENCES `Partido` (`id_fecha`, `id_fixture`, `id_partido`);
-
---
--- Constraints for table `Fixture`
---
-ALTER TABLE `Fixture`
-  ADD CONSTRAINT `FK2dqh2kcplgrxwx7dt6u55olr1` FOREIGN KEY (`id_competencia`) REFERENCES `Competencia` (`id_competencia`);
-
---
--- Constraints for table `Fixture_Fecha`
---
-ALTER TABLE `Fixture_Fecha`
-  ADD CONSTRAINT `FK6k0kel9s5ini9bsad08dkws1s` FOREIGN KEY (`Fixture_id_fixture`) REFERENCES `Fixture` (`id_fixture`),
-  ADD CONSTRAINT `FKmt3yh08mr6wngkm2chq8dfxeq` FOREIGN KEY (`Fechas_id_fecha`,`Fechas_id_fixture`) REFERENCES `Fecha` (`id_fecha`, `id_fixture`);
+  ADD CONSTRAINT `FKlx9dd4vjn19yue6b0t25llknf` FOREIGN KEY (`fixture`) REFERENCES `Fixture` (`idfixture`),
+  ADD CONSTRAINT `fk_fixture` FOREIGN KEY (`fixture`) REFERENCES `Fixture` (`idfixture`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ItemLugar`
 --
 ALTER TABLE `ItemLugar`
-  ADD CONSTRAINT `FK2wcl8nscovi6qvxu3td4efh8h` FOREIGN KEY (`codigo_lugar`) REFERENCES `Lugar` (`codigo`),
-  ADD CONSTRAINT `FKgfoidg1ewry480dtjub4q5odd` FOREIGN KEY (`id_competencia`) REFERENCES `Competencia` (`id_competencia`);
+  ADD CONSTRAINT `FK2wcl8nscovi6qvxu3td4efh8h` FOREIGN KEY (`codigo_lugar`) REFERENCES `Lugar` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKmf0icshplg3q6fio69jxo71oa` FOREIGN KEY (`competencia`) REFERENCES `Competencia` (`id_competencia`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Localidad`
 --
 ALTER TABLE `Localidad`
-  ADD CONSTRAINT `FKmatyv8aufopkaaf21p70aimt0` FOREIGN KEY (`id_pais`,`id_provincia`) REFERENCES `Provincia` (`id_pais`, `id_provincia`);
+  ADD CONSTRAINT `FK_Provincia` FOREIGN KEY (`provincia_id_provincia`) REFERENCES `Provincia` (`id_provincia`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKf8uibl8ose2ibp6pps8jsqpqi` FOREIGN KEY (`provincia_id_provincia`) REFERENCES `Provincia` (`id_provincia`);
 
 --
 -- Constraints for table `Lugar`
@@ -1178,8 +898,8 @@ ALTER TABLE `Lugar`
 -- Constraints for table `Lugar_Deporte`
 --
 ALTER TABLE `Lugar_Deporte`
-  ADD CONSTRAINT `FKcw5vcc93hgire5x1csbdf79y` FOREIGN KEY (`Lugar_codigo`) REFERENCES `Lugar` (`codigo`),
-  ADD CONSTRAINT `FKn5kdgq0he65era83vypnt9ab0` FOREIGN KEY (`deportes_id_deporte`) REFERENCES `Deporte` (`id_deporte`);
+  ADD CONSTRAINT `FKcw5vcc93hgire5x1csbdf79y` FOREIGN KEY (`Lugar_codigo`) REFERENCES `Lugar` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKn5kdgq0he65era83vypnt9ab0` FOREIGN KEY (`deportes_id_deporte`) REFERENCES `Deporte` (`id_deporte`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Participante`
@@ -1188,34 +908,24 @@ ALTER TABLE `Participante`
   ADD CONSTRAINT `FKcgu5pdh0mgqyoep0o3qmnp1e7` FOREIGN KEY (`id_competencia`) REFERENCES `Competencia` (`id_competencia`);
 
 --
--- Constraints for table `Participante_Auditoria_Modificacion_Participante`
---
-ALTER TABLE `Participante_Auditoria_Modificacion_Participante`
-  ADD CONSTRAINT `FKfwfdimytjo9vrhstvo382gbyr` FOREIGN KEY (`historialCambios_fechaModificacion`,`historialCambios_horaModificacion`) REFERENCES `Auditoria_Modificacion_Participante` (`fechaModificacion`, `horaModificacion`),
-  ADD CONSTRAINT `FKsxbwmuyf3mo1iu030ud8k4par` FOREIGN KEY (`Participante_id_Participante`) REFERENCES `Participante` (`id_Participante`);
-
---
 -- Constraints for table `Partido`
 --
 ALTER TABLE `Partido`
+  ADD CONSTRAINT `FK1vgalimcs35k4iaqgmq6lqt3r` FOREIGN KEY (`fecha_idfecha`) REFERENCES `Fecha` (`idfecha`),
   ADD CONSTRAINT `FK776618l24uhoesvcgkn0l90q9` FOREIGN KEY (`id_resultado`) REFERENCES `Resultado` (`id_resultado`),
+  ADD CONSTRAINT `FK9puoigehs5hp4wp0qvljjl580` FOREIGN KEY (`partido_ganador`) REFERENCES `Partido` (`idpartido`),
+  ADD CONSTRAINT `FKafhx4rdoscb04oaxsabtyywu2` FOREIGN KEY (`partido_perdedor`) REFERENCES `Partido` (`idpartido`),
   ADD CONSTRAINT `FKfnah9n0kacspprf6bqif8lme2` FOREIGN KEY (`id_Local`) REFERENCES `Participante` (`id_Participante`),
   ADD CONSTRAINT `FKqe66gg24bd3v0teu1gmuio7sp` FOREIGN KEY (`id_visitante`) REFERENCES `Participante` (`id_Participante`),
   ADD CONSTRAINT `FKrysfg8pilcrd22vpvbig5q5ll` FOREIGN KEY (`id_lugar`) REFERENCES `Lugar` (`codigo`),
-  ADD CONSTRAINT `FKsju2vykxh3ftxruxv0vrhtklt` FOREIGN KEY (`id_fecha`,`id_fixture`) REFERENCES `Fecha` (`id_fecha`, `id_fixture`);
+  ADD CONSTRAINT `fk_fecha` FOREIGN KEY (`fecha_idfecha`) REFERENCES `Fecha` (`idfecha`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Provincia`
 --
 ALTER TABLE `Provincia`
+  ADD CONSTRAINT `FK_pais` FOREIGN KEY (`id_pais`) REFERENCES `Pais` (`id_pais`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FKjnx8iv0tbse2c1td4f2jh71x` FOREIGN KEY (`id_pais`) REFERENCES `Pais` (`id_pais`);
-
---
--- Constraints for table `Resultado_Auditoria_Modificacion_Resultado`
---
-ALTER TABLE `Resultado_Auditoria_Modificacion_Resultado`
-  ADD CONSTRAINT `FK3ui4u4u4d69sr6yrm0j4xq7c2` FOREIGN KEY (`historialCambios_id_auditoria`) REFERENCES `Auditoria_Modificacion_Resultado` (`id_auditoria`),
-  ADD CONSTRAINT `FKafahhps068rmjnhfre68pqqmx` FOREIGN KEY (`Resultado_id_resultado`) REFERENCES `Resultado` (`id_resultado`);
 
 --
 -- Constraints for table `Resultado_Puntuacion`
@@ -1236,41 +946,19 @@ ALTER TABLE `Resultado_Sets`
   ADD CONSTRAINT `FKr83tg2j7qlwu1rcerp2udfw6l` FOREIGN KEY (`id_resultado`) REFERENCES `Resultado` (`id_resultado`);
 
 --
--- Constraints for table `Resultado_Sets_SetJuego`
+-- Constraints for table `SetJuego`
 --
-ALTER TABLE `Resultado_Sets_SetJuego`
-  ADD CONSTRAINT `FKivjcar1mntetijbsumjs3j0ea` FOREIGN KEY (`ResultadoSets_id_resultado`) REFERENCES `Resultado_Sets` (`id_resultado`),
-  ADD CONSTRAINT `FKr5c89vu73cp1y3pyax5j4frya` FOREIGN KEY (`listaSets_id`) REFERENCES `SetJuego` (`id`);
+ALTER TABLE `SetJuego`
+  ADD CONSTRAINT `FKals1xsuftqqicvmq2wlfmi91r` FOREIGN KEY (`resultado_id_resultado`) REFERENCES `Resultado_Sets` (`id_resultado`),
+  ADD CONSTRAINT `Fk_resultado` FOREIGN KEY (`resultado_id_resultado`) REFERENCES `Resultado_Sets` (`id_resultado`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Usuario`
 --
 ALTER TABLE `Usuario`
-  ADD CONSTRAINT `FK1ohild83xuh2ragc6jkx54f60` FOREIGN KEY (`id_localidad`,`id_pais`,`id_provincia`) REFERENCES `Localidad` (`id_localidad`, `id_pais`, `id_provincia`);
-
---
--- Constraints for table `Usuario_Auditoria_Ingreso_Usuario`
---
-ALTER TABLE `Usuario_Auditoria_Ingreso_Usuario`
-  ADD CONSTRAINT `FK21qdm61olsgu33enm3ck2akk4` FOREIGN KEY (`historialIngresos_fecha`,`historialIngresos_hora`) REFERENCES `Auditoria_Ingreso_Usuario` (`fecha`, `hora`),
-  ADD CONSTRAINT `FKpokomoukvklgr7rq5qf22f22m` FOREIGN KEY (`Usuario_id_usuario`) REFERENCES `Usuario` (`id_usuario`);
-
---
--- Constraints for table `Usuario_Competencia`
---
-ALTER TABLE `Usuario_Competencia`
-  ADD CONSTRAINT `FKgw69qdavsfh630ikynvalt9ld` FOREIGN KEY (`Usuario_id_usuario`) REFERENCES `Usuario` (`id_usuario`),
-  ADD CONSTRAINT `FKkh7tydvj9wffel3t8gk5jecs1` FOREIGN KEY (`competencias_id_competencia`) REFERENCES `Competencia` (`id_competencia`);
-
---
--- Constraints for table `Usuario_Lugar`
---
-ALTER TABLE `Usuario_Lugar`
-  ADD CONSTRAINT `FK3tg228ubt5q3dbyfwdt5ob793` FOREIGN KEY (`lugares_codigo`) REFERENCES `Lugar` (`codigo`),
-  ADD CONSTRAINT `FKlgu5voo6cdyp3uk8amc0g0bxa` FOREIGN KEY (`Usuario_id_usuario`) REFERENCES `Usuario` (`id_usuario`);
+  ADD CONSTRAINT `FKtdfti95m2bohskhx8p8mhwnii` FOREIGN KEY (`id_localidad`) REFERENCES `Localidad` (`id_localidad`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-

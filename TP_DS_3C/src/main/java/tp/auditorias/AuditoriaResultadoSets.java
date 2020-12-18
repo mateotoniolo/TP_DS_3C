@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 @Entity
@@ -17,6 +18,10 @@ public class AuditoriaResultadoSets extends AuditoriaModificacionResultado {
 	private Integer setsA;
 	@Column
 	private Integer setsB;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_auditoriaResultado")
+	private List<AuditoriaSet> sets;
 	
 	
 	public AuditoriaResultadoSets() {

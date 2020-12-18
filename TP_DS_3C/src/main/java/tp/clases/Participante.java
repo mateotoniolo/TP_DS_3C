@@ -31,9 +31,9 @@ public final class Participante {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_competencia",referencedColumnName = "id_competencia")
 	private Competencia competencia;
-	@OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private AuditoriaModificacionParticipante audi; 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="id_participante")
+	private List<AuditoriaModificacionParticipante> auditoria;
 
 	public Participante() {
 		super();
